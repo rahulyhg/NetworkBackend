@@ -54,17 +54,11 @@ class Report_model extends CI_Model
         GROUP BY `product`.`id`");
         $timestamp=new DateTime();
         $timestamp=$timestamp->format('Y-m-d_H.i.s');
-       $content= $this->dbutil->csv_from_result($query);
+		$content= $this->dbutil->csv_from_result($query);
         //$data = 'Some file data';
-
-        if ( ! write_file("./csvgenerated/dailyitemwisereport_$timestamp.csv", $content))
-        {
-             echo 'Unable to write the file';
-        }
-        else
-        {
-            redirect(base_url("csvgenerated/dailyitemwisereport_$timestamp.csv"), 'refresh');
-        }
+		file_put_contents("gs://toykraftdealer/dailyitemwisereport_$timestamp.csv", $content);
+		redirect("http://admin.toy-kraft.com/servepublic?name=dailyitemwisereport_$timestamp.csv", 'refresh');
+        
 	}
     
     function exportdailyordersummaryreport($distributor,$date)
