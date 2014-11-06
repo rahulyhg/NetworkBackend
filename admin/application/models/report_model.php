@@ -32,15 +32,10 @@ class Report_model extends CI_Model
         $timestamp=$timestamp->format('Y-m-d_H.i.s');
        $content= $this->dbutil->csv_from_result($query);
         //$data = 'Some file data';
+		
+		file_put_contents("gs://toykraftdealer/dailysalesdayreport_$timestamp.csv", $content);
+		redirect("http://admin.toy-kraft.com/servepublic?name=dailysalesdayreport_$timestamp.csv", 'refresh');
 
-        if ( ! write_file("./csvgenerated/dailysalesdayreport_$timestamp.csv", $content))
-        {
-             echo 'Unable to write the file';
-        }
-        else
-        {
-            redirect(base_url("csvgenerated/dailysalesdayreport_$timestamp.csv"), 'refresh');
-        }
 	}
     
     function exportdailyitemwisereport($date)
@@ -77,16 +72,9 @@ class Report_model extends CI_Model
         $content= $this->dbutil->csv_from_result($query);
         //$data = 'Some file data';
         //echo $timestamp;
-        
-        if ( ! write_file("./csvgenerated/dailyordersummaryreport_$timestamp.csv", $content))
-        {
-             echo "Unable to write the file";
-        }
-        else
-        {
-            //echo $timestamp;
-            redirect(base_url("csvgenerated/dailyordersummaryreport_$timestamp.csv"), 'refresh');
-        }
+		
+		file_put_contents("gs://toykraftdealer/dailyordersummaryreport_$timestamp.csv", $content);
+		redirect("http://admin.toy-kraft.com/servepublic?name=dailyordersummaryreport_$timestamp.csv", 'refresh');
 	}
     
     function exportweeklyitemwisereport($date)
@@ -103,16 +91,9 @@ class Report_model extends CI_Model
         $content= $this->dbutil->csv_from_result($query);
         //$data = 'Some file data';
         //echo $timestamp;
-        
-        if ( ! write_file("./csvgenerated/weeklyitemwisereport_$timestamp.csv", $content))
-        {
-             echo "Unable to write the file";
-        }
-        else
-        {
-            //echo $timestamp;
-            redirect(base_url("csvgenerated/weeklyitemwisereport_$timestamp.csv"), 'refresh');
-        }
+		file_put_contents("gs://toykraftdealer/weeklyitemwisereport_$timestamp.csv", $content);
+		redirect("http://admin.toy-kraft.com/servepublic?name=weeklyitemwisereport_$timestamp.csv", 'refresh');
+
 	}
     
     function exportweeklydistributorsalesreport($date,$zone)
@@ -134,16 +115,10 @@ class Report_model extends CI_Model
         $content= $this->dbutil->csv_from_result($query);
         //$data = 'Some file data';
         //echo $timestamp;
+		
+		file_put_contents("gs://toykraftdealer/weeklydistributorsalesreport_$timestamp.csv", $content);
+		redirect("http://admin.toy-kraft.com/servepublic?name=weeklydistributorsalesreport_$timestamp.csv", 'refresh');
         
-        if ( ! write_file("./csvgenerated/weeklydistributorsalesreport_$timestamp.csv", $content))
-        {
-             echo "Unable to write the file";
-        }
-        else
-        {
-            //echo $timestamp;
-            redirect(base_url("csvgenerated/weeklydistributorsalesreport_$timestamp.csv"), 'refresh');
-        }
 	}
     
     function exportmonthlyitemwisesalesreport($reporttype,$fromdate,$todate)
@@ -160,16 +135,9 @@ class Report_model extends CI_Model
         $content= $this->dbutil->csv_from_result($query);
         //$data = 'Some file data';
         //echo $timestamp;
-        
-        if ( ! write_file("./csvgenerated/monthlyitemwisesalesreport_$timestamp.csv", $content))
-        {
-             echo "Unable to write the file";
-        }
-        else
-        {
-            //echo $timestamp;
-            redirect(base_url("csvgenerated/monthlyitemwisesalesreport_$timestamp.csv"), 'refresh');
-        }
+		file_put_contents("gs://toykraftdealer/monthlyitemwisesalesreport_$timestamp.csv", $content);
+		redirect("http://admin.toy-kraft.com/servepublic?name=monthlyitemwisesalesreport_$timestamp.csv", 'refresh');
+		
 	}
     
     function exportmonthlydistributorreport($reporttype,$fromdate,$todate)
@@ -192,16 +160,10 @@ class Report_model extends CI_Model
         $content= $this->dbutil->csv_from_result($query);
         //$data = 'Some file data';
         //echo $timestamp;
-        
-        if ( ! write_file("./csvgenerated/monthlydistributorreport_$timestamp.csv", $content))
-        {
-             echo "Unable to write the file";
-        }
-        else
-        {
-            //echo $timestamp;
-            redirect(base_url("csvgenerated/monthlydistributorreport_$timestamp.csv"), 'refresh');
-        }
+		
+		file_put_contents("gs://toykraftdealer/monthlydistributorreport_$timestamp.csv", $content);
+		redirect("http://admin.toy-kraft.com/servepublic?name=monthlydistributorreport_$timestamp.csv", 'refresh');
+		
 	}
     
     function exportmonthlyzerodistributorretailerreport($reporttype,$fromdate,$todate)
@@ -223,16 +185,10 @@ class Report_model extends CI_Model
         $content= $this->dbutil->csv_from_result($query);
         //$data = 'Some file data';
         //echo $timestamp;
-        
-        if ( ! write_file("./csvgenerated/monthlyzerodistributorretailerreport_$timestamp.csv", $content))
-        {
-             echo "Unable to write the file";
-        }
-        else
-        {
-            //echo $timestamp;
-            redirect(base_url("csvgenerated/monthlyzerodistributorretailerreport_$timestamp.csv"), 'refresh');
-        }
+		
+		file_put_contents("gs://toykraftdealer/monthlyzerodistributorretailerreport_$timestamp.csv", $content);
+		redirect("http://admin.toy-kraft.com/servepublic?name=monthlyzerodistributorretailerreport_$timestamp.csv", 'refresh');
+		
 	}
     
     function exportmonthlynewproductplacementreport($reporttype,$fromdate,$todate)
@@ -253,16 +209,10 @@ class Report_model extends CI_Model
         $content= $this->dbutil->csv_from_result($query);
         //$data = 'Some file data';
         //echo $timestamp;
-        
-        if ( ! write_file("./csvgenerated/monthlynewproductplacementreport_$timestamp.csv", $content))
-        {
-             echo "Unable to write the file";
-        }
-        else
-        {
-            //echo $timestamp;
-            redirect(base_url("csvgenerated/monthlynewproductplacementreport_$timestamp.csv"), 'refresh');
-        }
+		
+		file_put_contents("gs://toykraftdealer/monthlynewproductplacementreport_$timestamp.csv", $content);
+		redirect("http://admin.toy-kraft.com/servepublic?name=monthlynewproductplacementreport_$timestamp.csv", 'refresh');
+		
 	}
     
     function exportmonthlyschemeproductplacement($reporttype,$fromdate,$todate)
@@ -282,16 +232,10 @@ class Report_model extends CI_Model
         $content= $this->dbutil->csv_from_result($query);
         //$data = 'Some file data';
         //echo $timestamp;
-        
-        if ( ! write_file("./csvgenerated/monthlyschemeproductplacement_$timestamp.csv", $content))
-        {
-             echo "Unable to write the file";
-        }
-        else
-        {
-            //echo $timestamp;
-            redirect(base_url("csvgenerated/monthlyschemeproductplacement_$timestamp.csv"), 'refresh');
-        }
+		
+		file_put_contents("gs://toykraftdealer/monthlyschemeproductplacement_$timestamp.csv", $content);
+		redirect("http://admin.toy-kraft.com/servepublic?name=monthlyschemeproductplacement_$timestamp.csv", 'refresh');
+		
 	}
 }
 ?>
