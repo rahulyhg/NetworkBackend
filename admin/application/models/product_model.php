@@ -295,16 +295,21 @@ LEFT OUTER JOIN `scheme` ON `scheme`.`id`=`product`.`scheme`");
 
        $content= $this->dbutil->csv_from_result($query);
         //$data = 'Some file data';
+        $timestamp=new DateTime();
+        $timestamp=$timestamp->format('Y-m-d_H.i.s');
+		
+		file_put_contents("gs://toykraftdealer/productfile_$timestamp.csv", $content);
+		redirect("http://admin.toy-kraft.com/servepublic?name=productfile_$timestamp.csv", 'refresh');
 
-        if ( ! write_file('./csvgenerated/productfile.csv', $content))
-        {
-             echo 'Unable to write the file';
-        }
-        else
-        {
-            redirect(base_url('csvgenerated/productfile.csv'), 'refresh');
-             echo 'File written!';
-        }
+//        if ( ! write_file('./csvgenerated/productfile.csv', $content))
+//        {
+//             echo 'Unable to write the file';
+//        }
+//        else
+//        {
+//            redirect(base_url('csvgenerated/productfile.csv'), 'refresh');
+//             echo 'File written!';
+//        }
 	}
 }
 ?>

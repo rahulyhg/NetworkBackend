@@ -193,16 +193,21 @@ class Retailer_model extends CI_Model
 
        $content= $this->dbutil->csv_from_result($query);
         //$data = 'Some file data';
-
-        if ( ! write_file('./csvgenerated/retailerfile.csv', $content))
-        {
-             echo 'Unable to write the file';
-        }
-        else
-        {
-            redirect(base_url('csvgenerated/retailerfile.csv'), 'refresh');
-             echo 'File written!';
-        }
+        $timestamp=new DateTime();
+        $timestamp=$timestamp->format('Y-m-d_H.i.s');
+		
+		file_put_contents("gs://toykraftdealer/retailerfile_$timestamp.csv", $content);
+		redirect("http://admin.toy-kraft.com/servepublic?name=retailerfile_$timestamp.csv", 'refresh');
+//
+//        if ( ! write_file('./csvgenerated/retailerfile.csv', $content))
+//        {
+//             echo 'Unable to write the file';
+//        }
+//        else
+//        {
+//            redirect(base_url('csvgenerated/retailerfile.csv'), 'refresh');
+//             echo 'File written!';
+//        }
 	}
     
 	function getretailersinceyesterday()
@@ -286,17 +291,21 @@ LEFT OUTER JOIN `zone` ON `zone`.`id`= `state`.`zone`
         LEFT OUTER JOIN `zone` ON `zone`.`id`= `state`.`zone`");
 
        $content= $this->dbutil->csv_from_result($query);
+        $timestamp=new DateTime();
+        $timestamp=$timestamp->format('Y-m-d_H.i.s');
         //$data = 'Some file data';
 
-        if ( ! write_file('./csvgenerated/retailerfilefromdashboard.csv', $content))
-        {
-             echo 'Unable to write the file';
-        }
-        else
-        {
-            redirect(base_url('csvgenerated/retailerfilefromdashboard.csv'), 'refresh');
-             echo 'File written!';
-        }
+//        if ( ! write_file('./csvgenerated/retailerfilefromdashboard.csv', $content))
+//        {
+//             echo 'Unable to write the file';
+//        }
+//        else
+//        {
+//            redirect(base_url('csvgenerated/retailerfilefromdashboard.csv'), 'refresh');
+//             echo 'File written!';
+//        }
+        file_put_contents("gs://toykraftdealer/retailerfilefromdashboard_$timestamp.csv", $content);
+		redirect("http://admin.toy-kraft.com/servepublic?name=retailerfilefromdashboard_$timestamp.csv", 'refresh');
 	}
 //	function dashboardretailersareawise($date,$areaid)
 //	{
