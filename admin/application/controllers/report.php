@@ -84,5 +84,27 @@ class Report extends CI_Controller
            echo "Wrong Choise";
        }
 	}
+    
+     public function dailysalesdayreporttozone()
+	{
+        $zone=$this->input->get_post('zone');
+//        $date=$this->input->get_post('date');
+		$this->report_model->exportdailysalesdayreporttozone($zone);
+	}
+    
+    public function dailyordersummaryreportdistributor()
+	{
+        $distributor=$this->input->get_post('distributor');
+//        $date=$this->input->get_post('date');
+		$this->report_model->exportdailyordersummaryreportdistributor($distributor);
+	}
+    
+    public function weeklydistributorsalesreporttozone()
+	{
+        $zone=$this->input->get_post('zone');
+//        $date=$this->input->get_post('date');
+		$this->report_model->exportweeklydistributorsalesreporttozone($zone);
+	}
+    
 }
 ?>

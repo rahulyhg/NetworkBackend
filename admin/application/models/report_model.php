@@ -237,5 +237,111 @@ class Report_model extends CI_Model
 		redirect("http://admin.toy-kraft.com/servepublic?name=monthlyschemeproductplacement_$timestamp.csv", 'refresh');
 		
 	}
+    //send mail
+    
+    function exportdailysalesdayreporttozone($zone)
+	{
+		$this->load->dbutil();
+        $zoneemailquery=$this->db->query("SELECT `email` FROM `zone` WHERE `id`='$zone'")->row();
+        $zoneemail=$zoneemailquery->email;
+        $date=new DateTime();
+        $date=$date->format('Y-m-d_H.i.s');
+		$query=$this->db->query("SELECT `users`.`id` as `userid`,`users`.`name` as `salesman`,`area`.`name` as `area`,`city`.`name` as `city`,SUM(`orders`.`quantity`) as `quantity`,SUM(`orders`.`amount`) as `amount` FROM `orderproduct` 
+        INNER JOIN `orders` ON `orders`.`id`=`orderproduct`.`order` 
+        INNER JOIN `retailer` ON `retailer`.`id`=`orders`.`retail` 
+        INNER JOIN `users` ON `users`.`id`=`orders`.`salesid` 
+        INNER JOIN `area` ON `area`.`id`=`retailer`.`area` 
+        INNER JOIN `city` ON `city`.`id`=`area`.`city` 
+        INNER JOIN `state` ON `state`.`id`=`city`.`state` 
+        WHERE `state`.`zone`= '$zone' AND `orders`.`timestamp` BETWEEN '$date 00:00:00' AND '$date 23:59:59' 
+        GROUP BY `users`.`id`,`area`.`id`");
+        $timestamp=new DateTime();
+        $timestamp=$timestamp->format('Y-m-d_H.i.s');
+       $content= $this->dbutil->csv_from_result($query);
+        
+        
+		file_put_contents("gs://toykraftdealer/dailysalesdayreport_$timestamp.csv", $content);
+        $this->load->library('email');
+            $this->email->from('mail@wohlig.com', 'Toykraft');
+            $this->email->to($zoneemail);
+            $this->email->subject('Toykraft');
+//            $base=base_url("csvgenerated/dailysalesdayreport_$timestamp.csv");
+            $base="http://admin.toy-kraft.com/servepublic?name=dailysalesdayreport_$timestamp.csv";
+            $msg="Daily Reports of Toykraft-<a href='$base'>Click To Download</a>";
+            $this->email->message($msg);
+
+            $this->email->send();
+        
+	}
+    
+    function exportdailyordersummaryreportdistributor($distributor)
+	{
+		$this->load->dbutil();
+        $distributoremailquery=$this->db->query("SELECT `email` FROM `distributor` WHERE `id`='$distributor'")->row();
+        $distributoremail=$distributoremailquery->email;
+        $date=new DateTime();
+        $date=$date->format('Y-m-d_H.i.s');
+		$query=$this->db->query("SELECT `area`.`name` as `area`,`retailer`.`name`,`orders`.`id`,SUM(`orders`.`quantity`) as `quantity`,SUM(`orders`.`amount`) as `amount` 
+        FROM `orderproduct` 
+        INNER JOIN `orders` ON `orders`.`id`=`orderproduct`.`order` 
+        INNER JOIN `retailer` ON `retailer`.`id`=`orders`.`retail` 
+        INNER JOIN `users` ON `users`.`id`=`orders`.`salesid` 
+        INNER JOIN `area` ON `area`.`id`=`retailer`.`area`  
+        WHERE `area`.`distributor`='$distributor' AND `orders`.`timestamp` BETWEEN '$date 00:00:00' AND '$date 23:59:59' 
+        GROUP BY `retailer`.`id`,`area`.`id`");
+        $timestamp=new DateTime();
+        $timestamp=$timestamp->format('Y-m-d_H.i.s');
+        $content= $this->dbutil->csv_from_result($query);
+        //$data = 'Some file data';
+        //echo $timestamp;
+        
+        file_put_contents("gs://toykraftdealer/dailyordersummaryreport_$timestamp.csv", $content);
+        $this->load->library('email');
+            $this->email->from('mail@wohlig.com', 'Toykraft');
+            $this->email->to($distributoremail);
+            $this->email->subject('Toykraft');
+            $base=base_url("csvgenerated/dailyordersummaryreport_$timestamp.csv");
+            $base="http://admin.toy-kraft.com/servepublic?name=dailyordersummaryreport_$timestamp.csv";
+            $msg="Daily Reports of Toykraft-<a href='$base'>Click To Download</a>";
+            $this->email->message($msg);
+            $this->email->send();
+	}
+    
+    function exportweeklydistributorsalesreporttozone($zone)
+	{
+		$this->load->dbutil();
+        $zoneemailquery=$this->db->query("SELECT `email` FROM `zone` WHERE `id`='$zone'")->row();
+        $zoneemail=$zoneemailquery->email;
+        $date=new DateTime();
+        $date=$date->format('Y-m-d_H.i.s');
+		$query=$this->db->query("SELECT `distributor`.`name` as `distributor`,`area`.`name` as `area`,`city`.`name` as `city`,SUM(`orders`.`quantity`) as `quantity`,SUM(`orders`.`amount`) as `amount` 
+        FROM `orderproduct` 
+        INNER JOIN `orders` ON `orders`.`id`=`orderproduct`.`order` 
+        INNER JOIN `retailer` ON `retailer`.`id`=`orders`.`retail` 
+        INNER JOIN `users` ON `users`.`id`=`orders`.`salesid` 
+        INNER JOIN `area` ON `area`.`id`=`retailer`.`area` 
+        INNER JOIN `distributor` ON `distributor`.`id`=`area`.`distributor` 
+        INNER JOIN `city` ON `city`.`id`=`area`.`city` 
+        INNER JOIN `state` ON `state`.`id`=`city`.`state` 
+        WHERE `state`.`zone`='$zone'  AND WEEK(`orders`.`timestamp`)=WEEK('$date 00:00:00') AND YEAR('$date 00:00:00')=YEAR(`orders`.`timestamp`) 
+        GROUP BY `distributor`.`id`,`area`.`id`");
+        $timestamp=new DateTime();
+        $timestamp=$timestamp->format('Y-m-d_H.i.s');
+        $content= $this->dbutil->csv_from_result($query);
+        //$data = 'Some file data';
+        //echo $timestamp;
+        
+        
+        file_put_contents("gs://toykraftdealer/dailyordersummaryreport_$timestamp.csv", $content);
+        $this->load->library('email');
+            $this->email->from('mail@wohlig.com', 'Toykraft');
+            $this->email->to($zoneemail);
+            $this->email->subject('Toykraft');
+            $base="http://admin.toy-kraft.com/servepublic?name=weeklydistributorsalesreport_$timestamp.csv";
+            $msg="Weekly Distributor Reports of Toykraft-<a href='$base'>Click To Download</a>";
+            $this->email->message($msg);
+        
+	}
+    
 }
 ?>
