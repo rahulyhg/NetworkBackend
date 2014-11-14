@@ -106,5 +106,8 @@ class Report extends CI_Controller
 		$this->report_model->exportweeklydistributorsalesreporttozone($zone);
 	}
     
+
+    
+    
 }
 ?>

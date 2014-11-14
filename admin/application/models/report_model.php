@@ -244,6 +244,8 @@ class Report_model extends CI_Model
 		$this->load->dbutil();
         $zoneemailquery=$this->db->query("SELECT `email` FROM `zone` WHERE `id`='$zone'")->row();
         $zoneemail=$zoneemailquery->email;
+        
+        $zoneemail = explode(",", $zoneemail);
         $date=new DateTime();
         $date=$date->format('Y-m-d_H.i.s');
 		$query=$this->db->query("SELECT `users`.`id` as `userid`,`users`.`name` as `salesman`,`area`.`name` as `area`,`city`.`name` as `city`,SUM(`orders`.`quantity`) as `quantity`,SUM(`orders`.`amount`) as `amount` FROM `orderproduct` 
@@ -261,6 +263,7 @@ class Report_model extends CI_Model
         
         
 		file_put_contents("gs://toykraftdealer/dailysalesdayreport_$timestamp.csv", $content);
+        
         $this->load->library('email');
             $this->email->from('mail@wohlig.com', 'Toykraft');
             $this->email->to($zoneemail);
@@ -279,6 +282,8 @@ class Report_model extends CI_Model
 		$this->load->dbutil();
         $distributoremailquery=$this->db->query("SELECT `email` FROM `distributor` WHERE `id`='$distributor'")->row();
         $distributoremail=$distributoremailquery->email;
+        $distributoremail = explode(",", $distributoremail);
+        
         $date=new DateTime();
         $date=$date->format('Y-m-d_H.i.s');
 		$query=$this->db->query("SELECT `area`.`name` as `area`,`retailer`.`name`,`orders`.`id`,SUM(`orders`.`quantity`) as `quantity`,SUM(`orders`.`amount`) as `amount` 
@@ -312,6 +317,8 @@ class Report_model extends CI_Model
 		$this->load->dbutil();
         $zoneemailquery=$this->db->query("SELECT `email` FROM `zone` WHERE `id`='$zone'")->row();
         $zoneemail=$zoneemailquery->email;
+        $zoneemail = explode(",", $zoneemail);
+        
         $date=new DateTime();
         $date=$date->format('Y-m-d_H.i.s');
 		$query=$this->db->query("SELECT `distributor`.`name` as `distributor`,`area`.`name` as `area`,`city`.`name` as `city`,SUM(`orders`.`quantity`) as `quantity`,SUM(`orders`.`amount`) as `amount` 
