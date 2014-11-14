@@ -24,7 +24,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
     <div class="well">
     <b>Top 10 Products</b>
     </div>
@@ -52,7 +52,7 @@
     </div>
     <div class="col-md-1">
     </div>
-    <div class="col-md-5">
+    <div class="col-md-7">
     <div class="well">
     <b>Last Login Status</b>
     </div>
@@ -61,15 +61,23 @@
                     <tr>
                         <th>Name</th>
                         <th>Last Login</th>
+                        <th>Todays Daily Sales</th>
+                        <th>Todays Amount</th>
+                        <th>Monthly Sales Quantity</th>
+                        <th>Monthly Amount</th>
                     </tr>
                 </thead>
                 <tbody>
                    <?php 
     $count=1;
-    foreach($users as $row) { ?>
+    foreach($userdetailswithlastlogin as $row) { ?>
                         <tr>
-                            <td><?php echo $row->name;?></td>
+                            <td><?php echo $row->username;?></td>
                             <td><?php echo $row->lastlogin;?></td>
+                            <td><?php echo $row->totaldailyquantity;?></td>
+                            <td><?php echo $row->totaldailyamount;?></td>
+                            <td><?php echo $row->totalmonthlyquantity;?></td>
+                            <td><?php echo $row->totalmonthlyamount;?></td>
 
                         </tr>
                         <?php } ?>

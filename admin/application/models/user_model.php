@@ -106,8 +106,36 @@ class User_model extends CI_Model
 	}
 	function getuserlastlogin()
 	{
-		$query="SELECT `users`.`id` as `id`,`users`.`name` as `name`,`users`.`lastlogin`
-		FROM `users`";
+		$query="SELECT `tab1`.`totaldailyquantity` as `totaldailyquantity`,`tab1`.`totaldailyamount` as `totaldailyamount`,`tab2`.`totalmonthlyquantity` as `totalmonthlyquantity`, `tab2`.`totalmonthlyamount` as `totalmonthlyamount`, `tab3`.`username`,`tab3`.`lastlogin`
+FROM
+(
+SELECT `users`.`name` as `username`,`users`.`lastlogin`,`id` FROM `users`
+) as `tab3`
+LEFT OUTER JOIN 
+(
+SELECT sum(`orders`.`quantity`) AS `totaldailyquantity`,sum(`orders`.`amount`) AS `totaldailyamount`,0 as `totalmonthlyquantity`,0 as `totalmonthlyamount`, DATE(`orders`.`timestamp`) as `date` ,`users`.`name` AS `username`,`users`.`lastlogin` AS `lastlogin`
+FROM `orders`
+INNER JOIN `users` ON `users`.`id`=`orders`.`salesid`
+WHERE `orders`.`quantity`> 0  
+GROUP BY `date` 
+HAVING `date`=DATE(CURRENT_TIMESTAMP) 
+) as `tab1`
+ON
+`tab3`.`username`=`tab1`.`username`
+
+LEFT OUTER JOIN 
+(
+SELECT 0 as `totaldailyquantity`,0 as `totaldailyamount`,sum(`orders`.`quantity`) AS `totalmonthlyquantity`,sum(`orders`.`amount`) AS `totalmonthlyamount`, MONTH(`orders`.`timestamp`) as `month` ,`users`.`name` AS `username`,`users`.`lastlogin` AS `lastlogin`
+FROM `orders`
+INNER JOIN `users` ON `users`.`id`=`orders`.`salesid`
+WHERE  `orders`.`quantity`> 0   
+GROUP BY `month`
+HAVING `month`=MONTH(CURRENT_TIMESTAMP)
+) as `tab2`
+ON 
+`tab3`.`username`=`tab2`.`username`
+
+GROUP BY `tab3`.`id`";
 	   
 		$query=$this->db->query($query)->result();
 		return $query;
@@ -238,7 +266,7 @@ class User_model extends CI_Model
     
      public function getuserdropdown()
 	{
-		$query=$this->db->query("SELECT * FROM `users`  ORDER BY `id` ASC")->result();
+		$query=$this->db->query("SELECT * FROM `users`  ORDER BY `lastlogin` ASC")->result();
 		$return=array();
 		foreach($query as $row)
 		{

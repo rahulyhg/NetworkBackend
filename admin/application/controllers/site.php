@@ -30,7 +30,8 @@ class Site extends CI_Controller
 //        echo $currentdate;
         $data['retailer']=$this->retailer_model->getretailersinceyesterday();
         $data['topproducts']=$this->retailer_model->gettopproducts();
-        $data['users']=$this->user_model->getuserlastlogin();
+        $data['userdetailswithlastlogin']=$this->user_model->getuserlastlogin();
+//        $data['users']=$this->user_model->getuserlastlogin();
         $data['noofretailers']=sizeof($data['retailer']);
 		$data[ 'page' ] = 'dashboard';
 		$data[ 'title' ] = 'Welcome';
