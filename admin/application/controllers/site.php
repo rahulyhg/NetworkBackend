@@ -4763,20 +4763,20 @@ class Site extends CI_Controller
 		$access = array("1");
 		$this->checkaccess($access);
 		$this->product_model->exportproduct();
-		$data['table']=$this->product_model->viewproduct();
-		$data['page']='viewproduct';
-		$data['title']='View product';
-		$this->load->view('template',$data);
+//		$data['table']=$this->product_model->viewproduct();
+//		$data['page']='viewproduct';
+//		$data['title']='View product';
+//		$this->load->view('template',$data);
 	}
     	public function exportorder()
 	{
 		$access = array("1");
 		$this->checkaccess($access);
 		$this->order_model->exportorder();
-		$data['table']=$this->order_model->vieworder();
-		$data['page']='vieworder';
-		$data['title']='View order';
-		$this->load->view('template',$data);
+//		$data['table']=$this->order_model->vieworder();
+//		$data['page']='vieworder';
+//		$data['title']='View order';
+//		$this->load->view('template',$data);
 	}
     
     //email
