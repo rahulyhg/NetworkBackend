@@ -87,23 +87,22 @@ class Report extends CI_Controller
     
      public function dailysalesdayreporttozone()
 	{
-        $zone=$this->input->get_post('zone');
-//        $date=$this->input->get_post('date');
-		$this->report_model->exportdailysalesdayreporttozone($zone);
+//        $zone=$this->input->get_post('zone');
+		$this->report_model->exportdailysalesdayreporttozone();
 	}
     
     public function dailyordersummaryreportdistributor()
 	{
-        $distributor=$this->input->get_post('distributor');
+//        $distributor=$this->input->get_post('distributor');
 //        $date=$this->input->get_post('date');
-		$this->report_model->exportdailyordersummaryreportdistributor($distributor);
+		$this->report_model->exportdailyordersummaryreportdistributor();
 	}
     
     public function weeklydistributorsalesreporttozone()
 	{
-        $zone=$this->input->get_post('zone');
+//        $zone=$this->input->get_post('zone');
 //        $date=$this->input->get_post('date');
-		$this->report_model->exportweeklydistributorsalesreporttozone($zone);
+		$this->report_model->exportweeklydistributorsalesreporttozone();
 	}
     
 
