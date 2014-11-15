@@ -34,7 +34,7 @@
 				<div class="form-group">
 				  <label class="col-sm-2 control-label" for="normal-field">Email</label>
 				  <div class="col-sm-4">
-					<input type="email" id="normal-field" class="form-control" name="email" value="<?php echo set_value('email');?>">
+					<input type="text" id="normal-field" class="form-control" name="email" value="<?php echo set_value('email');?>">
 				  </div>
 				</div>
 				<div class="form-group">

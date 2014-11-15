@@ -4027,7 +4027,7 @@ class Site extends CI_Controller
 		$access = array("1");
 		$this->checkaccess($access);
 		$this->form_validation->set_rules('name','Name','trim|required');
-		$this->form_validation->set_rules('email','Email','trim|required|valid_email');
+		$this->form_validation->set_rules('email','Email','trim|required');
 		if($this->form_validation->run() == FALSE)	
 		{
 			$data['alerterror'] = validation_errors();
@@ -4065,7 +4065,7 @@ class Site extends CI_Controller
 		$access = array("1");
 		$this->checkaccess($access);
 		$this->form_validation->set_rules('name','Name','trim|required');
-		$this->form_validation->set_rules('email','Email','trim|required|valid_email');
+		$this->form_validation->set_rules('email','Email','trim|required');
         
 		if($this->form_validation->run() == FALSE)	
 		{
@@ -4131,7 +4131,7 @@ class Site extends CI_Controller
 		$this->form_validation->set_rules('name','Name','trim|required');
 		$this->form_validation->set_rules('code','code','trim|required');
 		$this->form_validation->set_rules('componyname','componyname','trim|required');
-        $this->form_validation->set_rules('email','Email','trim|required|valid_email|is_unique[users.email]');
+        $this->form_validation->set_rules('email','Email','trim|required');
 		$this->form_validation->set_rules('contactno','contactno','trim|required');
 		$this->form_validation->set_rules('dob','dob','trim|required');
 		$this->form_validation->set_rules('address1','address1','trim|required');
@@ -4188,7 +4188,7 @@ class Site extends CI_Controller
 		$this->form_validation->set_rules('name','Name','trim|required');
 		$this->form_validation->set_rules('code','code','trim|required');
 		$this->form_validation->set_rules('componyname','componyname','trim|required');
-        $this->form_validation->set_rules('email','Email','trim|required|valid_email|is_unique[users.email]');
+        $this->form_validation->set_rules('email','Email','trim|required');
 		$this->form_validation->set_rules('contactno','contactno','trim|required');
 		$this->form_validation->set_rules('dob','dob','trim|required');
 		$this->form_validation->set_rules('address1','address1','trim|required');
