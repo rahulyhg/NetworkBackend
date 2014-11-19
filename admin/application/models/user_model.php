@@ -106,34 +106,34 @@ class User_model extends CI_Model
 	}
 	function getuserlastlogin()
 	{
-		$query="SELECT `tab1`.`totaldailyquantity` as `totaldailyquantity`,`tab1`.`totaldailyamount` as `totaldailyamount`,`tab2`.`totalmonthlyquantity` as `totalmonthlyquantity`, `tab2`.`totalmonthlyamount` as `totalmonthlyamount`, `tab3`.`username`,`tab3`.`lastlogin`
+		$query="SELECT IFNULL(`tab1`.`totaldailyquantity`,0) as `totaldailyquantity`,IFNULL(`tab1`.`totaldailyamount`,0) as `totaldailyamount`,IFNULL(`tab2`.`totalmonthlyquantity`,0) as `totalmonthlyquantity`, IFNULL(`tab2`.`totalmonthlyamount`,0) as `totalmonthlyamount`, `tab3`.`username`,`tab3`.`lastlogin`
 FROM
 (
 SELECT `users`.`name` as `username`,`users`.`lastlogin`,`id` FROM `users`
 ) as `tab3`
 LEFT OUTER JOIN 
 (
-SELECT sum(`orders`.`quantity`) AS `totaldailyquantity`,sum(`orders`.`amount`) AS `totaldailyamount`,0 as `totalmonthlyquantity`,0 as `totalmonthlyamount`, DATE(`orders`.`timestamp`) as `date` ,`users`.`name` AS `username`,`users`.`lastlogin` AS `lastlogin`
+SELECT sum(`orders`.`quantity`) AS `totaldailyquantity`,sum(`orders`.`amount`) AS `totaldailyamount`,0 as `totalmonthlyquantity`,0 as `totalmonthlyamount`, DATE(`orders`.`timestamp`) as `date` ,`users`.`name` AS `username`,`users`.`id` as `userid`,`users`.`lastlogin` AS `lastlogin`
 FROM `orders`
 INNER JOIN `users` ON `users`.`id`=`orders`.`salesid`
 WHERE `orders`.`quantity`> 0  
-GROUP BY `date` 
+GROUP BY `date` ,`userid`
 HAVING `date`=DATE(CURRENT_TIMESTAMP) 
 ) as `tab1`
 ON
-`tab3`.`username`=`tab1`.`username`
+`tab3`.`id`=`tab1`.`userid`
 
 LEFT OUTER JOIN 
 (
-SELECT 0 as `totaldailyquantity`,0 as `totaldailyamount`,sum(`orders`.`quantity`) AS `totalmonthlyquantity`,sum(`orders`.`amount`) AS `totalmonthlyamount`, MONTH(`orders`.`timestamp`) as `month` ,`users`.`name` AS `username`,`users`.`lastlogin` AS `lastlogin`
+SELECT 0 as `totaldailyquantity`,0 as `totaldailyamount`,sum(`orders`.`quantity`) AS `totalmonthlyquantity`,sum(`orders`.`amount`) AS `totalmonthlyamount`, MONTH(`orders`.`timestamp`) as `month` ,`users`.`name` AS `username`,`users`.`id` as `userid`,`users`.`lastlogin` AS `lastlogin`
 FROM `orders`
 INNER JOIN `users` ON `users`.`id`=`orders`.`salesid`
 WHERE  `orders`.`quantity`> 0   
-GROUP BY `month`
+GROUP BY `month`,`userid`
 HAVING `month`=MONTH(CURRENT_TIMESTAMP)
 ) as `tab2`
 ON 
-`tab3`.`username`=`tab2`.`username`
+`tab3`.`id`=`tab2`.`userid`
 
 GROUP BY `tab3`.`id`";
 	   
