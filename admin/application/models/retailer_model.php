@@ -28,8 +28,15 @@ class Retailer_model extends CI_Model
 	}
 	function viewretailer()
 	{
-		$query=$this->db->query("SELECT  `retailer`.`id`, `retailer`.`lat`, `retailer`.`long`, `retailer`.`area`, `retailer`.`dob`, `retailer`.`type_of_area`, `retailer`.`sq_feet`, `retailer`.`store_image`, `retailer`.`name`, `retailer`.`number`, `retailer`.`email`, `retailer`.`address`,`retailer`. `ownername`, `retailer`.`ownernumber`, `retailer`.`contactname`,`retailer`. `contactnumber`,`area`.`name` AS `areaname` FROM `retailer` LEFT OUTER JOIN `area` ON `area`.`id`=`retailer`.`area`")->result();
-		return $query;
+        $maxpage=$this->config->item("per_page");
+        $startfrom=$this->uri->segment(3,0);
+		$query="SELECT  `retailer`.`id`, `retailer`.`lat`, `retailer`.`long`, `retailer`.`area`, `retailer`.`dob`, `retailer`.`type_of_area`, `retailer`.`sq_feet`, `retailer`.`store_image`, `retailer`.`name`, `retailer`.`number`, `retailer`.`email`, `retailer`.`address`,`retailer`. `ownername`, `retailer`.`ownernumber`, `retailer`.`contactname`,`retailer`. `contactnumber`,`area`.`name` AS `areaname` FROM `retailer` LEFT OUTER JOIN `area` ON `area`.`id`=`retailer`.`area` LIMIT $startfrom,$maxpage";
+        $result=new stdClass();
+        $result->query=$this->db->query($query)->result();
+        $result->totalcount=$this->db->query("SELECT count(*) as `totalcount` FROM `retailer` LEFT OUTER JOIN `area` ON `area`.`id`=`retailer`.`area`")->row();
+        $result->totalcount=$result->totalcount->totalcount;
+        return $result;
+//		return $query;
 	}
     public function getimagebyid($id)
 	{

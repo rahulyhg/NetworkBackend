@@ -23,8 +23,15 @@ class distributor_model extends CI_Model
 	}
 	function viewdistributor()
 	{
-		$query=$this->db->query("SELECT `distributor`.`id`, `distributor`.`name` AS `distributorname`, `distributor`.`code`,`distributor`. `componyname`, `distributor`.`email`, `distributor`.`contactno`, `distributor`.`dob`, `distributor`.`address1`, `distributor`.`address2`, `distributor`.`zipcode` FROM `distributor`")->result();
-		return $query;
+        $maxpage=$this->config->item("per_page");
+        $startfrom=$this->uri->segment(3,0);
+		$query="SELECT `distributor`.`id`, `distributor`.`name` AS `distributorname`, `distributor`.`code`,`distributor`. `componyname`, `distributor`.`email`, `distributor`.`contactno`, `distributor`.`dob`, `distributor`.`address1`, `distributor`.`address2`, `distributor`.`zipcode` FROM `distributor` LIMIT $startfrom,$maxpage";
+        $result=new stdClass();
+        $result->query=$this->db->query($query)->result();
+        $result->totalcount=$this->db->query("SELECT count(*) as `totalcount` FROM `distributor`")->row();
+        $result->totalcount=$result->totalcount->totalcount;
+        return $result;
+//		return $query;
 	}
 	public function beforeedit( $id )
 	{

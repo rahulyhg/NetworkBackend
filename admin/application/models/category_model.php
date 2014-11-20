@@ -17,10 +17,19 @@ class Category_model extends CI_Model
 	}
     function viewcategory()
 	{
-		$query=$this->db->query("SELECT `catelog`.`id`,`catelog`.`name`,`tab2`.`name` as `parent`,`catelog`.`order` FROM `catelog` 
+        $maxpage=$this->config->item("per_page");
+        $startfrom=$this->uri->segment(3,0);
+		$query="SELECT `catelog`.`id`,`catelog`.`name`,`tab2`.`name` as `parent`,`catelog`.`order` FROM `catelog` 
 		LEFT JOIN `catelog` as `tab2` ON `tab2`.`id`=`catelog`.`parent`
-		ORDER BY `catelog`.`id` ASC")->result();
-		return $query;
+		ORDER BY `catelog`.`id` ASC LIMIT $startfrom,$maxpage";
+        $result=new stdClass();
+        $result->query=$this->db->query($query)->result();
+        $result->totalcount=$this->db->query("SELECT count(*) as `totalcount` FROM `catelog` 
+		LEFT JOIN `catelog` as `tab2` ON `tab2`.`id`=`catelog`.`parent`
+		ORDER BY `catelog`.`id`")->row();
+        $result->totalcount=$result->totalcount->totalcount;
+        return $result;
+//		return $query;
 	}
     
 	public function getstatusdropdown()

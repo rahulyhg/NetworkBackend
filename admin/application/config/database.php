@@ -57,6 +57,7 @@ else
 
 $active_record = TRUE;
 
+
 // Testing (local) DB settings
 $db['testing']['hostname'] = '173.194.241.229';
 $db['testing']['username'] = 'root';

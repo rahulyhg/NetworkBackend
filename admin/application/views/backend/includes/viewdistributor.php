@@ -14,10 +14,11 @@
 			<header class="panel-heading">
                 distributor Details
             </header>
-			<table class="table table-striped table-hover fpTable lcnp" cellpadding="0" cellspacing="0" width="100%">
+			<table class="table table-striped table-hover" cellpadding="0" cellspacing="0" width="100%">
 			<thead>
 				<tr>
-					<th>distributor Name</th>
+					<th>ID</th>
+					<th>Distributor Name</th>
 					<th>Code</th>
 					<th>Company</th>
 					<th>Email</th>
@@ -32,6 +33,7 @@
 			<tbody>
 			   <?php foreach($table as $row) { ?>
 					<tr>
+						<td><?php echo $row->id;?></td>
 						<td><?php echo $row->distributorname;?></td>
 						<td><?php echo $row->code;?></td>
 						<td><?php echo $row->componyname;?></td>
@@ -56,5 +58,9 @@
 			</tbody>
 			</table>
 		</section>
+		
+		<div class="">
+                    <?php echo $this->pagination->create_links();?>
+                </div>
 	</div>
 </div>

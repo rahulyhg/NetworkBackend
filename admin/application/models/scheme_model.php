@@ -19,8 +19,15 @@ class Scheme_model extends CI_Model
 	}
 	function viewscheme()
 	{
-		$query=$this->db->query("SELECT `scheme`.`id`, `scheme`.`name` AS `schemename`, `scheme`.`discount_percent`, `scheme`.`date_start`, `scheme`.`date_end`, `scheme`.`mrp` FROM `scheme`")->result();
-		return $query;
+        $maxpage=$this->config->item("per_page");
+        $startfrom=$this->uri->segment(3,0);
+		$query="SELECT `scheme`.`id`, `scheme`.`name` AS `schemename`, `scheme`.`discount_percent`, `scheme`.`date_start`, `scheme`.`date_end`, `scheme`.`mrp` FROM `scheme` LIMIT $startfrom,$maxpage";
+        $result=new stdClass();
+        $result->query=$this->db->query($query)->result();
+        $result->totalcount=$this->db->query("SELECT count(*) as `totalcount` FROM `scheme`")->row();
+        $result->totalcount=$result->totalcount->totalcount;
+        return $result;
+//		return $query;
 	}
 	public function beforeedit( $id )
 	{

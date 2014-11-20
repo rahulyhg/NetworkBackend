@@ -161,9 +161,17 @@ class Site extends CI_Controller
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-		$data['table']=$this->user_model->viewusers();
 		$data['page']='viewusers';
-		$data['title']='View Users';
+		
+        $bothval=$this->user_model->viewusers();
+        $data['table']=$bothval->query;
+        
+        $this->load->library('pagination');
+        $config['base_url'] = site_url("site/viewusers");
+        $config['total_rows']=$bothval->totalcount;
+        $this->pagination->initialize($config); 
+        
+        $data['title']='View Users';
 		$this->load->view('template',$data);
 	}
     
@@ -420,8 +428,18 @@ class Site extends CI_Controller
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-		$data['table']=$this->category_model->viewcategory();
+//		$data['table']=$this->category_model->viewcategory();
 		$data['page']='viewcategory';
+        
+        
+        $bothval=$this->category_model->viewcategory();
+        $data['table']=$bothval->query;
+        
+        $this->load->library('pagination');
+        $config['base_url'] = site_url("site/viewcategory");
+        $config['total_rows']=$bothval->totalcount;
+        $this->pagination->initialize($config); 
+        
 		$data['title']='View category';
 		$this->load->view('template',$data);
 	}
@@ -1364,8 +1382,17 @@ class Site extends CI_Controller
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-		$data['table']=$this->city_model->viewcity();
+//		$data['table']=$this->city_model->viewcity();
 		$data['page']='viewcity';
+        
+        $bothval=$this->city_model->viewcity();
+        $data['table']=$bothval->query;
+        
+        $this->load->library('pagination');
+        $config['base_url'] = site_url("site/viewcity");
+        $config['total_rows']=$bothval->totalcount;
+        $this->pagination->initialize($config); 
+        
 		$data['title']='View City';
 		$this->load->view('template',$data);
 	} 
@@ -3177,8 +3204,17 @@ class Site extends CI_Controller
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-		$data['table']=$this->product_model->viewproduct();
+//		$data['table']=$this->product_model->viewproduct();
 		$data['page']='viewproduct';
+        
+        $bothval=$this->product_model->viewproduct();
+        $data['table']=$bothval->query;
+        
+        $this->load->library('pagination');
+        $config['base_url'] = site_url("site/viewproduct");
+        $config['total_rows']=$bothval->totalcount;
+        $this->pagination->initialize($config); 
+        
 		$data['title']='View product';
 		$this->load->view('template',$data);
 	} 
@@ -3779,8 +3815,18 @@ class Site extends CI_Controller
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-		$data['table']=$this->area_model->viewarea();
+//		$data['table']=$this->area_model->viewarea();
 		$data['page']='viewarea';
+        
+        
+        $bothval=$this->area_model->viewarea();
+        $data['table']=$bothval->query;
+        
+        $this->load->library('pagination');
+        $config['base_url'] = site_url("site/viewarea");
+        $config['total_rows']=$bothval->totalcount;
+        $this->pagination->initialize($config); 
+        
 		$data['title']='View area';
 		$this->load->view('template',$data);
 	} 
@@ -3896,8 +3942,19 @@ class Site extends CI_Controller
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-		$data['table']=$this->state_model->viewstate();
+//		$data['table']=$this->state_model->viewstate();
 		$data['page']='viewstate';
+        
+        
+        $bothval=$this->state_model->viewstate();
+        $data['table']=$bothval->query;
+        
+        $this->load->library('pagination');
+        $config['base_url'] = site_url("site/viewstate");
+        $config['total_rows']=$bothval->totalcount;
+        $this->pagination->initialize($config); 
+        
+        
 		$data['title']='View state';
 		$this->load->view('template',$data);
 	} 
@@ -4009,8 +4066,17 @@ class Site extends CI_Controller
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-		$data['table']=$this->zone_model->viewzone();
+//		$data['table']=$this->zone_model->viewzone();
 		$data['page']='viewzone';
+        
+        $bothval=$this->zone_model->viewzone();
+        $data['table']=$bothval->query;
+        
+        $this->load->library('pagination');
+        $config['base_url'] = site_url("site/viewzone");
+        $config['total_rows']=$bothval->totalcount;
+        $this->pagination->initialize($config); 
+        
 		$data['title']='View zone';
 		$this->load->view('template',$data);
 	} 
@@ -4111,8 +4177,18 @@ class Site extends CI_Controller
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-		$data['table']=$this->distributor_model->viewdistributor();
+//		$data['table']=$this->distributor_model->viewdistributor();
 		$data['page']='viewdistributor';
+        
+        
+        $bothval=$this->distributor_model->viewdistributor();
+        $data['table']=$bothval->query;
+        
+        $this->load->library('pagination');
+        $config['base_url'] = site_url("site/viewdistributor");
+        $config['total_rows']=$bothval->totalcount;
+        $this->pagination->initialize($config); 
+        
 		$data['title']='View distributor';
 		$this->load->view('template',$data);
 	} 
@@ -4250,8 +4326,17 @@ class Site extends CI_Controller
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-		$data['table']=$this->scheme_model->viewscheme();
+//		$data['table']=$this->scheme_model->viewscheme();
 		$data['page']='viewscheme';
+        
+        $bothval=$this->scheme_model->viewscheme();
+        $data['table']=$bothval->query;
+        
+        $this->load->library('pagination');
+        $config['base_url'] = site_url("site/viewscheme");
+        $config['total_rows']=$bothval->totalcount;
+        $this->pagination->initialize($config); 
+        
 		$data['title']='View scheme';
 		$this->load->view('template',$data);
 	} 
@@ -4382,8 +4467,17 @@ class Site extends CI_Controller
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-		$data['table']=$this->productimage_model->viewproductimage();
+//		$data['table']=$this->productimage_model->viewproductimage();
 		$data['page']='viewproductimage';
+        
+        $bothval=$this->productimage_model->viewproductimage();
+        $data['table']=$bothval->query;
+        
+        $this->load->library('pagination');
+        $config['base_url'] = site_url("site/viewproductimage");
+        $config['total_rows']=$bothval->totalcount;
+        $this->pagination->initialize($config); 
+        
 		$data['title']='View productimage';
 		$this->load->view('template',$data);
 	} 
@@ -4517,8 +4611,17 @@ class Site extends CI_Controller
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-		$data['table']=$this->order_model->vieworder();
+//		$data['table']=$this->order_model->vieworder();
 		$data['page']='vieworder';
+        
+        $bothval=$this->order_model->vieworder();
+        $data['table']=$bothval->query;
+        
+        $this->load->library('pagination');
+        $config['base_url'] = site_url("site/vieworder");
+        $config['total_rows']=$bothval->totalcount;
+        $this->pagination->initialize($config); 
+        
 		$data['title']='View order';
 		$this->load->view('template',$data);
 	}
@@ -4532,6 +4635,25 @@ class Site extends CI_Controller
 		$this->load->view('template',$data);
 	} 
     
+//    function vieworderproduct()
+//	{
+//		$access = array("1");
+//		$this->checkaccess($access);
+////		$data['table']=$this->order_model->vieworderproduct($this->input->get('id'));
+//		$data['page']='vieworderproduct';
+//        
+//        $bothval=$this->order_model->vieworderproduct($this->input->get('id'));
+//        $data['table']=$bothval->query;
+//        
+//        $this->load->library('pagination');
+//        $config['base_url'] = site_url("site/vieworderproduct?id=".$this->input->get('id'));
+//        $config['total_rows']=$bothval->totalcount;
+//        $this->pagination->initialize($config); 
+//        
+//		$data['title']='View orderproduct';
+//		$this->load->view('template',$data);
+//	} 
+    
     
     //retailer
     
@@ -4539,8 +4661,17 @@ class Site extends CI_Controller
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-		$data['table']=$this->retailer_model->viewretailer();
+//		$data['table']=$this->retailer_model->viewretailer();
 		$data['page']='viewretailer';
+        
+        $bothval=$this->retailer_model->viewretailer();
+        $data['table']=$bothval->query;
+        
+        $this->load->library('pagination');
+        $config['base_url'] = site_url("site/viewretailer");
+        $config['total_rows']=$bothval->totalcount;
+        $this->pagination->initialize($config); 
+        
 		$data['title']='View retailer';
 		$this->load->view('template',$data);
 	} 

@@ -30,12 +30,22 @@ class Product_model extends CI_Model
    
 	function viewproduct()
 	{
+        $maxpage=$this->config->item("per_page");
+        $startfrom=$this->uri->segment(3,0);
 		$query="SELECT `product`.`id`, `product`.`name` AS `productname`, `product`.`product`, `product`.`encode`, `product`.`name2`, `product`.`productcode`,`product`. `category`,`product`. `video`,`product`. `mrp`,`product`. `description`,`product`. `age`,`product`. `scheme`,`product`.`isnew`,`product`. `timestamp`,`catelog`.`name` AS `categoryname`,`scheme`.`name` AS `schemename`
 FROM `product`
 LEFT OUTER JOIN `catelog` ON `catelog`.`id`=`product`.`category`
-LEFT OUTER JOIN `scheme` ON `scheme`.`id`=`product`.`scheme`";
-		$query=$this->db->query($query)->result();
-		return $query;
+LEFT OUTER JOIN `scheme` ON `scheme`.`id`=`product`.`scheme` LIMIT $startfrom,$maxpage";
+        $result=new stdClass();
+        $result->query=$this->db->query($query)->result();
+        $result->totalcount=$this->db->query("SELECT count(*) as `totalcount` FROM `product`
+LEFT OUTER JOIN `catelog` ON `catelog`.`id`=`product`.`category`
+LEFT OUTER JOIN `scheme` ON `scheme`.`id`=`product`.`scheme`")->row();
+        $result->totalcount=$result->totalcount->totalcount;
+        return $result;
+        
+//		$query=$this->db->query($query)->result();
+//		return $query;
 	}
     
 	public function getisnewdropdown()

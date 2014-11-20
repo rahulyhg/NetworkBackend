@@ -10,10 +10,10 @@
                 Order Details
             </header>
             
-			<table class="table table-striped table-hover fpTable lcnp" cellpadding="0" cellspacing="0" width="100%">
+			<table class="table table-striped table-hover" cellpadding="0" cellspacing="0" width="100%">
 			<thead>
 				<tr>
-					<!--<th>Id</th>-->
+					<th>Id</th>
 					<th>Timestamp</th>
 					<th>Retailer</th>
 					<th>Sales Person</th>
@@ -26,7 +26,7 @@
 			<tbody>
 			   <?php foreach($table as $row) { ?>
 					<tr>
-						<!--<td><?php echo $row->id;?></td>-->
+						<td><?php echo $row->id;?></td>
 						<td><?php echo $row->timestamp;?></td>
 						<td><?php echo $row->retailername;?></td>
 						<td><?php echo $row->sales;?></td>
@@ -51,5 +51,8 @@
 			</tbody>
 			</table>
 		</section>
+		<div class="">
+                    <?php echo $this->pagination->create_links();?>
+        </div>
 	</div>
 </div>

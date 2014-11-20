@@ -9,10 +9,10 @@
 			<header class="panel-heading">
                 Category Details
             </header>
-			<table class="table table-striped table-hover border-top " id="sample_1" cellpadding="0" cellspacing="0" >
+			<table class="table table-striped table-hover" id="" cellpadding="0" cellspacing="0" >
 			<thead>
 				<tr>
-					<!--<th>Id</th>-->
+					<th>Id</th>
 					<th>Name</th>
 					<th>Parent</th>
 					<th>Order</th>
@@ -22,7 +22,7 @@
 			<tbody>
 			   <?php foreach($table as $row) { ?>
 					<tr>
-						<!--<td><?php echo $row->id; ?></td>-->
+						<td><?php echo $row->id; ?></td>
 						<td><?php echo $row->name; ?></td>
 						<td><?php echo $row->parent; ?></td>
 						<td><?php echo $row->order; ?></td>
@@ -35,5 +35,9 @@
 			</tbody>
 			</table>
 		</section>
+		
+		<div class="">
+                    <?php echo $this->pagination->create_links();?>
+                </div>
 	</div>
   </div>

@@ -11,10 +11,11 @@
 			<header class="panel-heading">
                 area Details
             </header>
-			<table class="table table-striped table-hover fpTable lcnp" cellpadding="0" cellspacing="0" width="100%">
+			<table class="table table-striped table-hover" cellpadding="0" cellspacing="0" width="100%">
 			<thead>
 				<tr>
-					<th>area Name</th>
+					<th>Id</th>
+					<th>Area Name</th>
 					<th>City Name</th>
 					<th>Distributor</th>
 					
@@ -24,6 +25,7 @@
 			<tbody>
 			   <?php foreach($table as $row) { ?>
 					<tr>
+						<td><?php echo $row->id;?></td>
 						<td><?php echo $row->areaname;?></td>
 						<td><?php echo $row->cityname;?></td>
 						<td><?php echo $row->distributorname;?></td>
@@ -42,5 +44,9 @@
 			</tbody>
 			</table>
 		</section>
+		
+		  <div class="">
+                    <?php echo $this->pagination->create_links();?>
+                </div>
 	</div>
 </div>

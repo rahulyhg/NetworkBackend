@@ -11,9 +11,10 @@
 			<header class="panel-heading">
                 state Details
             </header>
-			<table class="table table-striped table-hover fpTable lcnp" cellpadding="0" cellspacing="0" width="100%">
+			<table class="table table-striped table-hover" cellpadding="0" cellspacing="0" width="100%">
 			<thead>
 				<tr>
+					<th>Id</th>
 					<th>state Name</th>
 					<th>Zone Name</th>
 					
@@ -23,6 +24,7 @@
 			<tbody>
 			   <?php foreach($table as $row) { ?>
 					<tr>
+						<td><?php echo $row->id;?></td>
 						<td><?php echo $row->statename;?></td>
 						<td><?php echo $row->zonename;?></td>
 						
@@ -40,5 +42,8 @@
 			</tbody>
 			</table>
 		</section>
+		<div class="">
+                    <?php echo $this->pagination->create_links();?>
+                </div>
 	</div>
 </div>

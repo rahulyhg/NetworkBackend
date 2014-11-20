@@ -11,10 +11,11 @@
 			<header class="panel-heading">
                 city Details
             </header>
-			<table class="table table-striped table-hover fpTable lcnp" cellpadding="0" cellspacing="0" width="100%">
+			<table class="table table-striped table-hover" cellpadding="0" cellspacing="0" width="100%">
 			<thead>
 				<tr>
-					<th>city Name</th>
+					<th>Id</th>
+					<th>City Name</th>
 					<th>State Name</th>
 					<th> Actions </th>
 				</tr>
@@ -22,6 +23,7 @@
 			<tbody>
 			   <?php foreach($table as $row) { ?>
 					<tr>
+						<td><?php echo $row->id;?></td>
 						<td><?php echo $row->cityname;?></td>
 						<td><?php echo $row->statename;?></td>
 						
@@ -39,5 +41,9 @@
 			</tbody>
 			</table>
 		</section>
+		
+		  <div class="">
+                    <?php echo $this->pagination->create_links();?>
+                </div>
 	</div>
 </div>

@@ -24,9 +24,16 @@ class Area_model extends CI_Model
 	}
 	function viewarea()
 	{
-		$query="SELECT `area`.`id`, `area`.`name` AS `areaname`,`city`.`name` AS `cityname`,`distributor`.`name` AS `distributorname` FROM `area` LEFT OUTER JOIN `city` ON `area`.`city`=`city`.`id`  LEFT OUTER JOIN `distributor` ON `area`.`distributor`=`distributor`.`id` ";
-		$query=$this->db->query($query)->result();
-		return $query;
+        $maxpage=$this->config->item("per_page");
+        $startfrom=$this->uri->segment(3,0);
+		$query="SELECT `area`.`id`, `area`.`name` AS `areaname`,`city`.`name` AS `cityname`,`distributor`.`name` AS `distributorname` FROM `area` LEFT OUTER JOIN `city` ON `area`.`city`=`city`.`id`  LEFT OUTER JOIN `distributor` ON `area`.`distributor`=`distributor`.`id`  LIMIT $startfrom,$maxpage";
+        $result=new stdClass();
+        $result->query=$this->db->query($query)->result();
+        $result->totalcount=$this->db->query("SELECT count(*) as `totalcount` FROM `area` LEFT OUTER JOIN `city` ON `area`.`city`=`city`.`id`  LEFT OUTER JOIN `distributor` ON `area`.`distributor`=`distributor`.`id`")->row();
+        $result->totalcount=$result->totalcount->totalcount;
+        return $result;
+//		$query=$this->db->query($query)->result();
+//		return $query;
 	}
     
 	

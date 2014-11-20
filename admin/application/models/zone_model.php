@@ -16,8 +16,15 @@ class Zone_model extends CI_Model
 	}
 	function viewzone()
 	{
-		$query=$this->db->query("SELECT `zone`.`id`,`zone`.`name` AS `zonename`,`zone`.`email` FROM `zone`")->result();
-		return $query;
+        $maxpage=$this->config->item("per_page");
+        $startfrom=$this->uri->segment(3,0);
+		$query="SELECT `zone`.`id`,`zone`.`name` AS `zonename`,`zone`.`email` FROM `zone` LIMIT $startfrom,$maxpage";
+        $result=new stdClass();
+        $result->query=$this->db->query($query)->result();
+        $result->totalcount=$this->db->query("SELECT count(*) as `totalcount` FROM `zone`")->row();
+        $result->totalcount=$result->totalcount->totalcount;
+        return $result;
+//		return $query;
 	}
 	public function beforeedit( $id )
 	{

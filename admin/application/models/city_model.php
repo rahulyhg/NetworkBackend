@@ -16,8 +16,16 @@ class City_model extends CI_Model
 	}
 	function viewcity()
 	{
-		$query=$this->db->query("SELECT `city`.`id`,`city`.`name` AS `cityname`,`state`.`name` AS `statename` FROM `city` LEFT OUTER JOIN `state` ON `state`.`id`=`city`.`state`")->result();
-		return $query;
+        $maxpage=$this->config->item("per_page");
+        $startfrom=$this->uri->segment(3,0);
+		$query="SELECT `city`.`id`,`city`.`name` AS `cityname`,`state`.`name` AS `statename` FROM `city` LEFT OUTER JOIN `state` ON `state`.`id`=`city`.`state` LIMIT $startfrom,$maxpage";
+        
+        $result=new stdClass();
+        $result->query=$this->db->query($query)->result();
+        $result->totalcount=$this->db->query("SELECT count(*) as `totalcount` FROM `city` LEFT OUTER JOIN `state` ON `state`.`id`=`city`.`state`")->row();
+        $result->totalcount=$result->totalcount->totalcount;
+        return $result;
+//		return $query;
 	}
 	public function beforeedit( $id )
 	{

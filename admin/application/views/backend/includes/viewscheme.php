@@ -9,11 +9,12 @@
 	<div class="col-lg-12">
 		<section class="panel">
 			<header class="panel-heading">
-                scheme Details
+                Scheme Details
             </header>
-			<table class="table table-striped table-hover fpTable lcnp" cellpadding="0" cellspacing="0" width="100%">
+			<table class="table table-striped table-hover" cellpadding="0" cellspacing="0" width="100%">
 			<thead>
 				<tr>
+					<th>ID</th>
 					<th>Scheme</th>
 					<th>Discount(%)</th>
 					<th>Start Date</th>
@@ -25,6 +26,7 @@
 			<tbody>
 			   <?php foreach($table as $row) { ?>
 					<tr>
+						<td><?php echo $row->id;?></td>
 						<td><?php echo $row->schemename;?></td>
 						<td><?php echo $row->discount_percent;?></td>
 						<td><?php echo $row->date_start;?></td>
@@ -45,5 +47,8 @@
 			</tbody>
 			</table>
 		</section>
+		<div class="">
+                    <?php echo $this->pagination->create_links();?>
+                </div>
 	</div>
 </div>

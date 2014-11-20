@@ -86,6 +86,9 @@ class User_model extends CI_Model
 	function viewusers()
 	{
 		$user = $this->session->userdata('accesslevel');
+        $maxpage=$this->config->item("per_page");
+        $startfrom=$this->uri->segment(3,0);
+        
 		$query="SELECT DISTINCT `users`.`id` as `id`,`users`.`name` as `name`,`accesslevel`.`name` as `accesslevel`	,`users`.`mobile`,`users`.`email` as `email`,`users`.`accesslevel` as `access`,`zone`.`name` as `zonename`
 		FROM `users`
 	   INNER JOIN `accesslevel` ON `users`.`accesslevel`=`accesslevel`.`id`
@@ -100,9 +103,20 @@ class User_model extends CI_Model
 			$query .= " WHERE `users`.`accesslevel`> '$accesslevel' ";
 		}
 		
-	   $query.=" ORDER BY `users`.`id` ASC";
-		$query=$this->db->query($query)->result();
-		return $query;
+	   $query.=" ORDER BY `users`.`id` ASC LIMIT $startfrom,$maxpage";
+        $result=new stdClass();
+        $result->query=$this->db->query($query)->result();
+        $result->totalcount=$this->db->query("SELECT count(*) as `totalcount` FROM `users`
+	   INNER JOIN `accesslevel` ON `users`.`accesslevel`=`accesslevel`.`id`
+	   INNER JOIN `zone` ON `users`.`zone`=`zone`.`id`")->row();
+        $result->totalcount=$result->totalcount->totalcount;
+        return $result;
+        
+        
+        
+//		$query=$this->db->query($query)->result();
+//        
+//		return $query;
 	}
 	function getuserlastlogin()
 	{

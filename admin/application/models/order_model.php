@@ -6,9 +6,18 @@ class Order_model extends CI_Model
 	
 	function vieworder()
 	{
-		$query="SELECT `orders`.`id`, `orders`.`retail`, `orders`.`sales`, `orders`.`timestamp`, `orders`.`amount`, `orders`.`signature`, `orders`.`salesid`, `orders`.`quantity`,`retailer`.`name` AS `retailername` FROM `orders` LEFT OUTER JOIN `retailer` ON `retailer`.`id`=`orders`.`retail`";
-		$query=$this->db->query($query)->result();
-		return $query;
+        $maxpage=$this->config->item("per_page");
+        $startfrom=$this->uri->segment(3,0);
+		$query="SELECT `orders`.`id`, `orders`.`retail`, `orders`.`sales`, `orders`.`timestamp`, `orders`.`amount`, `orders`.`signature`, `orders`.`salesid`, `orders`.`quantity`,`retailer`.`name` AS `retailername` FROM `orders` LEFT OUTER JOIN `retailer` ON `retailer`.`id`=`orders`.`retail` LIMIT $startfrom,$maxpage";
+        $result=new stdClass();
+        $result->query=$this->db->query($query)->result();
+        $result->totalcount=$this->db->query("SELECT count(*) as `totalcount` FROM `orders` LEFT OUTER JOIN `retailer` ON `retailer`.`id`=`orders`.`retail`")->row();
+        $result->totalcount=$result->totalcount->totalcount;
+        return $result;
+        
+        
+//		$query=$this->db->query($query)->result();
+//		return $query;
 	}
 	function vieworderproduct($id)
 	{
@@ -19,6 +28,25 @@ LEFT OUTER JOIN `catelog` ON `catelog`.`id`=`orderproduct`.`category` WHERE `ord
 		$query=$this->db->query($query)->result();
 		return $query;
 	}
+//	function vieworderproduct($id)
+//	{
+//        $maxpage=$this->config->item("per_page");
+//        $startfrom=$this->uri->segment(3,0);
+//		$query="SELECT `orderproduct`.`id`, `orderproduct`.`order`, `orderproduct`.`product`, `orderproduct`.`quantity`, `orderproduct`.`amount`,`orderproduct`. `scheme_id`, `orderproduct`.`status`, `orderproduct`.`category`,`product`.`name` AS `productname`,`scheme`.`name` AS `schemename`,`catelog`.`name`AS `categoryname` FROM `orderproduct` 
+//LEFT OUTER JOIN `product` ON `product`.`id`=`orderproduct`.`product`
+//LEFT OUTER JOIN `scheme` ON `scheme`.`id`=`orderproduct`.`scheme_id`
+//LEFT OUTER JOIN `catelog` ON `catelog`.`id`=`orderproduct`.`category` WHERE `orderproduct`.`order`='$id' LIMIT $startfrom,$maxpage";
+//        $result=new stdClass();
+//        $result->query=$this->db->query($query)->result();
+//        $result->totalcount=$this->db->query("SELECT count(*) as `totalcount` FROM `orderproduct` 
+//LEFT OUTER JOIN `product` ON `product`.`id`=`orderproduct`.`product`
+//LEFT OUTER JOIN `scheme` ON `scheme`.`id`=`orderproduct`.`scheme_id`
+//LEFT OUTER JOIN `catelog` ON `catelog`.`id`=`orderproduct`.`category` WHERE `orderproduct`.`order`='$id'")->row();
+//        $result->totalcount=$result->totalcount->totalcount;
+//        return $result;
+////		$query=$this->db->query($query)->result();
+////		return $query;
+//	}
 	public function create($name,$alias,$shop,$stock,$ean,$tax,$metatitle,$metadescription,$shopnavigation,$tags,$attribute)
 	{
 		$data  = array(

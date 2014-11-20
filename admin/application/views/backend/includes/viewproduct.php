@@ -17,10 +17,10 @@
             <?php 
 //print_r($table);
             ?>
-			<table class="table table-striped table-hover fpTable lcnp" cellpadding="0" cellspacing="0" width="100%">
+			<table class="table table-striped table-hover" cellpadding="0" cellspacing="0" width="100%">
 			<thead>
 				<tr>
-					<!--<th>Id</th>-->
+					<th>Id</th>
 					<th>Product Name</th>
 					<th>Code</th>
 					<th>category</th>
@@ -35,7 +35,7 @@
 			<tbody>
 			   <?php foreach($table as $row) { ?>
 					<tr>
-						<!--<td><?php echo $row->id;?></td>-->
+						<td><?php echo $row->id;?></td>
 						<td><?php echo $row->productname;?></td>
 						<td><?php echo $row->productcode;?></td>
 						<td><?php echo $row->categoryname;?></td>
@@ -59,5 +59,8 @@
 			</tbody>
 			</table>
 		</section>
+		<div class="">
+                    <?php echo $this->pagination->create_links();?>
+        </div>
 	</div>
 </div>

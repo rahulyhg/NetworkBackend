@@ -11,10 +11,10 @@
 			<header class="panel-heading">
                 User Details
             </header>
-			<table class="table table-striped table-hover fpTable lcnp" cellpadding="0" cellspacing="0" width="100%">
+			<table class="table table-striped table-hover" cellpadding="0" cellspacing="0" width="100%">
 			<thead>
 				<tr>
-					<!--<th>Id</th>-->
+					<th>Id</th>
 					<th>Name</th>
 					<th>Access Level</th>
 					<td>Email</td>
@@ -26,7 +26,7 @@
 			<tbody>
 			   <?php foreach($table as $row) { ?>
 					<tr>
-						<!--<td><?php echo $row->id;?></td>-->
+						<td><?php echo $row->id;?></td>
 						<td><?php echo $row->name;?></td>
 						<td><?php echo $row->accesslevel;?></td>
 						<td><?php echo $row->email;?></td>
@@ -49,5 +49,8 @@
 			</tbody>
 			</table>
 		</section>
+		  <div class="">
+                    <?php echo $this->pagination->create_links();?>
+                </div>
 	</div>
 </div>

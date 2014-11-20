@@ -9,12 +9,12 @@
 	<div class="col-lg-12">
 		<section class="panel">
 			<header class="panel-heading">
-                productimage Details
+                Product Image Details
             </header>
-			<table class="table table-striped table-hover fpTable lcnp" cellpadding="0" cellspacing="0" width="100%">
+			<table class="table table-striped table-hover" cellpadding="0" cellspacing="0" width="100%">
 			<thead>
 				<tr>
-					<!--<th>Id</th>-->
+					<th>Id</th>
 					<th>Product</th>
 					<th>Image</th>
 					<th>Order</th>
@@ -25,7 +25,7 @@
 			<tbody>
 			   <?php foreach($table as $row) { ?>
 					<tr>
-						<!--<td><?php echo $row->id;?></td>-->
+						<td><?php echo $row->id;?></td>
 						<td><?php echo $row->productname;?></td>
 						<td><img src="<?php echo base_url('uploads')."/".$row->image; ?>" width="50px" height="auto"></td>
 						<td><?php echo $row->order;?></td>
@@ -45,5 +45,8 @@
 			</tbody>
 			</table>
 		</section>
+		<div class="">
+                    <?php echo $this->pagination->create_links();?>
+        </div>
 	</div>
 </div>
