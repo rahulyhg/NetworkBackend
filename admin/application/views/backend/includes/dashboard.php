@@ -70,17 +70,45 @@
                 <tbody>
                    <?php 
     $count=1;
+    $totaldailyquantity=0;
+    $totaldailyamount=0;
+    $totalmonthlyquantity=0;
+    $totalmonthlyamount=0;
     foreach($userdetailswithlastlogin as $row) { ?>
                         <tr>
                             <td><?php echo $row->username;?></td>
                             <td><?php echo $row->lastlogin;?></td>
-                            <td><?php echo $row->totaldailyquantity;?></td>
-                            <td><?php echo $row->totaldailyamount;?></td>
-                            <td><?php echo $row->totalmonthlyquantity;?></td>
-                            <td><?php echo $row->totalmonthlyamount;?></td>
+                            <td><?php echo $row->totaldailyquantity;
+                                    $totaldailyquantity+=floatval($row->totaldailyquantity);
+                                ?></td>
+                            <td><?php echo $row->totaldailyamount;
+                                $totaldailyamount+=floatval($row->totaldailyamount);
+                                ?></td>
+                            <td><?php echo $row->totalmonthlyquantity;
+                                $totalmonthlyquantity+=floatval($row->totalmonthlyquantity);
+                                ?></td>
+                            <td><?php echo $row->totalmonthlyamount;
+                                $totalmonthlyamount+=floatval($row->totalmonthlyamount);
+                                ?></td>
 
                         </tr>
                         <?php } ?>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><b>TOTAL</b></td>
+                            <td></td>
+                            <td><b><?php echo $totaldailyquantity;?></b></td>
+                            <td><b><?php echo $totaldailyamount;?></b></td>
+                            <td><b><?php echo $totalmonthlyquantity;?></b></td>
+                            <td><b><?php echo $totalmonthlyamount;?></b></td>
+                        </tr>
                 </tbody>
                 </table>
     </div>
