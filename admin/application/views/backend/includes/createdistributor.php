@@ -14,7 +14,7 @@
 			<div class="panel-body">
 			  <form class="form-horizontal tasi-form" method="post" action="<?php echo site_url('site/createdistributorsubmit');?>">
 				<div class="form-group">
-				  <label class="col-sm-2 control-label" for="normal-field">Name</label>
+				  <label class="col-sm-2 control-label" for="normal-field">Company Name</label>
 				  <div class="col-sm-4">
 					<input type="text" id="normal-field" class="form-control" name="name" value="<?php echo set_value('name');?>">
 				  </div>
@@ -26,7 +26,7 @@
 				  </div>
 				</div>
 				<div class="form-group">
-				  <label class="col-sm-2 control-label" for="normal-field">Compony Name</label>
+				  <label class="col-sm-2 control-label" for="normal-field">Name</label>
 				  <div class="col-sm-4">
 					<input type="text" id="normal-field" class="form-control" name="componyname" value="<?php echo set_value('componyname');?>">
 				  </div>

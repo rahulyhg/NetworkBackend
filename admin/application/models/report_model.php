@@ -170,7 +170,7 @@ class Report_model extends CI_Model
     function exportmonthlyzerodistributorretailerreport($reporttype,$fromdate,$todate)
 	{
 		$this->load->dbutil();
-		$query=$this->db->query("SELECT `orders`.`timestamp`,`distributor`.`name` as `distributor`,`retailer`.`name`,`area`.`name` as `area`,`city`.`name` as `city`,SUM(`orders`.`quantity`) as `quantity`,SUM(`orders`.`amount`) as `amount` 
+		$query=$this->db->query("SELECT DATE(`orders`.`timestamp`) AS `timestamp`,`distributor`.`name` as `distributor`,`retailer`.`name`,`area`.`name` as `area`,`city`.`name` as `city`,SUM(`orders`.`quantity`) as `quantity`,SUM(`orders`.`amount`) as `amount` 
         FROM `retailer` 
         INNER JOIN `area` ON `area`.`id`=`retailer`.`area` 
         INNER JOIN `distributor` ON `distributor`.`id`=`area`.`distributor` 
@@ -241,7 +241,7 @@ class Report_model extends CI_Model
     function exportmonthlyorderreport($reporttype,$fromdate,$todate)
 	{
 		$this->load->dbutil();
-		$query=$this->db->query("SELECT `orders`.`id` AS `orderID`, `orders`.`timestamp`,`orderproduct`.`id`,`product`.`name` AS `product`,`product`.`productcode` as `productcode`,`catelog`.`name`AS `categoryname`, `orderproduct`.`order`, `orderproduct`.`quantity`, `orderproduct`.`amount`,`orderproduct`. `scheme_id`, `orderproduct`.`status`,`scheme`.`name` AS `schemename`,`orders`.`sales` AS `Sales_Person`,`retailer`.`name` AS `retailer`, `area`.`name` AS `areaname`,`city`.`name` AS `cityname`,`state`.`name` AS `statename`,`zone`.`name` AS `zonename`,`area`.`distributor` AS `DistributorId`,`distributor`.`name` AS  `DistributorName`
+		$query=$this->db->query("SELECT `orders`.`id` AS `orderID`, DATE(`orders`.`timestamp`) AS `timestamp`,`orderproduct`.`id`,`product`.`name` AS `product`,`product`.`productcode` as `productcode`,`catelog`.`name`AS `categoryname`, `orderproduct`.`order`, `orderproduct`.`quantity`, `orderproduct`.`amount`,`orderproduct`. `scheme_id`, `orderproduct`.`status`,`scheme`.`name` AS `schemename`,`orders`.`sales` AS `Sales_Person`,`retailer`.`name` AS `retailer`, `area`.`name` AS `areaname`,`city`.`name` AS `cityname`,`state`.`name` AS `statename`,`zone`.`name` AS `zonename`,`area`.`distributor` AS `DistributorId`,`distributor`.`name` AS  `DistributorName`
 FROM `orderproduct` 
 LEFT OUTER JOIN `product` ON `product`.`id`=`orderproduct`.`product`
 LEFT OUTER JOIN `scheme` ON `scheme`.`id`=`orderproduct`.`scheme_id`
