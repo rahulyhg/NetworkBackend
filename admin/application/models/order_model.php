@@ -8,7 +8,7 @@ class Order_model extends CI_Model
 	{
         $maxpage=$this->config->item("per_page");
         $startfrom=$this->uri->segment(3,0);
-		$query="SELECT `orders`.`id`, `orders`.`retail`, `orders`.`sales`, `orders`.`timestamp`, `orders`.`amount`, `orders`.`signature`, `orders`.`salesid`, `orders`.`quantity`,`retailer`.`name` AS `retailername` FROM `orders` LEFT OUTER JOIN `retailer` ON `retailer`.`id`=`orders`.`retail` LIMIT $startfrom,$maxpage";
+		$query="SELECT `orders`.`id`, `orders`.`retail`, `orders`.`sales`, `orders`.`timestamp`, `orders`.`amount`, `orders`.`signature`, `orders`.`salesid`, `orders`.`quantity`,`retailer`.`name` AS `retailername` FROM `orders` LEFT OUTER JOIN `retailer` ON `retailer`.`id`=`orders`.`retail` ORDER BY `orders`.`timestamp` DESC LIMIT $startfrom,$maxpage";
         $result=new stdClass();
         $result->query=$this->db->query($query)->result();
         $result->totalcount=$this->db->query("SELECT count(*) as `totalcount` FROM `orders` LEFT OUTER JOIN `retailer` ON `retailer`.`id`=`orders`.`retail`")->row();
