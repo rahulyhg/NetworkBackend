@@ -8,7 +8,7 @@
 			<div class="panel-body">
 				<form class="form-horizontal row-fluid" method="post" action="<?php echo site_url('site/editdistributorsubmit');?>" enctype= "multipart/form-data">
 					<div class="form-group">
-						<label class="col-sm-2 control-label">Name</label>
+						<label class="col-sm-2 control-label">Company Name</label>
 						<div class="col-sm-4">
 						  <input type="hidden" id="normal-field" class="row-fluid" name="id" value="<?php echo $before->id;?>">
 						  <input type="text" id="normal-field" class="form-control" name="name" value="<?php echo set_value('name',$before->name);?>">
@@ -21,7 +21,7 @@
 				  </div>
 				</div>
 				<div class="form-group">
-				  <label class="col-sm-2 control-label" for="normal-field">Compony Name</label>
+				  <label class="col-sm-2 control-label" for="normal-field">Name</label>
 				  <div class="col-sm-4">
 					<input type="text" id="normal-field" class="form-control" name="componyname" value="<?php echo set_value('componyname',$before->componyname);?>">
 				  </div>
