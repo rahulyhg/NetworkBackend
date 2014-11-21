@@ -260,7 +260,7 @@ WHERE `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' "
         //$data = 'Some file data';
         //echo $timestamp;
 		
-		file_put_contents("gs://toykraftdealer/lyorderreport_$timestamp.csv", $content);
+		file_put_contents("gs://toykraftdealer/orderreport_$timestamp.csv", $content);
 		redirect("http://admin.toy-kraft.com/servepublic?name=orderreport_$timestamp.csv", 'refresh');
 		
 	}
