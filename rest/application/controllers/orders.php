@@ -28,11 +28,19 @@ class Orders extends CI_Controller {
         	$id=$this->input->get('id');
         	$retail=$this->input->get('retail');
         	$amount=$this->input->get('amount');
+            if($amount=="0")
+            {
+                return false;
+            }
         	$user=$this->input->get('user');
         	$datetime=$this->input->get('datetime');
         	$quantity=$this->input->get('quantity');
         	$remark=$this->input->get('remark');
-		$cart=$this->db->query("SELECT `orderproduct`.`id`,`orderproduct`.`order`,`orderproduct`.`quantity`,`orderproduct`.`amount`,`orderproduct`.`category`,`orderproduct`.`productcode`,`product`.`name`,`product`.`mrp` FROM `orderproduct` INNER JOIN `product` ON `orderproduct`.`product`=`product`.`id` WHERE `orderproduct`.`order`='$id'")->result();
+            $cart=$this->db->query("SELECT `orderproduct`.`id`,`orderproduct`.`order`,`orderproduct`.`quantity`,`orderproduct`.`amount`,`orderproduct`.`category`,`orderproduct`.`productcode`,`product`.`name`,`product`.`mrp`,`orderproduct`.`scheme_id`,`scheme`.`name` AS `scheme` 
+            FROM `orderproduct` 
+            INNER JOIN `product` ON `orderproduct`.`product`=`product`.`id` 
+            INNER JOIN `scheme` ON `orderproduct`.`scheme_id`=`scheme`.`id` 
+            WHERE `orderproduct`.`order`='$id'")->result();
 		
         	$retailerdistributor=$this->db->query("SELECT `retailer`.`id`,`retailer`.`name`,`retailer`.`address`,`retailer`.`area`,`retailer`.`email`,`retailer`.`number`,`area`.`id`,`area`.`distributor`,`distributor`.`id`,`distributor`.`contactno`,`distributor`.`email` as `disemail` FROM `retailer` INNER JOIN `area` ON `retailer`.`area`=`area`.`id` INNER JOIN `distributor` ON `area`.`distributor`=`distributor`.`id` WHERE `retailer`.`id`='$retail'")->row();
 		$email=$retailerdistributor->email;
@@ -50,11 +58,12 @@ class Orders extends CI_Controller {
 			$emaildata.="<td>".$cartitem->quantity."</td>";
 			$emaildata.="<td>".$cartitem->mrp."</td>";
 			$emaildata.="<td>".$cartitem->amount."</td>";
-			if($cartitem->category=="scheme"){
-				$emaildata.="<td>Yes</td>";
-			}else{
-				$emaildata.="<td>No</td>";
-			}
+			$emaildata.="<td>".$cartitem->scheme."</td>";
+//			if($cartitem->category=="scheme"){
+//				$emaildata.="<td>Yes</td>";
+//			}else{
+//				$emaildata.="<td>No</td>";
+//			}
 			$emaildata.="</tr>";
 		}
 		$emaildata.="<tr>";

@@ -22,6 +22,7 @@
 					<th>Amount</th>
 					<th>Sales ID</th>
 					<th>Quantity</th>
+					<th>Remark</th>
 					<th> Actions </th>
 				</tr>
 			</thead>
@@ -35,7 +36,7 @@
 						<td><?php echo $row->amount;?></td>
 						<td><?php echo $row->salesid;?></td>
 						<td><?php echo $row->quantity;?></td>
-<!--						<td><?php echo $row->remark;?></td>-->
+						<td><?php echo $row->remark;?></td>
 						
 						<td>
 							<a href="<?php echo site_url('site/vieworderproduct?id=').$row->id;?>" class="btn btn-primary btn-xs">

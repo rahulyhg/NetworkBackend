@@ -13,7 +13,7 @@ class Report_model extends CI_Model
 			 "3" => "Zero Distributor Retailors",
 			 "4" => "New Products Placement Report",
 			 "5" => "Scheme Products Placement Report",
-			 "6" => "Monthly Order Report"
+			 "6" => "Order Report"
 			);
 		return $reporttype;
 	}
@@ -42,7 +42,7 @@ class Report_model extends CI_Model
     function exportdailyitemwisereport($date)
 	{
 		$this->load->dbutil();
-		$query=$this->db->query("SELECT `product`.`id` as `id`,`product`.`encode` as `code`,`product`.`name` as `name`,`product`.`mrp` as `mrp`,SUM(`orderproduct`.`quantity`) as `quantity`, SUM(`orderproduct`.`amount`) as `amount` 
+		$query=$this->db->query("SELECT `product`.`id` as `id`,`product`.`encode` as `code`,`product`.`productcode` as `productcode`,`product`.`name` as `name`,`product`.`mrp` as `mrp`,SUM(`orderproduct`.`quantity`) as `quantity`, SUM(`orderproduct`.`amount`) as `amount` 
         FROM `orderproduct` 
         INNER JOIN `orders` ON `orders`.`id`=`orderproduct`.`order` 
         INNER JOIN `product` ON `product`.`id`=`orderproduct`.`product` 
@@ -81,7 +81,7 @@ class Report_model extends CI_Model
     function exportweeklyitemwisereport($date)
 	{
 		$this->load->dbutil();
-		$query=$this->db->query("SELECT `product`.`id` as `id`,`product`.`encode` as `code`,`product`.`name` as `name`,`product`.`mrp` as `mrp`,SUM(`orderproduct`.`quantity`) as `quantity`, SUM(`orderproduct`.`amount`) as `amount` 
+		$query=$this->db->query("SELECT `product`.`id` as `id`,`product`.`encode` as `code`,`product`.`productcode` as `productcode`,`product`.`name` as `name`,`product`.`mrp` as `mrp`,SUM(`orderproduct`.`quantity`) as `quantity`, SUM(`orderproduct`.`amount`) as `amount` 
         FROM `orderproduct` 
         INNER JOIN `orders` ON `orders`.`id`=`orderproduct`.`order` 
         INNER JOIN `product` ON `product`.`id`=`orderproduct`.`product` 
@@ -125,7 +125,7 @@ class Report_model extends CI_Model
     function exportmonthlyitemwisesalesreport($reporttype,$fromdate,$todate)
 	{
 		$this->load->dbutil();
-		$query=$this->db->query("SELECT `product`.`id` as `id`,`product`.`encode` as `code`,`product`.`name` as `name`,`product`.`mrp` as `mrp`,SUM(`orderproduct`.`quantity`) as `quantity`, SUM(`orderproduct`.`amount`) as `amount` 
+		$query=$this->db->query("SELECT `product`.`id` as `id`,`product`.`encode` as `code`,`product`.`productcode` as `productcode`,`product`.`name` as `name`,`product`.`mrp` as `mrp`,SUM(`orderproduct`.`quantity`) as `quantity`, SUM(`orderproduct`.`amount`) as `amount` 
         FROM `orderproduct` 
         INNER JOIN `orders` ON `orders`.`id`=`orderproduct`.`order` 
         INNER JOIN `product` ON `product`.`id`=`orderproduct`.`product` 
@@ -195,7 +195,7 @@ class Report_model extends CI_Model
     function exportmonthlynewproductplacementreport($reporttype,$fromdate,$todate)
 	{
 		$this->load->dbutil();
-		$query=$this->db->query("SELECT `product`.`name` as `product`,`product`.`encode` as `encode`,`product`.`mrp` as `mrp`,`distributor`.`name` as `distributor`,`city`.`name` as `city`,`area`.`name` as `area` ,IFNULL(SUM(`orderproduct`.`quantity`),0) as `quantity` 
+		$query=$this->db->query("SELECT `product`.`name` as `product`,`product`.`encode` as `encode`,`product`.`productcode` as `productcode`,`product`.`mrp` as `mrp`,`distributor`.`name` as `distributor`,`city`.`name` as `city`,`area`.`name` as `area` ,IFNULL(SUM(`orderproduct`.`quantity`),0) as `quantity` 
         FROM `product` 
         LEFT OUTER JOIN `orders` ON `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' 
         LEFT OUTER JOIN `orderproduct` ON `orders`.`id`=`orderproduct`.`order` AND `orderproduct`.`product`=`product`.`id` 
@@ -219,7 +219,7 @@ class Report_model extends CI_Model
     function exportmonthlyschemeproductplacement($reporttype,$fromdate,$todate)
 	{
 		$this->load->dbutil();
-		$query=$this->db->query("SELECT `product`.`name` as `product`,`product`.`encode` as `encode`,`product`.`mrp` as `mrp`,`distributor`.`name` as `distributor`,`city`.`name` as `city`,`area`.`name` as `area` ,IFNULL(SUM(`orderproduct`.`quantity`),0) as `quantity` 
+		$query=$this->db->query("SELECT `product`.`name` as `product`,`product`.`encode` as `encode`,`product`.`productcode` as `productcode`,`product`.`mrp` as `mrp`,`distributor`.`name` as `distributor`,`city`.`name` as `city`,`area`.`name` as `area` ,IFNULL(SUM(`orderproduct`.`quantity`),0) as `quantity` 
         FROM `product` 
         LEFT OUTER JOIN `orders` ON `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' 
         LEFT OUTER JOIN `orderproduct` ON `orders`.`id`=`orderproduct`.`order` AND `orderproduct`.`product`=`product`.`id` 
@@ -241,7 +241,7 @@ class Report_model extends CI_Model
     function exportmonthlyorderreport($reporttype,$fromdate,$todate)
 	{
 		$this->load->dbutil();
-		$query=$this->db->query("SELECT `orders`.`id` AS `orderID`, `orders`.`timestamp`,`orderproduct`.`id`,`product`.`name` AS `product`,`catelog`.`name`AS `categoryname`, `orderproduct`.`order`, `orderproduct`.`quantity`, `orderproduct`.`amount`,`orderproduct`. `scheme_id`, `orderproduct`.`status`,`scheme`.`name` AS `schemename`,`orders`.`sales` AS `Sales_Person`,`retailer`.`name` AS `retailer`, `area`.`name` AS `areaname`,`city`.`name` AS `cityname`,`state`.`name` AS `statename`,`zone`.`name` AS `zonename`,`area`.`distributor` AS `DistributorId`,`distributor`.`name` AS  `DistributorName`
+		$query=$this->db->query("SELECT `orders`.`id` AS `orderID`, `orders`.`timestamp`,`orderproduct`.`id`,`product`.`name` AS `product`,`product`.`productcode` as `productcode`,`catelog`.`name`AS `categoryname`, `orderproduct`.`order`, `orderproduct`.`quantity`, `orderproduct`.`amount`,`orderproduct`. `scheme_id`, `orderproduct`.`status`,`scheme`.`name` AS `schemename`,`orders`.`sales` AS `Sales_Person`,`retailer`.`name` AS `retailer`, `area`.`name` AS `areaname`,`city`.`name` AS `cityname`,`state`.`name` AS `statename`,`zone`.`name` AS `zonename`,`area`.`distributor` AS `DistributorId`,`distributor`.`name` AS  `DistributorName`
 FROM `orderproduct` 
 LEFT OUTER JOIN `product` ON `product`.`id`=`orderproduct`.`product`
 LEFT OUTER JOIN `scheme` ON `scheme`.`id`=`orderproduct`.`scheme_id`
@@ -260,8 +260,8 @@ WHERE `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' "
         //$data = 'Some file data';
         //echo $timestamp;
 		
-		file_put_contents("gs://toykraftdealer/monthlyorderreport_$timestamp.csv", $content);
-		redirect("http://admin.toy-kraft.com/servepublic?name=monthlyorderreport_$timestamp.csv", 'refresh');
+		file_put_contents("gs://toykraftdealer/lyorderreport_$timestamp.csv", $content);
+		redirect("http://admin.toy-kraft.com/servepublic?name=orderreport_$timestamp.csv", 'refresh');
 		
 	}
     //send mail

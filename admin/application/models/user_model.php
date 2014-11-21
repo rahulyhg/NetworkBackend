@@ -32,11 +32,11 @@ class User_model extends CI_Model
 	}
 	
 	
-	public function create($name,$password,$accesslevel,$email,$contact,$zone)
+	public function create($name,$password,$accesslevel,$email,$contact,$zone,$username)
 	{
 		$data  = array(
 			'name' => $name,
-			'username' => $name,
+			'username' => $username,
 			'password' =>md5($password),
 			'accesslevel' => $accesslevel,
 			'email' => $email,
@@ -89,7 +89,7 @@ class User_model extends CI_Model
         $maxpage=$this->config->item("per_page");
         $startfrom=$this->uri->segment(3,0);
         
-		$query="SELECT DISTINCT `users`.`id` as `id`,`users`.`name` as `name`,`accesslevel`.`name` as `accesslevel`	,`users`.`mobile`,`users`.`email` as `email`,`users`.`accesslevel` as `access`,`zone`.`name` as `zonename`
+		$query="SELECT DISTINCT `users`.`id` as `id`,`users`.`name` as `name`,`users`.`username` as `username`,`accesslevel`.`name` as `accesslevel`	,`users`.`mobile`,`users`.`email` as `email`,`users`.`accesslevel` as `access`,`zone`.`name` as `zonename`
 		FROM `users`
 	   INNER JOIN `accesslevel` ON `users`.`accesslevel`=`accesslevel`.`id`
 	   INNER JOIN `zone` ON `users`.`zone`=`zone`.`id`  ";
@@ -120,7 +120,7 @@ class User_model extends CI_Model
 	}
 	function getuserlastlogin()
 	{
-		$query="SELECT IFNULL(`tab1`.`totaldailyquantity`,0) as `totaldailyquantity`,IFNULL(`tab1`.`totaldailyamount`,0) as `totaldailyamount`,IFNULL(`tab2`.`totalmonthlyquantity`,0) as `totalmonthlyquantity`, IFNULL(`tab2`.`totalmonthlyamount`,0) as `totalmonthlyamount`, `tab3`.`username`,`tab3`.`lastlogin`
+		$query="SELECT IFNULL(`tab1`.`totaldailyquantity`,0) as `totaldailyquantity`,IFNULL(`tab1`.`totaldailyamount`,0) as `totaldailyamount`,IFNULL(`tab2`.`totalmonthlyquantity`,0) as `totalmonthlyquantity`, IFNULL(`tab2`.`totalmonthlyamount`,0) as `totalmonthlyamount`, `tab3`.`username`,DATE_FORMAT(`tab3`.`lastlogin`,'%b %d %Y %H:%i') AS `lastlogin`
 FROM
 (
 SELECT `users`.`name` as `username`,`users`.`lastlogin`,`id` FROM `users` WHERE `accesslevel`='2'
@@ -161,12 +161,12 @@ GROUP BY `tab3`.`id`";
 		return $query;
 	}
 	
-	public function edit($id,$name,$password,$accesslevel,$email,$contact,$zone)
+	public function edit($id,$name,$password,$accesslevel,$email,$contact,$zone,$username)
 	{
 		$data  = array(
             
 			'name' => $name,
-			'username' => $name,
+			'username' => $username,
 			'accesslevel' => $accesslevel,
 			'mobile' => $contact,
             'zone'=>$zone

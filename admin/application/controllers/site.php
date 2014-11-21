@@ -119,6 +119,7 @@ class Site extends CI_Controller
 		$this->checkaccess($access);
        
 		$this->form_validation->set_rules('firstname','First Name','trim|required|max_length[30]');
+		$this->form_validation->set_rules('username','UserName','trim|required|max_length[30]');
 		$this->form_validation->set_rules('password','Password','trim|required|min_length[6]|max_length[30]');
 		$this->form_validation->set_rules('confirmpassword','Confirm Password','trim|required|matches[password]');
 		$this->form_validation->set_rules('accessslevel','Accessslevel','trim');
@@ -141,12 +142,13 @@ class Site extends CI_Controller
 			$password=$this->input->post('password');
 			
 			$accesslevel=$this->input->post('accesslevel');
+			$username=$this->input->post('username');
 			$email=$this->input->post('email');
 			$contact=$this->input->post('contact');
 			//$facebookuserid=$this->input->post('facebookuserid');
 			$name=$this->input->post('firstname');
 			$zone=$this->input->post('zone');
-			if($this->user_model->create($name,$password,$accesslevel,$email,$contact,$zone)==0)
+			if($this->user_model->create($name,$password,$accesslevel,$email,$contact,$zone,$username)==0)
 			$data['alerterror']="New user could not be created.";
 			else
 			$data['alertsuccess']="User created Successfully.";
@@ -215,6 +217,7 @@ class Site extends CI_Controller
 		$this->form_validation->set_rules('confirmpassword','Confirm Password','trim|matches[password]');
 		
 		$this->form_validation->set_rules('firstname','First Name','trim|max_length[30]');
+		$this->form_validation->set_rules('username','UserName','trim|max_length[30]');
 		$this->form_validation->set_rules('accessslevel','Accessslevel','trim');
 		
 		$this->form_validation->set_rules('zone','zone','trim|max_length[20]');
@@ -234,6 +237,7 @@ class Site extends CI_Controller
 			$id=$this->input->post('id');
            
             $zone=$this->input->post('zone');
+            $username=$this->input->post('username');
 			$password=$this->input->post('password');
 			
 			$accesslevel=$this->input->post('accesslevel');
@@ -242,7 +246,7 @@ class Site extends CI_Controller
 			//$facebookuserid=$this->input->post('facebookuserid');
 			$name=$this->input->post('firstname');
 			
-			if($this->user_model->edit($id,$name,$password,$accesslevel,$email,$contact,$zone)==0)
+			if($this->user_model->edit($id,$name,$password,$accesslevel,$email,$contact,$zone,$username)==0)
 			$data['alerterror']="User Editing was unsuccesful";
 			else
 			$data['alertsuccess']="User edited Successfully.";

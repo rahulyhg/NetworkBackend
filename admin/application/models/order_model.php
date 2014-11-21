@@ -8,7 +8,7 @@ class Order_model extends CI_Model
 	{
         $maxpage=$this->config->item("per_page");
         $startfrom=$this->uri->segment(3,0);
-		$query="SELECT `orders`.`id`, `orders`.`retail`, `orders`.`sales`, DATE_FORMAT(`orders`.`timestamp`,'%b %d %Y %H:%i') as `timestamp`, `orders`.`amount`, `orders`.`signature`, `orders`.`salesid`, `orders`.`quantity`,`retailer`.`name` AS `retailername` FROM `orders` LEFT OUTER JOIN `retailer` ON `retailer`.`id`=`orders`.`retail` ORDER BY `orders`.`timestamp` DESC LIMIT $startfrom,$maxpage";
+		$query="SELECT `orders`.`id`, `orders`.`retail`, `orders`.`sales`, DATE_FORMAT(`orders`.`timestamp`,'%b %d %Y %H:%i') as `timestamp`, `orders`.`amount`, `orders`.`signature`, `orders`.`salesid`, `orders`.`quantity`,`retailer`.`name` AS `retailername`, `orders`.`remark` FROM `orders` LEFT OUTER JOIN `retailer` ON `retailer`.`id`=`orders`.`retail` ORDER BY `orders`.`timestamp` DESC LIMIT $startfrom,$maxpage";
         $result=new stdClass();
         $result->query=$this->db->query($query)->result();
         $result->totalcount=$this->db->query("SELECT count(*) as `totalcount` FROM `orders` LEFT OUTER JOIN `retailer` ON `retailer`.`id`=`orders`.`retail`")->row();
@@ -21,7 +21,8 @@ class Order_model extends CI_Model
 	}
 	function vieworderproduct($id)
 	{
-		$query="SELECT `orderproduct`.`id`, `orderproduct`.`order`, `orderproduct`.`product`, `orderproduct`.`quantity`, `orderproduct`.`amount`,`orderproduct`. `scheme_id`, `orderproduct`.`status`, `orderproduct`.`category`,`product`.`name` AS `productname`,`scheme`.`name` AS `schemename`,`catelog`.`name`AS `categoryname` FROM `orderproduct` 
+		$query="SELECT `orderproduct`.`id`, `orderproduct`.`order`, `orderproduct`.`product`, `orderproduct`.`quantity`, `orderproduct`.`amount`,`orderproduct`. `scheme_id`, `orderproduct`.`status`, `orderproduct`.`category`,`product`.`name` AS `productname`,`scheme`.`name` AS `schemename`,`catelog`.`name`AS `categoryname` 
+FROM `orderproduct` 
 LEFT OUTER JOIN `product` ON `product`.`id`=`orderproduct`.`product`
 LEFT OUTER JOIN `scheme` ON `scheme`.`id`=`orderproduct`.`scheme_id`
 LEFT OUTER JOIN `catelog` ON `catelog`.`id`=`orderproduct`.`category` WHERE `orderproduct`.`order`='$id'";
@@ -355,7 +356,7 @@ WHERE `brandcategory`.`categoryid`='$id'")->result();
     function exportorder()
 	{
 		$this->load->dbutil();
-		$query=$this->db->query("SELECT `orders`.`id` AS `orderID`, `orders`.`timestamp`,`orderproduct`.`id`,`product`.`name` AS `product`,`catelog`.`name`AS `categoryname`, `orderproduct`.`order`, `orderproduct`.`quantity`, `orderproduct`.`amount`,`orderproduct`. `scheme_id`, `orderproduct`.`status`,`scheme`.`name` AS `schemename`,`orders`.`sales` AS `Sales_Person`,`retailer`.`name` AS `retailer` FROM `orderproduct` 
+		$query=$this->db->query("SELECT `orders`.`id` AS `orderID`, `orders`.`timestamp`,`orderproduct`.`id`,`product`.`name` AS `product`,`product`.`productcode` as `productcode`,`catelog`.`name`AS `categoryname`, `orderproduct`.`order`, `orderproduct`.`quantity`, `orderproduct`.`amount`,`orderproduct`. `scheme_id`, `orderproduct`.`status`,`scheme`.`name` AS `schemename`,`orders`.`sales` AS `Sales_Person`,`retailer`.`name` AS `retailer` FROM `orderproduct` 
 LEFT OUTER JOIN `product` ON `product`.`id`=`orderproduct`.`product`
 LEFT OUTER JOIN `scheme` ON `scheme`.`id`=`orderproduct`.`scheme_id`
 LEFT OUTER JOIN `catelog` ON `catelog`.`id`=`orderproduct`.`category`

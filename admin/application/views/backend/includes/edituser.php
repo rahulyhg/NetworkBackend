@@ -17,6 +17,12 @@
 					<input type="text" id="normal-field" class="form-control" name="firstname" value="<?php echo set_value('firstname',$before->name);?>">
 				  </div>
 				</div>
+				<div class="form-group">
+				  <label class="col-sm-2 control-label" for="normal-field">User Name</label>
+				  <div class="col-sm-4">
+					<input type="text" id="normal-field" class="form-control" name="username" value="<?php echo set_value('username',$before->username);?>">
+				  </div>
+				</div>
 				
 				<div class="form-group">
 				  <label class="col-sm-2 control-label" for="description-field">Password</label>

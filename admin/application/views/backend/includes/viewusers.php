@@ -16,6 +16,7 @@
 				<tr>
 					<th>Id</th>
 					<th>Name</th>
+					<th>User Name</th>
 					<th>Access Level</th>
 					<td>Email</td>
 					<td>Mobile</td>
@@ -28,6 +29,7 @@
 					<tr>
 						<td><?php echo $row->id;?></td>
 						<td><?php echo $row->name;?></td>
+						<td><?php echo $row->username;?></td>
 						<td><?php echo $row->accesslevel;?></td>
 						<td><?php echo $row->email;?></td>
 						<td><?php echo $row->mobile;?></td>
