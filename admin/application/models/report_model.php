@@ -272,9 +272,9 @@ class Report_model extends CI_Model
 		file_put_contents("gs://toykraftdealer/dailysalesdayreport_$timestamp.csv", $content);
         
         $this->load->library('email');
-        $this->email->from('mail@wohlig.com', 'Toykraft');
+        $this->email->from('noreply@toy-kraft.com', 'Toykraft');
         $this->email->to($zoneemail);
-        $this->email->subject('Toykraft');
+        $this->email->subject('Toykraft: Daily Sales Day Report');
         $base="http://admin.toy-kraft.com/servepublic?name=dailysalesdayreport_$timestamp.csv";
         $msg="Daily Reports of Toykraft-<a href='$base'>Click To Download</a>";
         $this->email->message($msg);
@@ -311,9 +311,9 @@ class Report_model extends CI_Model
         
         file_put_contents("gs://toykraftdealer/dailyordersummaryreport_$timestamp.csv", $content);
         $this->load->library('email');
-        $this->email->from('mail@wohlig.com', 'Toykraft');
+        $this->email->from('noreply@toy-kraft.com', 'Toykraft');
         $this->email->to($distributoremail);
-        $this->email->subject('Toykraft');
+        $this->email->subject('Toykraft: Daily Order Summery Report');
         $base=base_url("csvgenerated/dailyordersummaryreport_$timestamp.csv");
         $base="http://admin.toy-kraft.com/servepublic?name=dailyordersummaryreport_$timestamp.csv";
         $msg="Daily Reports of Toykraft-<a href='$base'>Click To Download</a>";
@@ -357,9 +357,9 @@ class Report_model extends CI_Model
         
         file_put_contents("gs://toykraftdealer/dailyordersummaryreport_$timestamp.csv", $content);
         $this->load->library('email');
-        $this->email->from('mail@wohlig.com', 'Toykraft');
+        $this->email->from('noreply@toy-kraft.com', 'Toykraft');
         $this->email->to($zoneemail);
-        $this->email->subject('Toykraft');
+        $this->email->subject('Toykraft: Weekly Distributor Sales Report');
         $base="http://admin.toy-kraft.com/servepublic?name=weeklydistributorsalesreport_$timestamp.csv";
         $msg="Weekly Distributor Reports of Toykraft-<a href='$base'>Click To Download</a>";
         $this->email->message($msg);
