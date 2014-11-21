@@ -38,7 +38,7 @@ class Orders extends CI_Controller {
 		$email=$retailerdistributor->email;
 		$distributor=$retailerdistributor->disemail;
 		//$emaildata="<table><tr> <th> Sr.no. </th> <th> Product Code </th> <th> Name </th> <th> Quantity </th> <th> MRP </th> <th> Amount </th> <th> Scheme </th> </tr>";
-		$emaildata="<p>Dear Distributor / Retailer,<br>Our sales executive ".$user." has booked an order with details as below:</p><p><strong>Order id: </strong>".$id." </p> <p><strong>Order placed on: </strong>".$datetime." </p> <p><strong>".$retailerdistributor->name."</strong></p> <p><strong>".$retailerdistributor->address."</strong></p> <table bgcolor='#B22222' style='width:100%; color:white;'><thead style='text-align:center'> <tr> <th> Sr.no. </th> <th> Product Code </th> <th> Name </th> <th> Quantity </th> <th> MRP </th> <th> Amount </th> <th> Scheme </th> </tr></thead><tbody style='text-align:center;'>";
+		$emaildata="<p>Dear Distributor / Retailer,<br>Our sales executive ".$user." has booked an order with details as below:</p><p><strong>Order id: </strong>".$id." </p> <p><strong>Order placed on: </strong>".$datetime." </p> <p><strong>".$retailerdistributor->name."</strong></p> <p><strong>".$retailerdistributor->address."</strong></p> <table style='width:100%; '><thead style='text-align:center'> <tr> <th> Sr.no. </th> <th> Product Code </th> <th> Name </th> <th> Quantity </th> <th> MRP </th> <th> Amount </th> <th> Scheme </th> </tr></thead><tbody style='text-align:center;'>";
 		$index=1;
 		foreach($cart as $cartitem)
 		{
@@ -70,10 +70,10 @@ class Orders extends CI_Controller {
 		$emaildata.="<strong>Remark : </strong>".$remark;
 		
             $this->load->library('email');
-	        $this->email->from('toycraft@toycraft.co.uk', 'toycraft');
+	        $this->email->from('noreply@toy-kraft.com', 'Toy Kraft');
 	        $this->email->to($email);
                 $this->email->cc($distributor);
-	        $this->email->subject('Order');
+	        $this->email->subject('ToyKraft Order No. '.$id);
 	        $this->email->message($emaildata);
 	        $this->email->send();
 	        $data['json']=$this->email->print_debugger();
