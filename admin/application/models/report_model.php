@@ -12,7 +12,8 @@ class Report_model extends CI_Model
 			 "2" => "Distributor Wise Top 10 Retailers",
 			 "3" => "Zero Distributor Retailors",
 			 "4" => "New Products Placement Report",
-			 "5" => "Scheme Products Placement Report"
+			 "5" => "Scheme Products Placement Report",
+			 "6" => "Monthly Order Report"
 			);
 		return $reporttype;
 	}
@@ -235,6 +236,31 @@ class Report_model extends CI_Model
 		
 		file_put_contents("gs://toykraftdealer/monthlyschemeproductplacement_$timestamp.csv", $content);
 		redirect("http://admin.toy-kraft.com/servepublic?name=monthlyschemeproductplacement_$timestamp.csv", 'refresh');
+		
+	}
+    function exportmonthlyorderreport($reporttype,$fromdate,$todate)
+	{
+		$this->load->dbutil();
+		$query=$this->db->query("SELECT `orders`.`id` AS `orderID`, `orders`.`timestamp`,`orderproduct`.`id`,`product`.`name` AS `product`,`catelog`.`name`AS `categoryname`, `orderproduct`.`order`, `orderproduct`.`quantity`, `orderproduct`.`amount`,`orderproduct`. `scheme_id`, `orderproduct`.`status`,`scheme`.`name` AS `schemename`,`orders`.`sales` AS `Sales_Person`,`retailer`.`name` AS `retailer`, `area`.`name` AS `areaname`,`city`.`name` AS `cityname`,`state`.`name` AS `statename`,`zone`.`name` AS `zonename`
+FROM `orderproduct` 
+LEFT OUTER JOIN `product` ON `product`.`id`=`orderproduct`.`product`
+LEFT OUTER JOIN `scheme` ON `scheme`.`id`=`orderproduct`.`scheme_id`
+LEFT OUTER JOIN `catelog` ON `catelog`.`id`=`orderproduct`.`category`
+LEFT OUTER JOIN `orders` ON `orders`.`id`=`orderproduct`.`order`
+LEFT OUTER JOIN `retailer` ON `retailer`.`id`=`orders`.`retail`
+LEFT OUTER JOIN `area` ON `area`.`id`= `retailer`.`area`
+LEFT OUTER JOIN `city` ON `area`.`city`= `city`.`id`
+LEFT OUTER JOIN `state` ON `state`.`id`= `city`.`state`
+LEFT OUTER JOIN `zone` ON `zone`.`id`= `state`.`zone`
+WHERE `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' ");
+        $timestamp=new DateTime();
+        $timestamp=$timestamp->format('Y-m-d_H.i.s');
+        $content= $this->dbutil->csv_from_result($query);
+        //$data = 'Some file data';
+        //echo $timestamp;
+		
+		file_put_contents("gs://toykraftdealer/monthlyorderreport_$timestamp.csv", $content);
+		redirect("http://admin.toy-kraft.com/servepublic?name=monthlyorderreport_$timestamp.csv", 'refresh');
 		
 	}
     //send mail

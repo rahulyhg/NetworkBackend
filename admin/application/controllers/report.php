@@ -78,9 +78,12 @@ class Report extends CI_Controller
        {
 		  $this->report_model->exportmonthlyschemeproductplacement($reporttype,$fromdate,$todate);
        }
+       else if($reporttype==6)
+       {
+		  $this->report_model->exportmonthlyorderreport($reporttype,$fromdate,$todate);
+       }
        else
        {
-//		  $this->report_model->exportmonthlyitemwisesalesreport($reporttype,$fromdate,$todate);
            echo "Wrong Choise";
        }
 	}

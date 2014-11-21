@@ -123,7 +123,7 @@ class User_model extends CI_Model
 		$query="SELECT IFNULL(`tab1`.`totaldailyquantity`,0) as `totaldailyquantity`,IFNULL(`tab1`.`totaldailyamount`,0) as `totaldailyamount`,IFNULL(`tab2`.`totalmonthlyquantity`,0) as `totalmonthlyquantity`, IFNULL(`tab2`.`totalmonthlyamount`,0) as `totalmonthlyamount`, `tab3`.`username`,`tab3`.`lastlogin`
 FROM
 (
-SELECT `users`.`name` as `username`,`users`.`lastlogin`,`id` FROM `users`
+SELECT `users`.`name` as `username`,`users`.`lastlogin`,`id` FROM `users` WHERE `accesslevel`='2'
 ) as `tab3`
 LEFT OUTER JOIN 
 (
