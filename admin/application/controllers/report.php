@@ -107,9 +107,7 @@ class Report extends CI_Controller
 //        $date=$this->input->get_post('date');
 		$this->report_model->exportweeklydistributorsalesreporttozone();
 	}
-    
-
-    
+   
     
 }
 ?>

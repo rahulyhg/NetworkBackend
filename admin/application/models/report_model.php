@@ -281,7 +281,7 @@ WHERE `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' "
         INNER JOIN `area` ON `area`.`id`=`retailer`.`area` 
         INNER JOIN `city` ON `city`.`id`=`area`.`city` 
         INNER JOIN `state` ON `state`.`id`=`city`.`state` 
-        WHERE `state`.`zone`= '$zone' AND `orders`.`timestamp` BETWEEN '$date 00:00:00' AND '$date 23:59:59' 
+        WHERE `state`.`zone`= '$zone' AND `orders`.`timestamp` BETWEEN CONCAT(DATE(NOW() - INTERVAL 1 DAY),' 00:00:00') AND CONCAT(DATE(NOW() - INTERVAL 1 DAY),' 23:59:59')  
         GROUP BY `users`.`id`,`area`.`id`");
             
         $timestamp=new DateTime();
@@ -321,7 +321,7 @@ WHERE `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' "
         INNER JOIN `retailer` ON `retailer`.`id`=`orders`.`retail` 
         INNER JOIN `users` ON `users`.`id`=`orders`.`salesid` 
         INNER JOIN `area` ON `area`.`id`=`retailer`.`area`  
-        WHERE `area`.`distributor`='$distributor' AND `orders`.`timestamp` BETWEEN '$date 00:00:00' AND '$date 23:59:59' 
+        WHERE `area`.`distributor`='$distributor' AND `orders`.`timestamp` BETWEEN CONCAT(DATE(NOW() - INTERVAL 1 DAY),' 00:00:00') AND CONCAT(DATE(NOW() - INTERVAL 1 DAY),' 23:59:59') 
         GROUP BY `retailer`.`id`,`area`.`id`");
             
         $timestamp=new DateTime();
@@ -366,7 +366,7 @@ WHERE `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' "
         INNER JOIN `distributor` ON `distributor`.`id`=`area`.`distributor` 
         INNER JOIN `city` ON `city`.`id`=`area`.`city` 
         INNER JOIN `state` ON `state`.`id`=`city`.`state` 
-        WHERE `state`.`zone`='$zone'  AND WEEK(`orders`.`timestamp`)=WEEK('$date 00:00:00') AND YEAR('$date 00:00:00')=YEAR(`orders`.`timestamp`) 
+        WHERE `state`.`zone`='$zone'  AND WEEK(`orders`.`timestamp`)=WEEK(CONCAT(DATE(NOW() - INTERVAL 1 DAY),' 00:00:00')) AND YEAR(CONCAT(DATE(NOW() - INTERVAL 1 DAY),' 00:00:00'))=YEAR(`orders`.`timestamp`) 
         GROUP BY `distributor`.`id`,`area`.`id`");
             
         $timestamp=new DateTime();
