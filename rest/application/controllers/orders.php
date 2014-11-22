@@ -39,7 +39,7 @@ class Orders extends CI_Controller {
             $cart=$this->db->query("SELECT `orderproduct`.`id`,`orderproduct`.`order`,`orderproduct`.`quantity`,`orderproduct`.`amount`,`orderproduct`.`category`,`orderproduct`.`productcode`,`product`.`name`,`product`.`mrp`,`orderproduct`.`scheme_id`,`scheme`.`name` AS `scheme` 
             FROM `orderproduct` 
             INNER JOIN `product` ON `orderproduct`.`product`=`product`.`id` 
-            INNER JOIN `scheme` ON `orderproduct`.`scheme_id`=`scheme`.`id` 
+            LEFT OUTER JOIN `scheme` ON `orderproduct`.`scheme_id`=`scheme`.`id` 
             WHERE `orderproduct`.`order`='$id'")->result();
 		
         	$retailerdistributor=$this->db->query("SELECT `retailer`.`id`,`retailer`.`name`,`retailer`.`address`,`retailer`.`area`,`retailer`.`email`,`retailer`.`number`,`area`.`id`,`area`.`distributor`,`distributor`.`id`,`distributor`.`contactno`,`distributor`.`email` as `disemail` FROM `retailer` INNER JOIN `area` ON `retailer`.`area`=`area`.`id` INNER JOIN `distributor` ON `area`.`distributor`=`distributor`.`id` WHERE `retailer`.`id`='$retail'")->row();

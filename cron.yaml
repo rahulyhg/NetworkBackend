@@ -1,0 +1,13 @@
+cron:
+- description: Daily Report to All Zone
+  url: /admin/index.php/report/dailysalesdayreporttozone
+  schedule: every day 03:00
+  timezone: Asia/Calcutta
+- description: Daily Report to All Distributor
+  url: /admin/index.php/report/dailyordersummaryreportdistributor
+  schedule: every day 03:00
+  timezone: Asia/Calcutta
+- description: Weekly Distributor Sales Report to All Zone
+  url: /admin/index.php/report/weeklydistributorsalesreporttozone
+  schedule: every monday 03:00
+  timezone: Asia/Calcutta

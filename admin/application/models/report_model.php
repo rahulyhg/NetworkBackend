@@ -195,16 +195,12 @@ class Report_model extends CI_Model
     function exportmonthlynewproductplacementreport($reporttype,$fromdate,$todate)
 	{
 		$this->load->dbutil();
-		$query=$this->db->query("SELECT `product`.`name` as `product`,`product`.`encode` as `encode`,`product`.`productcode` as `productcode`,`product`.`mrp` as `mrp`,`distributor`.`name` as `distributor`,`city`.`name` as `city`,`area`.`name` as `area` ,IFNULL(SUM(`orderproduct`.`quantity`),0) as `quantity` 
-        FROM `product` 
-        LEFT OUTER JOIN `orders` ON `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' 
-        LEFT OUTER JOIN `orderproduct` ON `orders`.`id`=`orderproduct`.`order` AND `orderproduct`.`product`=`product`.`id` 
-        LEFT OUTER JOIN `retailer` ON `retailer`.`id`=`orders`.`retail` 
-        LEFT OUTER JOIN `area` ON `area`.`id`=`retailer`.`area` 
-        INNER JOIN `distributor` ON `distributor`.`id`=`area`.`distributor` 
-        LEFT OUTER JOIN `city` ON `city`.`id`=`area`.`city` 
-        WHERE  NOT ISNULL(`product`.`scheme`) GROUP BY `product`.`id`,`distributor`.`id` 
-        ORDER BY `product`.`id`,`distributor`.`id`");
+		$query=$this->db->query("SELECT `product`.`id` as `id`,`product`.`encode` as `code`,`product`.`productcode` as `productcode`,`product`.`name` as `name`,`product`.`mrp` as `mrp`,SUM(`orderproduct`.`quantity`) as `quantity`, SUM(`orderproduct`.`amount`) as `amount` 
+        FROM `orderproduct` 
+        INNER JOIN `orders` ON `orders`.`id`=`orderproduct`.`order` 
+        INNER JOIN `product` ON `product`.`id`=`orderproduct`.`product` 
+        WHERE `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' AND `orderproduct`.`category`='new' 
+        GROUP BY `product`.`id`");
         $timestamp=new DateTime();
         $timestamp=$timestamp->format('Y-m-d_H.i.s');
         $content= $this->dbutil->csv_from_result($query);
@@ -219,15 +215,12 @@ class Report_model extends CI_Model
     function exportmonthlyschemeproductplacement($reporttype,$fromdate,$todate)
 	{
 		$this->load->dbutil();
-		$query=$this->db->query("SELECT `product`.`name` as `product`,`product`.`encode` as `encode`,`product`.`productcode` as `productcode`,`product`.`mrp` as `mrp`,`distributor`.`name` as `distributor`,`city`.`name` as `city`,`area`.`name` as `area` ,IFNULL(SUM(`orderproduct`.`quantity`),0) as `quantity` 
-        FROM `product` 
-        LEFT OUTER JOIN `orders` ON `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' 
-        LEFT OUTER JOIN `orderproduct` ON `orders`.`id`=`orderproduct`.`order` AND `orderproduct`.`product`=`product`.`id` 
-        LEFT OUTER JOIN `retailer` ON `retailer`.`id`=`orders`.`retail` 
-        LEFT OUTER JOIN `area` ON `area`.`id`=`retailer`.`area` 
-        INNER JOIN `distributor` ON `distributor`.`id`=`area`.`distributor` 
-        LEFT OUTER JOIN `city` ON `city`.`id`=`area`.`city` WHERE  `product`.`scheme`='1' GROUP BY `product`.`id`,`distributor`.`id` 
-        ORDER BY `product`.`id`,`distributor`.`id`");
+		$query=$this->db->query("SELECT `product`.`id` as `id`,`product`.`encode` as `code`,`product`.`productcode` as `productcode`,`product`.`name` as `name`,`product`.`mrp` as `mrp`,SUM(`orderproduct`.`quantity`) as `quantity`, SUM(`orderproduct`.`amount`) as `amount` 
+        FROM `orderproduct` 
+        INNER JOIN `orders` ON `orders`.`id`=`orderproduct`.`order` 
+        INNER JOIN `product` ON `product`.`id`=`orderproduct`.`product` 
+        WHERE `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' AND `orderproduct`.`category`='scheme'
+        GROUP BY `product`.`id`");
         $timestamp=new DateTime();
         $timestamp=$timestamp->format('Y-m-d_H.i.s');
         $content= $this->dbutil->csv_from_result($query);
