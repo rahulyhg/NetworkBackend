@@ -4610,6 +4610,86 @@ class Site extends CI_Controller
 		$this->load->view('template',$data);
 	}
     
+    
+    function vieworderjson() 
+    {
+        $access = array("1");
+		$this->checkaccess($access);
+        
+//        SELECT `orders`.`id`, `orders`.`retail`, `orders`.`sales`, DATE_FORMAT(`orders`.`timestamp`,'%b %d %Y %H:%i') as `timestamp`, `orders`.`amount`, `orders`.`signature`, `orders`.`salesid`, `orders`.`quantity`,`retailer`.`name` AS `retailername`, `orders`.`remark`
+            
+        $elements=array();
+        $elements[0]=new stdClass();
+        $elements[0]->field="`orders`.`id`";
+        $elements[0]->sort="1";
+        $elements[0]->header="ID";
+        $elements[0]->alias="id";
+        
+        
+        $elements[1]->field="`orders`.`retail`";
+        $elements[1]->sort="1";
+        $elements[1]->header="Retail";
+        $elements[1]->alias="retail";
+        
+        $elements[2]->field="`orders`.`sales`";
+        $elements[2]->sort="1";
+        $elements[2]->header="Sales";
+        $elements[2]->alias="sales";
+        
+        $elements[3]->field="DATE_FORMAT(`orders`.`timestamp`,'%b %d %Y %H:%i')";
+        $elements[3]->sort="1";
+        $elements[3]->header="Timestamp";
+        $elements[3]->alias="timestamp";
+        
+        $elements[4]->field="`orders`.`amount`";
+        $elements[4]->sort="1";
+        $elements[4]->header="Amount";
+        $elements[4]->alias="amount";
+        
+        $elements[5]->field="`orders`.`signature`";
+        $elements[5]->sort="1";
+        $elements[5]->header="signature";
+        $elements[5]->alias="signature";
+        
+        $elements[6]->field="`orders`.`salesid`";
+        $elements[6]->sort="1";
+        $elements[6]->header="Sales ID";
+        $elements[6]->alias="salesid";
+        
+        $elements[7]->field="`orders`.`quantity`";
+        $elements[7]->sort="1";
+        $elements[7]->header="Quantity";
+        $elements[7]->alias="quantity";
+        
+        $elements[8]->field="`retailer`.`name`";
+        $elements[8]->sort="1";
+        $elements[8]->header="Retailer";
+        $elements[8]->alias="retailername";
+        
+        $elements[9]->field="`orders`.`remark`";
+        $elements[9]->sort="0";
+        $elements[9]->header="Remarks";
+        $elements[9]->alias="remark";
+        
+        $search=$this->input->get_post("search");
+        $pageno=$this->input->get_post("pageno");
+        $orderby=$this->input->get_post("orderby");
+        $orderorder=$this->input->get_post("orderorder");
+        
+        if($orderby=="")
+        {
+            $orderby="id";
+            $orderorder="DESC";
+        }
+       
+        $data["message"]=$this->chintantable->query($pageno,20,$orderby,$orderorder,$search,$elements,"FROM `orders` LEFT OUTER JOIN `retailer` ON `retailer`.`id`=`orders`.`retail`");
+        
+		$this->load->view("json",$data);
+            
+        
+    }
+    
+    
     //order
     function vieworder()
 	{
@@ -4617,14 +4697,7 @@ class Site extends CI_Controller
 		$this->checkaccess($access);
 //		$data['table']=$this->order_model->vieworder();
 		$data['page']='vieworder';
-        
-        $bothval=$this->order_model->vieworder();
-        $data['table']=$bothval->query;
-        
-        $this->load->library('pagination');
-        $config['base_url'] = site_url("site/vieworder");
-        $config['total_rows']=$bothval->totalcount;
-        $this->pagination->initialize($config); 
+        $data['base_url']=site_url("site/vieworderjson");
         
 		$data['title']='View order';
 		$this->load->view('template',$data);
@@ -4661,6 +4734,65 @@ class Site extends CI_Controller
     
     //retailer
     
+    function viewretailerjson()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+        
+//        SELECT  `retailer`.`id`, `retailer`.`area`, `retailer`.`dob`,`retailer`.`name`, `retailer`.`number`, `retailer`.`email`, `retailer`.`address`,`retailer`. `ownername`, `retailer`.`ownernumber`, `retailer`.`contactname`,`retailer`. `contactnumber`,`area`.`name` AS `areaname` FROM `retailer` LEFT OUTER JOIN `area` ON `area`.`id`=`retailer`.`area`
+            
+        
+        
+        $elements=array();
+        $elements[0]=new stdClass();
+        $elements[0]->field="`retailer`.`id`";
+        $elements[0]->sort="1";
+        $elements[0]->header="ID";
+        $elements[0]->alias="id";
+        
+        
+        $elements[1]->field="`retailer`.`name`";
+        $elements[1]->sort="1";
+        $elements[1]->header="Name";
+        $elements[1]->alias="name";
+        
+        $elements[2]->field="`retailer`.`number`";
+        $elements[2]->sort="1";
+        $elements[2]->header="Number";
+        $elements[2]->alias="number";
+        
+        $elements[3]->field="`retailer`.`email`";
+        $elements[3]->sort="1";
+        $elements[3]->header="Email";
+        $elements[3]->alias="email";
+        
+        $elements[4]->field="`retailer`.`address`";
+        $elements[4]->sort="1";
+        $elements[4]->header="Address";
+        $elements[4]->alias="address";
+        
+        $elements[5]->field="`area`.`name`";
+        $elements[5]->sort="1";
+        $elements[5]->header="Area";
+        $elements[5]->alias="areaname";
+       
+        
+        $search=$this->input->get_post("search");
+        $pageno=$this->input->get_post("pageno");
+        $orderby=$this->input->get_post("orderby");
+        $orderorder=$this->input->get_post("orderorder");
+        
+        if($orderby=="")
+        {
+            $orderby="id";
+            $orderorder="ASC";
+        }
+       
+        $data["message"]=$this->chintantable->query($pageno,20,$orderby,$orderorder,$search,$elements,"FROM `retailer` LEFT OUTER JOIN `area` ON `area`.`id`=`retailer`.`area`");
+        
+		$this->load->view("json",$data);
+	} 
+    
     function viewretailer()
 	{
 		$access = array("1");
@@ -4668,13 +4800,9 @@ class Site extends CI_Controller
 //		$data['table']=$this->retailer_model->viewretailer();
 		$data['page']='viewretailer';
         
-        $bothval=$this->retailer_model->viewretailer();
-        $data['table']=$bothval->query;
         
-        $this->load->library('pagination');
-        $config['base_url'] = site_url("site/viewretailer");
-        $config['total_rows']=$bothval->totalcount;
-        $this->pagination->initialize($config); 
+        $data['base_url'] = site_url("site/viewretailerjson");
+        
         
 		$data['title']='View retailer';
 		$this->load->view('template',$data);

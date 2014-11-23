@@ -274,8 +274,8 @@ WHERE `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' "
         $date=new DateTime();
         $date=$date->format('Y-m-d_H.i.s');
             
-		$query=$this->db->query("SELECT `users`.`id` as `userid`,`users`.`name` as `salesman`,`area`.`name` as `area`,`city`.`name` as `city`,SUM(`orders`.`quantity`) as `quantity`,SUM(`orders`.`amount`) as `amount` FROM `orderproduct` 
-        INNER JOIN `orders` ON `orders`.`id`=`orderproduct`.`order` 
+		$query=$this->db->query("SELECT `users`.`id` as `userid`,`users`.`name` as `salesman`,`area`.`name` as `area`,`city`.`name` as `city`,SUM(`orders`.`quantity`) as `quantity`,SUM(`orders`.`amount`) as `amount`,`orders`.`timestamp` FROM 
+        `orders` 
         INNER JOIN `retailer` ON `retailer`.`id`=`orders`.`retail` 
         INNER JOIN `users` ON `users`.`id`=`orders`.`salesid` 
         INNER JOIN `area` ON `area`.`id`=`retailer`.`area` 
@@ -316,8 +316,7 @@ WHERE `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' "
         $date=$date->format('Y-m-d_H.i.s');
             
 		$query=$this->db->query("SELECT `area`.`name` as `area`,`retailer`.`name`,`orders`.`id`,SUM(`orders`.`quantity`) as `quantity`,SUM(`orders`.`amount`) as `amount` 
-        FROM `orderproduct` 
-        INNER JOIN `orders` ON `orders`.`id`=`orderproduct`.`order` 
+        FROM `orders`
         INNER JOIN `retailer` ON `retailer`.`id`=`orders`.`retail` 
         INNER JOIN `users` ON `users`.`id`=`orders`.`salesid` 
         INNER JOIN `area` ON `area`.`id`=`retailer`.`area`  
@@ -358,8 +357,7 @@ WHERE `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' "
         $date=$date->format('Y-m-d_H.i.s');
             
 		$query=$this->db->query("SELECT `distributor`.`name` as `distributor`,`area`.`name` as `area`,`city`.`name` as `city`,SUM(`orders`.`quantity`) as `quantity`,SUM(`orders`.`amount`) as `amount` 
-        FROM `orderproduct` 
-        INNER JOIN `orders` ON `orders`.`id`=`orderproduct`.`order` 
+        FROM `orders`
         INNER JOIN `retailer` ON `retailer`.`id`=`orders`.`retail` 
         INNER JOIN `users` ON `users`.`id`=`orders`.`salesid` 
         INNER JOIN `area` ON `area`.`id`=`retailer`.`area` 
