@@ -384,5 +384,45 @@ WHERE `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' "
         }
 	}
     
+    function exportweeklyitemwisereportdistributor()
+	{
+		$this->load->dbutil();
+        $distributoremailquery=$this->db->query("SELECT `id`,`email` FROM `distributor`")->row();
+        foreach($distributoremailquery as $row)
+        {
+        $distributor=$row->id;
+        $distributoremail=$row->email;
+        $distributoremail = explode(",", $distributoremail);
+        
+        $date=new DateTime();
+        $date=$date->format('Y-m-d_H.i.s');
+            
+		$query=$this->db->query("SELECT `product`.`id` as `id`,`product`.`productcode` as `productcode`,`product`.`name` as `name`,`product`.`mrp` as `mrp`,SUM(`orderproduct`.`quantity`) as `quantity`, SUM(`orderproduct`.`amount`) as `amount` 
+        FROM `orderproduct` 
+        LEFT OUTER JOIN `orders` ON `orders`.`id`=`orderproduct`.`order`
+        LEFT OUTER JOIN `retailer` ON `orders`.`retail`=`retailer`.`id` 
+        LEFT OUTER JOIN `area` ON `retailer`.`area`=`area`.`id` 
+        LEFT OUTER JOIN `distributor` ON `area`.`distributor`=`distributor`.`id`
+        LEFT OUTER JOIN `product` ON `product`.`id`=`orderproduct`.`product` 
+        WHERE `distributor`.`id`='$distributor' AND WEEK(`orders`.`timestamp`)=WEEK(CONCAT(DATE(NOW() - INTERVAL 1 DAY),' 00:00:00')) AND YEAR(CONCAT(DATE(NOW() - INTERVAL 1 DAY),' 00:00:00'))=YEAR(`orders`.`timestamp`)
+        GROUP BY `product`.`id`");
+            
+        $timestamp=new DateTime();
+        $timestamp=$timestamp->format('Y-m-d_H.i.s');
+            
+        $content= $this->dbutil->csv_from_result($query);
+        
+        file_put_contents("gs://toykraftdealer/weeklyItemWiseSummaryReportToDistributor_$timestamp.csv", $content);
+        $this->load->library('email');
+        $this->email->from('noreply@toy-kraft.com', 'Toykraft');
+        $this->email->to($distributoremail);
+        $this->email->subject('Toykraft: Weekly Item Wise Summery Report');
+//        $base=base_url("csvgenerated/weeklyItemWiseSummaryReportToDistributor_$timestamp.csv");
+        $base="http://admin.toy-kraft.com/servepublic?name=weeklyItemWiseSummaryReportToDistributor_$timestamp.csv";
+        $msg="Weekly Item Wise Reports of Toykraft-<a href='$base'>Click To Download</a>";
+        $this->email->message($msg);
+        $this->email->send();
+        }
+	}
 }
 ?>

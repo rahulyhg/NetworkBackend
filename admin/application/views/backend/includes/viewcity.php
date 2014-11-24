@@ -9,41 +9,37 @@
 	<div class="col-lg-12">
 		<section class="panel">
 			<header class="panel-heading">
-                city Details
+                City Details
             </header>
-			<table class="table table-striped table-hover" cellpadding="0" cellspacing="0" width="100%">
-			<thead>
-				<tr>
-					<th>Id</th>
-					<th>City Name</th>
-					<th>State Name</th>
-					<th> Actions </th>
-				</tr>
-			</thead>
-			<tbody>
-			   <?php foreach($table as $row) { ?>
-					<tr>
-						<td><?php echo $row->id;?></td>
-						<td><?php echo $row->cityname;?></td>
-						<td><?php echo $row->statename;?></td>
-						
-						<td>
-							<a href="<?php echo site_url('site/editcity?id=').$row->id;?>" class="btn btn-primary btn-xs">
-								<i class="icon-pencil"></i>
-							</a>
-							<a href="<?php echo site_url('site/deletecity?id=').$row->id; ?>" class="btn btn-danger btn-xs">
-								<i class="icon-trash "></i>
-							</a> 
-							
-						</td>
-					</tr>
-					<?php } ?>
-			</tbody>
-			</table>
+            <div class="drawchintantable">
+                <?php $this->chintantable->createsearch("City List");?>
+                <table class="table table-striped table-hover" id="" cellpadding="0" cellspacing="0" >
+                <thead>
+                    <tr>
+                        <th data-field="id">Id</th>
+                        <th data-field="areaname">City</th>
+                        <th data-field="citynane">State</th>
+                        <th data-field="action"> Actions </th>
+                    </tr>
+                </thead>
+                <tbody>
+                   
+                </tbody>
+                </table>
+                   <?php $this->chintantable->createpagination();?>
+            </div>
 		</section>
+		<script>
+            function drawtable(resultrow) {
+                return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.cityname + "</td><td>" + resultrow.statename + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editcity?id=');?>"+resultrow.id +"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' href='<?php echo site_url('site/deletecity?id='); ?>"+resultrow.id +"'><i class='icon-trash '></i></a></td><tr>";
+            }
+            generatejquery('<?php echo $base_url;?>');
+        </script>
 		
+<!--
 		  <div class="">
                     <?php echo $this->pagination->create_links();?>
                 </div>
+-->
 	</div>
 </div>

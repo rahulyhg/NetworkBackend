@@ -428,25 +428,73 @@ class Site extends CI_Controller
     
 	//category
     
-	function viewcategory()
+    
+    function viewcategory()
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-//		$data['table']=$this->category_model->viewcategory();
 		$data['page']='viewcategory';
         
         
-        $bothval=$this->category_model->viewcategory();
-        $data['table']=$bothval->query;
+        $data['base_url'] = site_url("site/viewcategoryjson");
         
-        $this->load->library('pagination');
-        $config['base_url'] = site_url("site/viewcategory");
-        $config['total_rows']=$bothval->totalcount;
-        $this->pagination->initialize($config); 
         
-		$data['title']='View category';
+		$data['title']='View Category';
 		$this->load->view('template',$data);
-	}
+	} 
+    
+    function viewcategoryjson()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+        
+//        SELECT `catelog`.`id`,`catelog`.`name`,`tab2`.`name` as `parent`,`catelog`.`order` FROM `catelog` LEFT JOIN `catelog` as `tab2` ON `tab2`.`id`=`catelog`.`parent`
+            
+        
+        
+        $elements=array();
+        $elements[0]=new stdClass();
+        $elements[0]->field="`catelog`.`id`";
+        $elements[0]->sort="1";
+        $elements[0]->header="ID";
+        $elements[0]->alias="id";
+        
+        
+        $elements[1]->field="`catelog`.`name`";
+        $elements[1]->sort="1";
+        $elements[1]->header="Category";
+        $elements[1]->alias="categoryname";
+        
+        $elements[2]->field="`tab2`.`name`";
+        $elements[2]->sort="1";
+        $elements[2]->header="Parent";
+        $elements[2]->alias="parent";
+        
+        $elements[3]->field="`catelog`.`order`";
+        $elements[3]->sort="1";
+        $elements[3]->header="Order";
+        $elements[3]->alias="order";
+        
+        $search=$this->input->get_post("search");
+        $pageno=$this->input->get_post("pageno");
+        $orderby=$this->input->get_post("orderby");
+        $orderorder=$this->input->get_post("orderorder");
+        $maxrow=$this->input->get_post("maxrow");
+        if($maxrow=="")
+        {
+            $maxrow=20;
+        }
+        
+        if($orderby=="")
+        {
+            $orderby="id";
+            $orderorder="ASC";
+        }
+       
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `catelog` LEFT JOIN `catelog` as `tab2` ON `tab2`.`id`=`catelog`.`parent`");
+        
+		$this->load->view("json",$data);
+	} 
 	function viewsubcategory()
 	{
 		$access = array("1");
@@ -1382,24 +1430,89 @@ class Site extends CI_Controller
     
 	//City
     
+//    function viewcity()
+//	{
+//		$access = array("1");
+//		$this->checkaccess($access);
+////		$data['table']=$this->city_model->viewcity();
+//		$data['page']='viewcity';
+//        
+//        $bothval=$this->city_model->viewcity();
+//        $data['table']=$bothval->query;
+//        
+//        $this->load->library('pagination');
+//        $config['base_url'] = site_url("site/viewcity");
+//        $config['total_rows']=$bothval->totalcount;
+//        $this->pagination->initialize($config); 
+//        
+//		$data['title']='View City';
+//		$this->load->view('template',$data);
+//	} 
+    
     function viewcity()
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-//		$data['table']=$this->city_model->viewcity();
 		$data['page']='viewcity';
         
-        $bothval=$this->city_model->viewcity();
-        $data['table']=$bothval->query;
         
-        $this->load->library('pagination');
-        $config['base_url'] = site_url("site/viewcity");
-        $config['total_rows']=$bothval->totalcount;
-        $this->pagination->initialize($config); 
+        $data['base_url'] = site_url("site/viewcityjson");
+        
         
 		$data['title']='View City';
 		$this->load->view('template',$data);
 	} 
+    
+    function viewcityjson()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+        
+//        SELECT  `retailer`.`id`, `retailer`.`area`, `retailer`.`dob`,`retailer`.`name`, `retailer`.`number`, `retailer`.`email`, `retailer`.`address`,`retailer`. `ownername`, `retailer`.`ownernumber`, `retailer`.`contactname`,`retailer`. `contactnumber`,`area`.`name` AS `areaname` FROM `retailer` LEFT OUTER JOIN `area` ON `area`.`id`=`retailer`.`area`
+        
+//        SELECT `city`.`id`,`city`.`name` AS `cityname`,`state`.`name` AS `statename` FROM `city` LEFT OUTER JOIN `state` ON `state`.`id`=`city`.`state`
+            
+        
+        
+        $elements=array();
+        $elements[0]=new stdClass();
+        $elements[0]->field="`city`.`id`";
+        $elements[0]->sort="1";
+        $elements[0]->header="ID";
+        $elements[0]->alias="id";
+        
+        
+        $elements[1]->field="`city`.`name`";
+        $elements[1]->sort="1";
+        $elements[1]->header="City Name";
+        $elements[1]->alias="cityname";
+        
+        $elements[2]->field="`state`.`name`";
+        $elements[2]->sort="1";
+        $elements[2]->header="State";
+        $elements[2]->alias="statename";
+        
+        $search=$this->input->get_post("search");
+        $pageno=$this->input->get_post("pageno");
+        $orderby=$this->input->get_post("orderby");
+        $orderorder=$this->input->get_post("orderorder");
+        $maxrow=$this->input->get_post("maxrow");
+        if($maxrow=="")
+        {
+            $maxrow=20;
+        }
+        
+        if($orderby=="")
+        {
+            $orderby="id";
+            $orderorder="ASC";
+        }
+       
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `city` LEFT OUTER JOIN `state` ON `state`.`id`=`city`.`state`");
+        
+		$this->load->view("json",$data);
+	} 
+    
     function viewonecitylocations()
 	{
 		$access = array("1");
@@ -3204,24 +3317,117 @@ class Site extends CI_Controller
     
     //Product
     
+//    function viewproduct()
+//	{
+//		$access = array("1");
+//		$this->checkaccess($access);
+////		$data['table']=$this->product_model->viewproduct();
+//		$data['page']='viewproduct';
+//        
+//        $bothval=$this->product_model->viewproduct();
+//        $data['table']=$bothval->query;
+//        
+//        $this->load->library('pagination');
+//        $config['base_url'] = site_url("site/viewproduct");
+//        $config['total_rows']=$bothval->totalcount;
+//        $this->pagination->initialize($config); 
+//        
+//		$data['title']='View product';
+//		$this->load->view('template',$data);
+//	} 
+    
     function viewproduct()
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-//		$data['table']=$this->product_model->viewproduct();
 		$data['page']='viewproduct';
-        
-        $bothval=$this->product_model->viewproduct();
-        $data['table']=$bothval->query;
-        
-        $this->load->library('pagination');
-        $config['base_url'] = site_url("site/viewproduct");
-        $config['total_rows']=$bothval->totalcount;
-        $this->pagination->initialize($config); 
-        
-		$data['title']='View product';
+        $data['base_url']=site_url("site/viewproductjson");
+		$data['title']='View Product';
 		$this->load->view('template',$data);
-	} 
+	}
+    function viewproductjson() 
+    {
+        $access = array("1");
+		$this->checkaccess($access);
+        
+//        SELECT `orders`.`id`, `orders`.`retail`, `orders`.`sales`, DATE_FORMAT(`orders`.`timestamp`,'%b %d %Y %H:%i') as `timestamp`, `orders`.`amount`, `orders`.`signature`, `orders`.`salesid`, `orders`.`quantity`,`retailer`.`name` AS `retailername`, `orders`.`remark`
+            
+//        SELECT `product`.`id`, `product`.`name` AS `productname`, `product`.`product`, `product`.`encode`, `product`.`name2`, `product`.`productcode`,`product`. `category`,`product`. `video`,`product`. `mrp`,`product`. `description`,`product`. `age`,`product`. `scheme`,`product`.`isnew`,`product`. `timestamp`,`catelog`.`name` AS `categoryname`,`scheme`.`name` AS `schemename`
+//FROM `product`
+//LEFT OUTER JOIN `catelog` ON `catelog`.`id`=`product`.`category`
+//LEFT OUTER JOIN `scheme` ON `scheme`.`id`=`product`.`scheme`
+            
+        $elements=array();
+        $elements[0]=new stdClass();
+        $elements[0]->field="`product`.`id`";
+        $elements[0]->sort="1";
+        $elements[0]->header="ID";
+        $elements[0]->alias="id";
+        
+        
+        $elements[1]->field="`product`.`name`";
+        $elements[1]->sort="1";
+        $elements[1]->header="Product Name";
+        $elements[1]->alias="productname";
+        
+        $elements[2]->field="`product`.`productcode`";
+        $elements[2]->sort="1";
+        $elements[2]->header="Product Code";
+        $elements[2]->alias="productcode";
+        
+        $elements[3]->field="`catelog`.`name`";
+        $elements[3]->sort="1";
+        $elements[3]->header="Category";
+        $elements[3]->alias="categoryname";
+        
+        $elements[4]->field="`product`.`mrp`";
+        $elements[4]->sort="1";
+        $elements[4]->header="MRP";
+        $elements[4]->alias="mrp";
+        
+        $elements[5]->field="`product`.`description`";
+        $elements[5]->sort="1";
+        $elements[5]->header="Description";
+        $elements[5]->alias="description";
+        
+        $elements[6]->field="`scheme`.`name`";
+        $elements[6]->sort="1";
+        $elements[6]->header="Scheme";
+        $elements[6]->alias="schemename";
+        
+        $elements[7]->field="`product`.`isnew`";
+        $elements[7]->sort="1";
+        $elements[7]->header="Is New";
+        $elements[7]->alias="isnew";
+        
+        $elements[8]->field="`product`.`timestamp`";
+        $elements[8]->sort="1";
+        $elements[8]->header="Timestamp";
+        $elements[8]->alias="timestamp";
+        
+        $search=$this->input->get_post("search");
+        $pageno=$this->input->get_post("pageno");
+        $orderby=$this->input->get_post("orderby");
+        $orderorder=$this->input->get_post("orderorder");
+        $maxrow=$this->input->get_post("maxrow");
+        if($maxrow=="")
+        {
+            $maxrow=20;
+        }
+        
+        if($orderby=="")
+        {
+            $orderby="id";
+            $orderorder="DESC";
+        }
+       
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `product` LEFT OUTER JOIN `catelog` ON `catelog`.`id`=`product`.`category` LEFT OUTER JOIN `scheme` ON `scheme`.`id`=`product`.`scheme`");
+        
+		$this->load->view("json",$data);
+            
+        
+    }
+    
         
      public function createproduct()
 	{
@@ -3819,21 +4025,70 @@ class Site extends CI_Controller
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-//		$data['table']=$this->area_model->viewarea();
 		$data['page']='viewarea';
         
         
-        $bothval=$this->area_model->viewarea();
-        $data['table']=$bothval->query;
+        $data['base_url'] = site_url("site/viewareajson");
         
-        $this->load->library('pagination');
-        $config['base_url'] = site_url("site/viewarea");
-        $config['total_rows']=$bothval->totalcount;
-        $this->pagination->initialize($config); 
         
-		$data['title']='View area';
+		$data['title']='View Area';
 		$this->load->view('template',$data);
 	} 
+    
+    function viewareajson()
+	{
+		$access = array("1");
+		$this->checkaccess($access);
+        
+//        SELECT  `retailer`.`id`, `retailer`.`area`, `retailer`.`dob`,`retailer`.`name`, `retailer`.`number`, `retailer`.`email`, `retailer`.`address`,`retailer`. `ownername`, `retailer`.`ownernumber`, `retailer`.`contactname`,`retailer`. `contactnumber`,`area`.`name` AS `areaname` FROM `retailer` LEFT OUTER JOIN `area` ON `area`.`id`=`retailer`.`area`
+        
+            
+        
+        
+        $elements=array();
+        $elements[0]=new stdClass();
+        $elements[0]->field="`area`.`id`";
+        $elements[0]->sort="1";
+        $elements[0]->header="ID";
+        $elements[0]->alias="id";
+        
+        
+        $elements[1]->field="`area`.`name`";
+        $elements[1]->sort="1";
+        $elements[1]->header="Area Name";
+        $elements[1]->alias="areaname";
+        
+        $elements[2]->field="`city`.`name`";
+        $elements[2]->sort="1";
+        $elements[2]->header="City";
+        $elements[2]->alias="cityname";
+        
+        $elements[3]->field="`distributor`.`name`";
+        $elements[3]->sort="1";
+        $elements[3]->header="Distributor";
+        $elements[3]->alias="distributorname";
+        
+        $search=$this->input->get_post("search");
+        $pageno=$this->input->get_post("pageno");
+        $orderby=$this->input->get_post("orderby");
+        $orderorder=$this->input->get_post("orderorder");
+        $maxrow=$this->input->get_post("maxrow");
+        if($maxrow=="")
+        {
+            $maxrow=20;
+        }
+        
+        if($orderby=="")
+        {
+            $orderby="id";
+            $orderorder="ASC";
+        }
+       
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `area` LEFT OUTER JOIN `city` ON `area`.`city`=`city`.`id`  LEFT OUTER JOIN `distributor` ON `area`.`distributor`=`distributor`.`id`");
+        
+		$this->load->view("json",$data);
+	} 
+    
      public function createarea()
 	{
 		$access = array("1");
@@ -4675,6 +4930,11 @@ class Site extends CI_Controller
         $pageno=$this->input->get_post("pageno");
         $orderby=$this->input->get_post("orderby");
         $orderorder=$this->input->get_post("orderorder");
+        $maxrow=$this->input->get_post("maxrow");
+        if($maxrow=="")
+        {
+            $maxrow=20;
+        }
         
         if($orderby=="")
         {
@@ -4682,7 +4942,7 @@ class Site extends CI_Controller
             $orderorder="DESC";
         }
        
-        $data["message"]=$this->chintantable->query($pageno,20,$orderby,$orderorder,$search,$elements,"FROM `orders` LEFT OUTER JOIN `retailer` ON `retailer`.`id`=`orders`.`retail`");
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `orders` LEFT OUTER JOIN `retailer` ON `retailer`.`id`=`orders`.`retail`");
         
 		$this->load->view("json",$data);
             

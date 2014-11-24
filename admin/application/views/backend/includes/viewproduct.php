@@ -14,53 +14,44 @@
 			<header class="panel-heading">
                 Product Details
             </header>
-            <?php 
-//print_r($table);
-            ?>
-			<table class="table table-striped table-hover" cellpadding="0" cellspacing="0" width="100%">
+            <div class="drawchintantable">
+            <?php $this->chintantable->createsearch("Product List");?>
+			<table class="table table-striped table-hover" id="" cellpadding="0" cellspacing="0" >
 			<thead>
 				<tr>
-					<th>Id</th>
-					<th>Product Name</th>
-					<th>Code</th>
-					<th>category</th>
-					<th>MRP</th>
-					<th>Description</th>
-					<th>scheme</th>
-					<th>Is New</th>
-					<th>Timestamp</th>
-					<th> Actions </th>
+					<th data-field="id">Id</th>
+					<th data-field="productname">Product Name</th>
+					<th data-field="productcode">Code</th>
+					<th data-field="categoryname">Category</th>
+					<th data-field="mrp">MRP</th>
+					<th data-field="description">Description</th>
+					<th data-field="schemename">Scheme</th>
+					<th data-field="isnew">Is New</th>
+					<th data-field="timestamp">Timestamp</th>
+                    <th data-field="action"> Actions </th>
 				</tr>
 			</thead>
 			<tbody>
-			   <?php foreach($table as $row) { ?>
-					<tr>
-						<td><?php echo $row->id;?></td>
-						<td><?php echo $row->productname;?></td>
-						<td><?php echo $row->productcode;?></td>
-						<td><?php echo $row->categoryname;?></td>
-						<td><?php echo $row->mrp;?></td>
-						<td><?php echo $row->description;?></td>
-						<td><?php echo $row->schemename;?></td>
-						<td><?php echo $row->isnew;?></td>
-						<td><?php echo $row->timestamp;?></td>
-						
-						<td>
-							<a href="<?php echo site_url('site/editproduct?id=').$row->id;?>" class="btn btn-primary btn-xs">
-								<i class="icon-pencil"></i>
-							</a>
-							<a href="<?php echo site_url('site/deleteproduct?id=').$row->id; ?>" class="btn btn-danger btn-xs">
-								<i class="icon-trash "></i>
-							</a> 
-							
-						</td>
-					</tr>
-					<?php } ?>
+			  
 			</tbody>
 			</table>
+               <?php $this->chintantable->createpagination();?>
+            </div>
 		</section>
-		<div class="">
-                    <?php echo $this->pagination->create_links();?>
-        </div>
+		<script>
+            
+            function drawtable(resultrow) {
+                if(!resultrow.schemename)
+                {
+                    resultrow.schemename="";
+                }
+                if(!resultrow.isnew)
+                {
+                    resultrow.isnew="";
+                }
+                return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.productname + "</td><td>" + resultrow.productcode + "</td><td>" + resultrow.categoryname + "</td><td>" + resultrow.mrp + "</td><td>" + resultrow.description + "</td><td>" + resultrow.schemename + "</td><td>" + resultrow.isnew + "</td><td>" + resultrow.timestamp + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editproduct?id=');?>"+resultrow.id +"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' href='<?php echo site_url('site/deleteproduct?id='); ?>"+resultrow.id +"'><i class='icon-trash '></i></a></td><tr>";
+            }
+            generatejquery('<?php echo $base_url;?>');
+        </script>
 	</div>
 </div>
