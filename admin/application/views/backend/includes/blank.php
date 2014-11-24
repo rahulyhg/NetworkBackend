@@ -1,16 +1,25 @@
-<div class="drawchart">
-    
+<div class="drawchart2">
+
 </div>
 
-   <script type="text/javascript">
+
+<script type="text/javascript">
     $(function () {
+        var salesman=<?php echo json_encode($userdetailswithlastlogin); ?>;
+            console.log(salesman);
+        var salesmans=[];
+        for(var i=0;i<salesman.length;i++)
+        {
+            salesmans.push({name:salesman[i].name,url:"<?php echo site_url("site/getsalesmandailyjson?id=");?>"+salesman[i].id});
+        }
+        
         var seriesOptions = [],
             seriesCounter = 0,
-            names = [{name:"Quantity",color:"#3498db",url:"<?php echo site_url("site/checkchartjson1");?>"},{name:"Amount",color:"#9b59b6",url:"<?php echo site_url("site/checkchartjson2");?>"}],
+            names = salesmans,
             // create the chart when all data is loaded
             createChart = function () {
-
-                $('.drawchart').highcharts('StockChart', {
+                console.log(names);
+                $('.drawchart2').highcharts('StockChart', {
 
                     rangeSelector: {
                         inputEnabled: $('.drawchart').width() > 480,
@@ -48,18 +57,27 @@
         $.each(names, function (i, singleline) {
             console.log(names);
             $.getJSON(singleline.url, function (data) {
-                
-                for(var j=0;j<data.length;j++)
-                {
-                    data[j][0]=parseInt(data[j][0]);
-                    data[j][1]=parseFloat(data[j][1]);
+
+                for (var j = 0; j < data.length; j++) {
+                    data[j][0] = parseInt(data[j][0]);
+                    data[j][1] = parseFloat(data[j][1]);
                 }
                 console.log(data);
-                seriesOptions[i] = {
-                    name: singleline.name,
-                    color: singleline.color,
-                    data: data
-                };
+                if(singleline.color)
+                {
+                    seriesOptions[i] = {
+                        name: singleline.name,
+                        color: singleline.color,
+                        data: data
+                    };
+                }
+                else
+                {
+                    seriesOptions[i] = {
+                        name: singleline.name,
+                        data: data
+                    };
+                }
 
                 // As we're loading the data asynchronously, we don't know what order it will arrive. So
                 // we keep a counter and create the chart when all the data is loaded.

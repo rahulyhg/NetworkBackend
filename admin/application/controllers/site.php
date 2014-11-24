@@ -5324,9 +5324,11 @@ class Site extends CI_Controller
 
         echo $this->email->print_debugger();
     }
-    public function checkchart()
+    public function blank()
     {
         $data['page']='blank';
+        
+       
         $this->load->view('template',$data);
     }
     public function checkchartjson1()
@@ -5339,5 +5341,6 @@ class Site extends CI_Controller
         $data["message"]=$this->chintantable->gethighstockjson("`timestamp`","SUM(`amount`)","FROM `orders`","","GROUP BY DATE(`timestamp`)","","","");
         $this->load->view('json',$data);
     }
+    
 }
 ?>
