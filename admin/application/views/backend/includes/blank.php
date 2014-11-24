@@ -1,26 +1,25 @@
-<div class="drawchart2">
+<div class="drawchart">
 
 </div>
 
-
 <script type="text/javascript">
     $(function () {
-        var salesman=<?php echo json_encode($userdetailswithlastlogin); ?>;
-            console.log(salesman);
-        var salesmans=[];
-        for(var i=0;i<salesman.length;i++)
-        {
-            salesmans.push({name:salesman[i].name,url:"<?php echo site_url("site/getsalesmandailyjson?id=");?>"+salesman[i].id});
-        }
-        
         var seriesOptions = [],
             seriesCounter = 0,
-            names = salesmans,
+            names = [{
+                name: "Quantity",
+                color: "#3498db",
+                url: "<?php echo site_url('site/checkchartjson1');?>"
+            }, {
+                name: "Amount",
+                color: "#9b59b6",
+                url: "<?php echo site_url('site/checkchartjson2');?>"
+            }],
             // create the chart when all data is loaded
             createChart = function () {
-                console.log(names);
-                $('.drawchart2').highcharts('StockChart', {
 
+                $('.drawchart').highcharts('StockChart', {
+                   
                     rangeSelector: {
                         inputEnabled: $('.drawchart').width() > 480,
                         selected: 4
@@ -41,7 +40,7 @@
 
                     plotOptions: {
                         series: {
-                            compare: 'percent'
+                            
                         }
                     },
 
@@ -63,21 +62,21 @@
                     data[j][1] = parseFloat(data[j][1]);
                 }
                 console.log(data);
-                if(singleline.color)
-                {
-                    seriesOptions[i] = {
-                        name: singleline.name,
-                        color: singleline.color,
-                        data: data
-                    };
-                }
-                else
-                {
-                    seriesOptions[i] = {
-                        name: singleline.name,
-                        data: data
-                    };
-                }
+                seriesOptions[i] = {
+                    type: 'column',
+                    name: singleline.name,
+                    color: singleline.color,
+                    data: data,
+                    dataGrouping: {
+                        units: [[
+                        'week', // unit name
+                        [1] // allowed multiples
+                    ], [
+                        'month',
+                        [1, 2, 3, 4, 6]
+                    ]]
+                    }
+                };
 
                 // As we're loading the data asynchronously, we don't know what order it will arrive. So
                 // we keep a counter and create the chart when all the data is loaded.
