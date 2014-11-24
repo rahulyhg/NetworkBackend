@@ -1,6 +1,7 @@
 function generatejquery(url)
 {
     //console.log("ABCD");
+    
     $(document).ready(function () {
 
             var search = $(".chintantablesearch").val();
@@ -123,4 +124,5 @@ function generatejquery(url)
 
         });
 }
+
 

@@ -144,6 +144,18 @@ class Chintantable {
     z-index: 1;  height: 100%;  top: 0px;  left: 0px;  padding: 10%;  font-size: 51px;  color: white;  text-align: center;
 "> Loading </div>';
     }
+	
+	public function gethighstockjson($element1,$element2,$from,$where="", $group="", $having="", $order="",$limit="",$otherselect="")
+    {
+        if($where=="")
+        {
+            $where=" WHERE 1 ";
+        }
+        $query="SELECT CONCAT(UNIX_TIMESTAMP($element1),'000') AS `0`, $element2 as `1` $otherselect  $from $where $group $having $order $limit";
+
+		return $this->CI->db->query($query)->result_array();
+    }
+	
 }
 
 /* End of file Someclass.php */

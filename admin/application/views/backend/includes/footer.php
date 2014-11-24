@@ -31,6 +31,7 @@
 	<script src="<?php echo base_url('assets/js/form-component.js'); ?>"></script>
 	<script src="<?php echo base_url('assets/js/select2.js'); ?>" type="text/javascript"></script>
 	<script src="<?php echo base_url('assets/js/select2.min.js'); ?>" type="text/javascript"></script>
+	<script src="<?php echo base_url('assets/js/highstock.js'); ?>" type="text/javascript"></script>
   <script>
 
       //owl carousel
