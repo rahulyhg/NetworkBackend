@@ -5333,12 +5333,12 @@ class Site extends CI_Controller
     }
     public function checkchartjson1()
     {
-        $data["message"]=$this->chintantable->gethighstockjson("`timestamp`","SUM(`quantity`)","FROM `orders`","","GROUP BY DATE(`timestamp`)","","","");
+        $data["message"]=$this->chintantable->gethighstockjson("DATE(`timestamp`)","SUM(`quantity`)","FROM `orders`","","GROUP BY DATE(`timestamp`)","","","");
         $this->load->view('json',$data);
     }
     public function checkchartjson2()
     {
-        $data["message"]=$this->chintantable->gethighstockjson("`timestamp`","SUM(`amount`)","FROM `orders`","","GROUP BY DATE(`timestamp`)","","","");
+        $data["message"]=$this->chintantable->gethighstockjson("DATE(`timestamp`)","SUM(`amount`)","FROM `orders`","","GROUP BY DATE(`timestamp`)","","","");
         $this->load->view('json',$data);
     }
     
