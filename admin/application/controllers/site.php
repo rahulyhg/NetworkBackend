@@ -4781,6 +4781,11 @@ class Site extends CI_Controller
         $pageno=$this->input->get_post("pageno");
         $orderby=$this->input->get_post("orderby");
         $orderorder=$this->input->get_post("orderorder");
+        $maxrow=$this->input->get_post("maxrow");
+        if($maxrow=="")
+        {
+            $maxrow=20;
+        }
         
         if($orderby=="")
         {
@@ -4788,7 +4793,7 @@ class Site extends CI_Controller
             $orderorder="ASC";
         }
        
-        $data["message"]=$this->chintantable->query($pageno,20,$orderby,$orderorder,$search,$elements,"FROM `retailer` LEFT OUTER JOIN `area` ON `area`.`id`=`retailer`.`area`");
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `retailer` LEFT OUTER JOIN `area` ON `area`.`id`=`retailer`.`area`");
         
 		$this->load->view("json",$data);
 	} 

@@ -7,8 +7,9 @@ function generatejquery(url)
             var pageno = 1;
             var orderby = "";
             var orderorder = "";
-
-
+            var maxrow = 20;
+            $(".drawchintantable .maxrow").val(maxrow);
+            
 
             function fillchintandata() {
                 $(".drawchintantable .loader").show();
@@ -17,6 +18,7 @@ function generatejquery(url)
                     pageno: pageno,
                     orderby: orderby,
                     orderorder: orderorder,
+                    maxrow:maxrow
                 }, function (data) {
 
                     $(".drawchintantable table tbody").html("");
@@ -80,6 +82,7 @@ function generatejquery(url)
                         console.log("Clicked");
                         orderby = $(this).parents("th").attr("data-field");
                         orderorder = $(this).attr("data-sort");
+                        maxrow=$(".drawchintantable .maxrow").val();
                         fillchintandata();
                     });
 
@@ -96,12 +99,20 @@ function generatejquery(url)
             $(".chintantablesearchgo").click(function () {
                 search = $(".chintantablesearch").val();
                 pageno = 1;
+                maxrow=$(".drawchintantable .maxrow").val();
                 fillchintandata();
             });
 
             $(".chintantablesearchgo").click(function () {
                 search = $(".chintantablesearch").val();
                 pageno = 1;
+                maxrow=$(".drawchintantable .maxrow").val();
+                fillchintandata();
+            });
+            $(".drawchintantable .maxrow").change(function () {
+                search = $(".chintantablesearch").val();
+                pageno = 1;
+                maxrow=$(".drawchintantable .maxrow").val();
                 fillchintandata();
             });
 
