@@ -5473,11 +5473,15 @@ class Site extends CI_Controller
 
         echo $this->email->print_debugger();
     }
-    public function blank()
-    {
-        $data['page']='blank';
-        
-       
+   public function blank()
+	{
+        $query=$this->db->query("SELECT `users`.`name`,SUM(`orders`.`quantity`) as `y` FROM `orders` RIGHT OUTER JOIN `users` ON `users`.`id`=`orders`.`salesid` WHERE DATE(`orders`.`timestamp`)=DATE(NOW()) GROUP BY `users`.`id`")->result();
+        foreach($query as $row)
+        {
+            $row->y=intval($row->y);
+        }
+        $data["values"]=json_encode($query);
+        $data["page"]="blank";
         $this->load->view('template',$data);
     }
     public function checkchartjson1()
