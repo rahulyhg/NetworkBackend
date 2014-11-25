@@ -4658,24 +4658,96 @@ class Site extends CI_Controller
     
     //scheme
     
+//    function viewscheme()
+//	{
+//		$access = array("1");
+//		$this->checkaccess($access);
+////		$data['table']=$this->scheme_model->viewscheme();
+//		$data['page']='viewscheme';
+//        
+//        $bothval=$this->scheme_model->viewscheme();
+//        $data['table']=$bothval->query;
+//        
+//        $this->load->library('pagination');
+//        $config['base_url'] = site_url("site/viewscheme");
+//        $config['total_rows']=$bothval->totalcount;
+//        $this->pagination->initialize($config); 
+//        
+//		$data['title']='View scheme';
+//		$this->load->view('template',$data);
+//	} 
     function viewscheme()
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-//		$data['table']=$this->scheme_model->viewscheme();
 		$data['page']='viewscheme';
-        
-        $bothval=$this->scheme_model->viewscheme();
-        $data['table']=$bothval->query;
-        
-        $this->load->library('pagination');
-        $config['base_url'] = site_url("site/viewscheme");
-        $config['total_rows']=$bothval->totalcount;
-        $this->pagination->initialize($config); 
+        $data['base_url']=site_url("site/viewschemejson");
         
 		$data['title']='View scheme';
 		$this->load->view('template',$data);
-	} 
+	}
+    function viewschemejson() 
+    {
+        $access = array("1");
+		$this->checkaccess($access);
+        
+//        SELECT `distributor`.`id`, `distributor`.`name` AS `distributorname`, `distributor`.`code`,`distributor`. `componyname`, `distributor`.`email`, `distributor`.`contactno`, `distributor`.`dob`, `distributor`.`address1`, `distributor`.`address2`, `distributor`.`zipcode` FROM `distributor`
+//        SELECT `scheme`.`id`, `scheme`.`name` AS `schemename`, `scheme`.`discount_percent`, `scheme`.`date_start`, `scheme`.`date_end`, `scheme`.`mrp` FROM `scheme`
+        $elements=array();
+        $elements[0]=new stdClass();
+        $elements[0]->field="`scheme`.`id`";
+        $elements[0]->sort="1";
+        $elements[0]->header="ID";
+        $elements[0]->alias="id";
+        
+        
+        $elements[1]->field="`scheme`.`name`";
+        $elements[1]->sort="1";
+        $elements[1]->header="Name";
+        $elements[1]->alias="schemename";
+        
+        $elements[2]->field="`scheme`.`discount_percent`";
+        $elements[2]->sort="1";
+        $elements[2]->header="Discount Percent";
+        $elements[2]->alias="discount_percent";
+        
+        $elements[3]->field="`scheme`.`date_start`";
+        $elements[3]->sort="1";
+        $elements[3]->header="Start Date";
+        $elements[3]->alias="date_start";
+        
+        $elements[4]->field="`scheme`.`date_end`";
+        $elements[4]->sort="1";
+        $elements[4]->header="Date End";
+        $elements[4]->alias="date_end";
+        
+        $elements[5]->field="`scheme`.`mrp`";
+        $elements[5]->sort="1";
+        $elements[5]->header="MRP";
+        $elements[5]->alias="mrp";
+        
+        $search=$this->input->get_post("search");
+        $pageno=$this->input->get_post("pageno");
+        $orderby=$this->input->get_post("orderby");
+        $orderorder=$this->input->get_post("orderorder");
+        $maxrow=$this->input->get_post("maxrow");
+        if($maxrow=="")
+        {
+            $maxrow=20;
+        }
+        
+        if($orderby=="")
+        {
+            $orderby="id";
+            $orderorder="DESC";
+        }
+       
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `scheme`");
+        
+		$this->load->view("json",$data);
+            
+        
+    }
     public function createscheme()
 	{
 		$access = array("1");

@@ -11,44 +11,38 @@
 			<header class="panel-heading">
                 Scheme Details
             </header>
-			<table class="table table-striped table-hover" cellpadding="0" cellspacing="0" width="100%">
+            <div class="drawchintantable">
+            <?php $this->chintantable->createsearch("Distributor List");?>
+			<table class="table table-striped table-hover" id="" cellpadding="0" cellspacing="0" >
 			<thead>
 				<tr>
-					<th>ID</th>
-					<th>Scheme</th>
-					<th>Discount(%)</th>
-					<th>Start Date</th>
-					<th>End Date</th>
-					<th>MRP</th>
-					<th> Actions </th>
+					<th data-field="id">Id</th>
+					<th data-field="schemename">Scheme Name</th>
+					<th data-field="discount_percent">Disecount Percent</th>
+					<th data-field="date_start">Start Date</th>
+					<th data-field="date_end">End Date</th>
+					<th data-field="mrp">MRP</th>
+                    <th data-field="action"> Actions </th>
 				</tr>
 			</thead>
 			<tbody>
-			   <?php foreach($table as $row) { ?>
-					<tr>
-						<td><?php echo $row->id;?></td>
-						<td><?php echo $row->schemename;?></td>
-						<td><?php echo $row->discount_percent;?></td>
-						<td><?php echo $row->date_start;?></td>
-						<td><?php echo $row->date_end;?></td>
-						<td><?php echo $row->mrp;?></td>
-						
-						<td>
-							<a href="<?php echo site_url('site/editscheme?id=').$row->id;?>" class="btn btn-primary btn-xs">
-								<i class="icon-pencil"></i>
-							</a>
-							<a href="<?php echo site_url('site/deletescheme?id=').$row->id; ?>" class="btn btn-danger btn-xs">
-								<i class="icon-trash "></i>
-							</a> 
-							
-						</td>
-					</tr>
-					<?php } ?>
+			  
 			</tbody>
 			</table>
+               <?php $this->chintantable->createpagination();?>
+            </div>
 		</section>
+		<script>
+            
+            function drawtable(resultrow) {
+                return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.schemename + "</td><td>" + resultrow.discount_percent + "</td><td>" + resultrow.date_start + "</td><td>" + resultrow.date_end + "</td><td>" + resultrow.mrp + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editscheme?id=');?>"+resultrow.id +"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' href='<?php echo site_url('site/deletescheme?id='); ?>"+resultrow.id +"'><i class='icon-trash '></i></a></td><tr>";
+            }
+            generatejquery('<?php echo $base_url;?>');
+        </script>
+<!--
 		<div class="">
                     <?php echo $this->pagination->create_links();?>
                 </div>
+-->
 	</div>
 </div>
