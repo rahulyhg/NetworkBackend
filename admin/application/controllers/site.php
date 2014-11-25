@@ -28,6 +28,12 @@ class Site extends CI_Controller
 		$this->checkaccess($access);
 //        $currentdate=date('Y-m-d',strtotime("-1 days"));
 //        echo $currentdate;
+        $query=$this->db->query("SELECT `users`.`name`,SUM(`orders`.`quantity`) as `y` FROM `orders` RIGHT OUTER JOIN `users` ON `users`.`id`=`orders`.`salesid` WHERE DATE(`orders`.`timestamp`)=DATE(NOW()) GROUP BY `users`.`id`")->result();
+        foreach($query as $row)
+        {
+            $row->y=intval($row->y);
+        }
+        $data["values"]=json_encode($query);
         $data['retailer']=$this->retailer_model->getretailersinceyesterday();
         $data['topproducts']=$this->retailer_model->gettopproducts();
         $data['userdetailswithlastlogin']=$this->user_model->getuserlastlogin();

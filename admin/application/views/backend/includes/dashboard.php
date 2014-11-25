@@ -29,26 +29,29 @@
     <b>Top 10 Products</b>
     </div>
     <table class="table table-striped table-hover" cellpadding="0" cellspacing="0" width="100%">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Code</th>
-                        <th>Total Quantiy</th>
-                    </tr>
-                </thead>
-                <tbody>
-                   <?php 
-    $count=1;
-    foreach($topproducts as $row) { ?>
-                        <tr>
-                            <td><?php echo $row->name;?></td>
-                            <td><?php echo $row->productcode;?></td>
-                            <td><?php echo $row->totalquantity;?></td>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Code</th>
+                <th>Total Quantiy</th>
+            </tr>
+        </thead>
+        <tbody>
+           <?php 
+$count=1;
+foreach($topproducts as $row) { ?>
+                <tr>
+                    <td><?php echo $row->name;?></td>
+                    <td><?php echo $row->productcode;?></td>
+                    <td><?php echo $row->totalquantity;?></td>
 
-                        </tr>
-                        <?php } ?>
-                </tbody>
-                </table>
+                </tr>
+                <?php } ?>
+        </tbody>
+     </table>
+                
+    
+    
     </div>
     <div class="col-md-1">
     </div>
@@ -120,6 +123,7 @@
     <div class="drawchart">
     
 </div>
+   <div class="drawpiechart1" style="margin-top:50px;"></div>            
 
    <script type="text/javascript">
     $(function () {
@@ -190,5 +194,10 @@
             });
         });
     });
+</script>
+<script>
+$(document).ready(function() {
+    generatepiechart("Sales Person Quantity Chart",".drawpiechart1",<?php echo $values;?>)
+});
 </script>
 </div>

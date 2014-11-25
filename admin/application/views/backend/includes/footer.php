@@ -33,6 +33,7 @@
 	<script src="<?php echo base_url('assets/js/select2.min.js'); ?>" type="text/javascript"></script>
 	<script src="<?php echo base_url('assets/js/highstock.js'); ?>" type="text/javascript"></script>
 	<script src="<?php echo base_url('assets/js/highcharts.js'); ?>" type="text/javascript"></script>
+	<script src="<?php echo base_url('assets/js/exporting.js'); ?>" type="text/javascript"></script>
   <script>
 
       //owl carousel
