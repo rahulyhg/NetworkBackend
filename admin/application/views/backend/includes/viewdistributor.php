@@ -42,14 +42,26 @@
 		<script>
             
             function drawtable(resultrow) {
-//                if(!resultrow.schemename)
-//                {
-//                    resultrow.schemename="";
-//                }
-//                if(!resultrow.isnew)
-//                {
-//                    resultrow.isnew="";
-//                }
+                if(!resultrow.code)
+                {
+                    resultrow.code="";
+                }
+                if(!resultrow.dob)
+                {
+                    resultrow.dob="";
+                }
+                if(!resultrow.address1)
+                {
+                    resultrow.address1="";
+                }
+                if(!resultrow.address2)
+                {
+                    resultrow.address2="";
+                }
+                if(!resultrow.zipcode)
+                {
+                    resultrow.zipcode="";
+                }
                 return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.distributorname + "</td><td>" + resultrow.code + "</td><td>" + resultrow.companyname + "</td><td>" + resultrow.email + "</td><td>" + resultrow.contactno + "</td><td>" + resultrow.dob + "</td><td>" + resultrow.address1 + "</td><td>" + resultrow.address2 + "</td><td>" + resultrow.zipcode + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editdistributor?id=');?>"+resultrow.id +"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' href='<?php echo site_url('site/deletedistributor?id='); ?>"+resultrow.id +"'><i class='icon-trash '></i></a></td><tr>";
             }
             generatejquery('<?php echo $base_url;?>');
