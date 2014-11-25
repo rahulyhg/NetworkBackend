@@ -15,7 +15,7 @@
                 Distributor Details
             </header>
             <div class="drawchintantable">
-            <?php $this->chintantable->createsearch("Product List");?>
+            <?php $this->chintantable->createsearch("Distributor List");?>
 			<table class="table table-striped table-hover" id="" cellpadding="0" cellspacing="0" >
 			<thead>
 				<tr>
