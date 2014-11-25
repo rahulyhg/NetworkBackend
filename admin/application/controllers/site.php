@@ -1430,25 +1430,6 @@ class Site extends CI_Controller
     
 	//City
     
-//    function viewcity()
-//	{
-//		$access = array("1");
-//		$this->checkaccess($access);
-////		$data['table']=$this->city_model->viewcity();
-//		$data['page']='viewcity';
-//        
-//        $bothval=$this->city_model->viewcity();
-//        $data['table']=$bothval->query;
-//        
-//        $this->load->library('pagination');
-//        $config['base_url'] = site_url("site/viewcity");
-//        $config['total_rows']=$bothval->totalcount;
-//        $this->pagination->initialize($config); 
-//        
-//		$data['title']='View City';
-//		$this->load->view('template',$data);
-//	} 
-    
     function viewcity()
 	{
 		$access = array("1");
@@ -4432,25 +4413,121 @@ class Site extends CI_Controller
     
     //distributor
     
+//    function viewdistributor()
+//	{
+//		$access = array("1");
+//		$this->checkaccess($access);
+////		$data['table']=$this->distributor_model->viewdistributor();
+//		$data['page']='viewdistributor';
+//        
+//        
+//        $bothval=$this->distributor_model->viewdistributor();
+//        $data['table']=$bothval->query;
+//        
+//        $this->load->library('pagination');
+//        $config['base_url'] = site_url("site/viewdistributor");
+//        $config['total_rows']=$bothval->totalcount;
+//        $this->pagination->initialize($config); 
+//        
+//		$data['title']='View distributor';
+//		$this->load->view('template',$data);
+//	} 
     function viewdistributor()
 	{
 		$access = array("1");
 		$this->checkaccess($access);
 //		$data['table']=$this->distributor_model->viewdistributor();
 		$data['page']='viewdistributor';
-        
-        
-        $bothval=$this->distributor_model->viewdistributor();
-        $data['table']=$bothval->query;
-        
-        $this->load->library('pagination');
-        $config['base_url'] = site_url("site/viewdistributor");
-        $config['total_rows']=$bothval->totalcount;
-        $this->pagination->initialize($config); 
+        $data['base_url']=site_url("site/viewdistributorjson");
         
 		$data['title']='View distributor';
 		$this->load->view('template',$data);
-	} 
+	}
+    function viewdistributorjson() 
+    {
+        $access = array("1");
+		$this->checkaccess($access);
+        
+//        SELECT `orders`.`id`, `orders`.`retail`, `orders`.`sales`, DATE_FORMAT(`orders`.`timestamp`,'%b %d %Y %H:%i') as `timestamp`, `orders`.`amount`, `orders`.`signature`, `orders`.`salesid`, `orders`.`quantity`,`retailer`.`name` AS `retailername`, `orders`.`remark`
+            
+//        SELECT `distributor`.`id`, `distributor`.`name` AS `distributorname`, `distributor`.`code`,`distributor`. `componyname`, `distributor`.`email`, `distributor`.`contactno`, `distributor`.`dob`, `distributor`.`address1`, `distributor`.`address2`, `distributor`.`zipcode` FROM `distributor`
+        
+        $elements=array();
+        $elements[0]=new stdClass();
+        $elements[0]->field="`distributor`.`id`";
+        $elements[0]->sort="1";
+        $elements[0]->header="ID";
+        $elements[0]->alias="id";
+        
+        
+        $elements[1]->field="`distributor`.`name`";
+        $elements[1]->sort="1";
+        $elements[1]->header="Name";
+        $elements[1]->alias="distributorname";
+        
+        $elements[2]->field="`distributor`.`code`";
+        $elements[2]->sort="1";
+        $elements[2]->header="Code";
+        $elements[2]->alias="code";
+        
+        $elements[3]->field="`distributor`.`componyname`";
+        $elements[3]->sort="1";
+        $elements[3]->header="company";
+        $elements[3]->alias="companyname";
+        
+        $elements[4]->field="`distributor`.`email`";
+        $elements[4]->sort="1";
+        $elements[4]->header="Email";
+        $elements[4]->alias="email";
+        
+        $elements[5]->field="`distributor`.`contactno`";
+        $elements[5]->sort="1";
+        $elements[5]->header="Contact";
+        $elements[5]->alias="contactno";
+        
+        $elements[6]->field="`distributor`.`dob`";
+        $elements[6]->sort="1";
+        $elements[6]->header="DOB";
+        $elements[6]->alias="dob";
+        
+        $elements[7]->field="`distributor`.`address1`";
+        $elements[7]->sort="1";
+        $elements[7]->header="Address1";
+        $elements[7]->alias="address1";
+        
+        $elements[8]->field="`distributor`.`address2`";
+        $elements[8]->sort="1";
+        $elements[8]->header="Address2";
+        $elements[8]->alias="address2";
+        
+        $elements[9]->field="`distributor`.`zipcode`";
+        $elements[9]->sort="1";
+        $elements[9]->header="zipcode";
+        $elements[9]->alias="zipcode";
+        
+        $search=$this->input->get_post("search");
+        $pageno=$this->input->get_post("pageno");
+        $orderby=$this->input->get_post("orderby");
+        $orderorder=$this->input->get_post("orderorder");
+        $maxrow=$this->input->get_post("maxrow");
+        if($maxrow=="")
+        {
+            $maxrow=20;
+        }
+        
+        if($orderby=="")
+        {
+            $orderby="id";
+            $orderorder="DESC";
+        }
+       
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `distributor`");
+        
+		$this->load->view("json",$data);
+            
+        
+    }
+    
     public function createdistributor()
 	{
 		$access = array("1");

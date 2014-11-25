@@ -114,6 +114,9 @@
     </div>
 </div>
 <div>
+   <div class="well">
+<b>Daily Sales Quantity Amount Graph</b>
+</div>
     <div class="drawchart">
     
 </div>

@@ -12,55 +12,47 @@
 	<div class="col-lg-12">
 		<section class="panel">
 			<header class="panel-heading">
-                distributor Details
+                Distributor Details
             </header>
-			<table class="table table-striped table-hover" cellpadding="0" cellspacing="0" width="100%">
+            <div class="drawchintantable">
+            <?php $this->chintantable->createsearch("Product List");?>
+			<table class="table table-striped table-hover" id="" cellpadding="0" cellspacing="0" >
 			<thead>
 				<tr>
-					<th>ID</th>
-					<th>Distributor Name</th>
-					<th>Code</th>
-					<th>Company</th>
-					<th>Email</th>
-					<th>Contact</th>
-					<th>DOB</th>
-					<th>Address1</th>
-					<th>Address2</th>
-					<th>Zip Code</th>
-					<th> Actions </th>
+					<th data-field="id">Id</th>
+					<th data-field="distributorname">Distributor Name</th>
+					<th data-field="code">Code</th>
+					<th data-field="companyname">Company</th>
+					<th data-field="email">Email</th>
+					<th data-field="contactno">Contact</th>
+					<th data-field="dob">DOB</th>
+					<th data-field="address1">Address1</th>
+					<th data-field="address2">Address2</th>
+					<th data-field="zipcode">Zip Code</th>
+                    <th data-field="action"> Actions </th>
 				</tr>
 			</thead>
 			<tbody>
-			   <?php foreach($table as $row) { ?>
-					<tr>
-						<td><?php echo $row->id;?></td>
-						<td><?php echo $row->distributorname;?></td>
-						<td><?php echo $row->code;?></td>
-						<td><?php echo $row->componyname;?></td>
-						<td><?php echo $row->email;?></td>
-						<td><?php echo $row->contactno;?></td>
-						<td><?php echo $row->dob;?></td>
-						<td><?php echo $row->address1;?></td>
-						<td><?php echo $row->address2;?></td>
-						<td><?php echo $row->zipcode;?></td>
-						
-						<td>
-							<a href="<?php echo site_url('site/editdistributor?id=').$row->id;?>" class="btn btn-primary btn-xs">
-								<i class="icon-pencil"></i>
-							</a>
-							<a href="<?php echo site_url('site/deletedistributor?id=').$row->id; ?>" class="btn btn-danger btn-xs">
-								<i class="icon-trash "></i>
-							</a> 
-							
-						</td>
-					</tr>
-					<?php } ?>
+			  
 			</tbody>
 			</table>
+               <?php $this->chintantable->createpagination();?>
+            </div>
 		</section>
-		
-		<div class="">
-                    <?php echo $this->pagination->create_links();?>
-                </div>
+		<script>
+            
+            function drawtable(resultrow) {
+//                if(!resultrow.schemename)
+//                {
+//                    resultrow.schemename="";
+//                }
+//                if(!resultrow.isnew)
+//                {
+//                    resultrow.isnew="";
+//                }
+                return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.distributorname + "</td><td>" + resultrow.code + "</td><td>" + resultrow.companyname + "</td><td>" + resultrow.email + "</td><td>" + resultrow.contactno + "</td><td>" + resultrow.dob + "</td><td>" + resultrow.address1 + "</td><td>" + resultrow.address2 + "</td><td>" + resultrow.zipcode + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editdistributor?id=');?>"+resultrow.id +"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' href='<?php echo site_url('site/deletedistributor?id='); ?>"+resultrow.id +"'><i class='icon-trash '></i></a></td><tr>";
+            }
+            generatejquery('<?php echo $base_url;?>');
+        </script>
 	</div>
 </div>

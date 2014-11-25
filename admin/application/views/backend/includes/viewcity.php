@@ -17,8 +17,8 @@
                 <thead>
                     <tr>
                         <th data-field="id">Id</th>
-                        <th data-field="areaname">City</th>
-                        <th data-field="citynane">State</th>
+                        <th data-field="cityname">City</th>
+                        <th data-field="statename">State</th>
                         <th data-field="action"> Actions </th>
                     </tr>
                 </thead>
