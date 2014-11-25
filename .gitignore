@@ -48,3 +48,5 @@ admin/application/config/email.php
 rest/application/config/database.php
 rest/application/config/email.php
 
+admin/application/config/email.php
+rest/application/config/email.php
