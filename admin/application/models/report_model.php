@@ -305,7 +305,7 @@ WHERE `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' "
     function exportdailyordersummaryreportdistributor()
 	{
 		$this->load->dbutil();
-        $distributoremailquery=$this->db->query("SELECT `id`,`email` FROM `distributor`")->row();
+        $distributoremailquery=$this->db->query("SELECT `id`,`email` FROM `distributor`")->result();
         foreach($distributoremailquery as $row)
         {
         $distributor=$row->id;
@@ -387,7 +387,7 @@ WHERE `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' "
     function exportweeklyitemwisereportdistributor()
 	{
 		$this->load->dbutil();
-        $distributoremailquery=$this->db->query("SELECT `id`,`email` FROM `distributor`")->row();
+        $distributoremailquery=$this->db->query("SELECT `id`,`email` FROM `distributor`")->result();
         foreach($distributoremailquery as $row)
         {
         $distributor=$row->id;

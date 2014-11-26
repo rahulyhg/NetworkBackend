@@ -13,5 +13,5 @@ cron:
   timezone: Asia/Calcutta
 - description: Weekly Item Wise Report To All Distributor
   url: /admin/index.php/report/weeklyitemwisereporttodistributor
-  schedule: every tuesday 03:00
+  schedule: every monday 03:00
   timezone: Asia/Calcutta
