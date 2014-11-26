@@ -43,3 +43,5 @@ Temporary Items
 .apdisk
 
 admin/application/config/*
+admin/application/config/email.php
+rest/application/config/email.php
