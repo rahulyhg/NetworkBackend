@@ -89,7 +89,7 @@ $db['production']['cache_on'] = FALSE;
 $db['production']['autoinit'] = FALSE;
 $db['production']['char_set'] = 'utf8';
 $db['production']['dbcollat'] = 'utf8_general_ci';
-$db['production']['cachedir'] = ”;
+$db['production']['cachedir'] = '';
 $db['production']['socket'] = '/cloudsql/ambient-hulling-725:dealernetwork';
 
 /* End of file database.php */

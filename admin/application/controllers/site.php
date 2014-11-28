@@ -28,7 +28,7 @@ class Site extends CI_Controller
 		$this->checkaccess($access);
 //        $currentdate=date('Y-m-d',strtotime("-1 days"));
 //        echo $currentdate;
-        $query=$this->db->query("SELECT `users`.`name`,SUM(`orders`.`quantity`) as `y` FROM `orders` RIGHT OUTER JOIN `users` ON `users`.`id`=`orders`.`salesid` WHERE DATE(`orders`.`timestamp`)=DATE(NOW()) GROUP BY `users`.`id`")->result();
+        $query=$this->db->query("SELECT `users`.`name`,SUM(`orders`.`quantity`) as `y` FROM `orders` RIGHT OUTER JOIN `users` ON `users`.`id`=`orders`.`salesid` WHERE MONTH(DATE(`orders`.`timestamp`))=MONTH(DATE(NOW())) AND `users`.`accesslevel`='2' GROUP BY `users`.`id`")->result();
         foreach($query as $row)
         {
             $row->y=intval($row->y);
@@ -5481,7 +5481,7 @@ class Site extends CI_Controller
     }
    public function blank()
 	{
-        $query=$this->db->query("SELECT `users`.`name`,SUM(`orders`.`quantity`) as `y` FROM `orders` RIGHT OUTER JOIN `users` ON `users`.`id`=`orders`.`salesid` WHERE DATE(`orders`.`timestamp`)=DATE(NOW()) GROUP BY `users`.`id`")->result();
+        $query=$this->db->query("SELECT `users`.`name`,SUM(`orders`.`quantity`) as `y` FROM `orders` RIGHT OUTER JOIN `users` ON `users`.`id`=`orders`.`salesid` WHERE MONTH(DATE(`orders`.`timestamp`))=MONTH(DATE(NOW())) GROUP BY `users`.`id`")->result();
         foreach($query as $row)
         {
             $row->y=intval($row->y);

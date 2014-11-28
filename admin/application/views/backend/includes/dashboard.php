@@ -197,7 +197,7 @@ foreach($topproducts as $row) { ?>
 </script>
 <script>
 $(document).ready(function() {
-    generatepiechart("Sales Person Quantity Chart",".drawpiechart1",<?php echo $values;?>)
+    generatepiechart("Sales Person Quantity Pie Diagram for Current Month",".drawpiechart1",<?php echo $values;?>)
 });
 </script>
 </div>
