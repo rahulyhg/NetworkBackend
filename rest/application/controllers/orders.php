@@ -115,6 +115,7 @@ class Orders extends CI_Controller {
 	}
 	function makeorder() 
 	{
+        $this->db->query("SET time_zone='+05:30'");
 		$order=json_decode(file_get_contents('php://input'));
 		$cart=$order->cart;
 		$user=$order->user;

@@ -55,6 +55,7 @@ class User extends CI_Controller {
 		$password=$this->input->get_post("password");
 		$password=md5($password);
 		$this->load->model('usermodel');
+        $this->db->query("SET time_zone='+05:30'");
 		$data['json']=$this->usermodel->authenticate($username,$password);
 		$this->load->view('json',$data);
 	}

@@ -13,7 +13,8 @@ class Site extends CI_Controller
 		if ( $is_logged_in !== 'true' || !isset( $is_logged_in ) ) {
 			redirect( base_url() . 'index.php/login', 'refresh' );
 		} //$is_logged_in !== 'true' || !isset( $is_logged_in )
-	}
+	   
+    }
 	function checkaccess($access)
 	{
 		$accesslevel=$this->session->userdata('accesslevel');

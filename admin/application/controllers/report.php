@@ -112,6 +112,12 @@ class Report extends CI_Controller
 	{
 		$this->report_model->exportweeklyitemwisereportdistributor();
 	}
+//    public function sendmailtoavi()
+//	{
+//        $email="hello";
+//        echo $email;
+//		$this->report_model->sendmailtoavi();
+//	}
    
     
 }

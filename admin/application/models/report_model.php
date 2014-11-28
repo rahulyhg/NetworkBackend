@@ -262,12 +262,13 @@ WHERE `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' "
     function exportdailysalesdayreporttozone()
 	{
 		$this->load->dbutil();
-        $zoneemailquery=$this->db->query("SELECT `id`,`email` FROM `zone`")->result();
+        $zoneemailquery=$this->db->query("SELECT `id`,`email`,`name` FROM `zone`")->result();
         
         foreach($zoneemailquery as $row)
         {
             
         $zone=$row->id;
+        $zonename=$row->name;
         $zoneemail=$row->email;
         $zoneemail = explode(",", $zoneemail);
             
@@ -294,10 +295,12 @@ WHERE `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' "
         $this->load->library('email');
         $this->email->from('noreply@toy-kraft.com', 'Toykraft');
         $this->email->to($zoneemail);
-        $this->email->subject('Toykraft: Daily Sales Day Report');
+        $this->email->subject("Toykraft: Daily Sales Day Report Of '$zonename' Zone");
         $base="http://admin.toy-kraft.com/servepublic?name=dailysalesdayreport_$timestamp.csv";
-        $msg="Daily Reports of Toykraft-<a href='$base'>Click To Download</a>";
-        $this->email->message($msg);
+//        $msg="Daily Reports of Toykraft-<a href='$base'>Click To Download</a>";
+        $data['link']=$base;
+        $this->email->message($this->load->view('toykraftmail',$data,true));
+//        $this->email->message($msg);
         $this->email->send();
         }
 	}
@@ -305,10 +308,11 @@ WHERE `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' "
     function exportdailyordersummaryreportdistributor()
 	{
 		$this->load->dbutil();
-        $distributoremailquery=$this->db->query("SELECT `id`,`email` FROM `distributor`")->result();
+        $distributoremailquery=$this->db->query("SELECT `id`,`email`,`name` FROM `distributor`")->result();
         foreach($distributoremailquery as $row)
         {
         $distributor=$row->id;
+        $distributorname=$row->name;
         $distributoremail=$row->email;
         $distributoremail = explode(",", $distributoremail);
         
@@ -332,11 +336,13 @@ WHERE `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' "
         $this->load->library('email');
         $this->email->from('noreply@toy-kraft.com', 'Toykraft');
         $this->email->to($distributoremail);
-        $this->email->subject('Toykraft: Daily Order Summery Report');
+        $this->email->subject("Toykraft: Daily Order Summery Report Of '$distributorname'");
         $base=base_url("csvgenerated/dailyordersummaryreport_$timestamp.csv");
         $base="http://admin.toy-kraft.com/servepublic?name=dailyordersummaryreport_$timestamp.csv";
-        $msg="Daily Reports of Toykraft-<a href='$base'>Click To Download</a>";
-        $this->email->message($msg);
+//        $msg="Daily Reports of Toykraft-<a href='$base'>Click To Download</a>";
+        $data['link']=$base;
+        $this->email->message($this->load->view('toykraftmail',$data,true));
+//        $this->email->message($msg);
         $this->email->send();
         }
 	}
@@ -344,12 +350,13 @@ WHERE `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' "
     function exportweeklydistributorsalesreporttozone()
 	{
 		$this->load->dbutil();
-        $zoneemailquery=$this->db->query("SELECT `id`,`email` FROM `zone`")->result();
+        $zoneemailquery=$this->db->query("SELECT `id`,`email`,`name` FROM `zone`")->result();
         
         foreach($zoneemailquery as $row)
         {
             
         $zone=$row->id;
+        $zonename=$row->name;
         $zoneemail=$row->email;
         $zoneemail = explode(",", $zoneemail);
         
@@ -377,20 +384,27 @@ WHERE `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' "
         $this->load->library('email');
         $this->email->from('noreply@toy-kraft.com', 'Toykraft');
         $this->email->to($zoneemail);
-        $this->email->subject('Toykraft: Weekly Distributor Sales Report');
+            
+        $subject="Toykraft: Weekly Distributor Sales Report of '$zonename' Zone";
+            
+        $this->email->subject($subject);
         $base="http://admin.toy-kraft.com/servepublic?name=weeklydistributorsalesreport_$timestamp.csv";
-        $msg="Weekly Distributor Reports of Toykraft-<a href='$base'>Click To Download</a>";
-        $this->email->message($msg);
+        $data['link']=$base;
+//        $msg="Weekly Distributor Reports of Toykraft-<a href='$base'>Click To Download</a>";
+//        $this->email->message($msg);
+        $this->email->message($this->load->view('toykraftmail',$data,true));
+        $this->email->send();
         }
 	}
     
     function exportweeklyitemwisereportdistributor()
 	{
 		$this->load->dbutil();
-        $distributoremailquery=$this->db->query("SELECT `id`,`email` FROM `distributor`")->result();
+        $distributoremailquery=$this->db->query("SELECT `id`,`email`,`name` FROM `distributor`")->result();
         foreach($distributoremailquery as $row)
         {
         $distributor=$row->id;
+        $distributorname=$row->name;
         $distributoremail=$row->email;
         $distributoremail = explode(",", $distributoremail);
         
@@ -416,13 +430,33 @@ WHERE `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' "
         $this->load->library('email');
         $this->email->from('noreply@toy-kraft.com', 'Toykraft');
         $this->email->to($distributoremail);
-        $this->email->subject('Toykraft: Weekly Item Wise Summery Report');
+        $this->email->subject("Toykraft: Weekly Item Wise Summery Report of '$distributorname' ");
 //        $base=base_url("csvgenerated/weeklyItemWiseSummaryReportToDistributor_$timestamp.csv");
         $base="http://admin.toy-kraft.com/servepublic?name=weeklyItemWiseSummaryReportToDistributor_$timestamp.csv";
-        $msg="Weekly Item Wise Reports of Toykraft-<a href='$base'>Click To Download</a>";
-        $this->email->message($msg);
+//        $msg="Weekly Item Wise Reports of Toykraft-<a href='$base'>Click To Download</a>";
+        $data['link']=$base;
+        $this->email->message($this->load->view('toykraftmail',$data,true));
+//        $this->email->message($msg);
         $this->email->send();
         }
 	}
+//    function sendmailtoavi()
+//	{
+////        $this->load->dbutil();
+//		$email='avinash@wohlig.com';
+//        echo $email;
+//        $this->load->library('email');
+//        //$email='patiljagruti181@gmail.com,jagruti@wohlig.com';
+//        $this->email->from('chintan@wohlig.com', 'Toykraft');
+//        $this->email->to($email);
+//        $this->email->subject('Toykraft');
+//        $this->email->message($this->load->view('toykraftmail',"",true));
+//        $this->email->message($this->load->view('emailmsg',"",true));
+//
+//        $this->email->send();
+//
+//        echo $this->email->print_debugger();
+//        }
+	
 }
 ?>
