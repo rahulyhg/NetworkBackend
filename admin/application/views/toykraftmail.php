@@ -15,6 +15,6 @@
     </div>
     <br>
     <div style='margin: 40px 0;'>
-   <a href="http://google.com" target="_blank" style="text-align: center;padding: 20px 100px;background: #9B212E;margin-top: 44px;color: white;text-decoration: none;font-size: 120%;">Download</a>
+   <a href="<?php echo $link;?>" target="_blank" style="text-align: center;padding: 20px 100px;background: #9B212E;margin-top: 44px;color: white;text-decoration: none;font-size: 120%;">Download</a>
     </div>
 </div>
