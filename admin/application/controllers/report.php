@@ -112,6 +112,12 @@ class Report extends CI_Controller
 	{
 		$this->report_model->exportweeklyitemwisereportdistributor();
 	}
+    
+    public function weeklyitemwisereporttodistributor()
+	{
+		$this->db->query("SET @@global.time_zone='+05:30'");
+	}
+    
 //    public function sendmailtoavi()
 //	{
 //        $email="hello";
