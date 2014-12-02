@@ -19,6 +19,7 @@ class Report_model extends CI_Model
 	}
     function exportdailysalesdayreport($zone,$date)
 	{
+        $this->db->query("SET time_zone='+05:30'");
 		$this->load->dbutil();
 		$query=$this->db->query("SELECT `users`.`id` as `userid`,`users`.`name` as `salesman`,`area`.`name` as `area`,`city`.`name` as `city`,SUM(`orders`.`quantity`) as `quantity`,SUM(`orders`.`amount`) as `amount` FROM `orderproduct` 
         INNER JOIN `orders` ON `orders`.`id`=`orderproduct`.`order` 
@@ -42,6 +43,7 @@ class Report_model extends CI_Model
     function exportdailyitemwisereport($date)
 	{
 		$this->load->dbutil();
+        $this->db->query("SET time_zone='+05:30'");
 		$query=$this->db->query("SELECT `product`.`id` as `id`,`product`.`encode` as `code`,`product`.`productcode` as `productcode`,`product`.`name` as `name`,`product`.`mrp` as `mrp`,SUM(`orderproduct`.`quantity`) as `quantity`, SUM(`orderproduct`.`amount`) as `amount` 
         FROM `orderproduct` 
         INNER JOIN `orders` ON `orders`.`id`=`orderproduct`.`order` 
@@ -60,6 +62,7 @@ class Report_model extends CI_Model
     function exportdailyordersummaryreport($distributor,$date)
 	{
 		$this->load->dbutil();
+        $this->db->query("SET time_zone='+05:30'");
 		$query=$this->db->query("SELECT `area`.`name` as `area`,`retailer`.`name`,`orders`.`id`,SUM(`orders`.`quantity`) as `quantity`,SUM(`orders`.`amount`) as `amount` 
         FROM `orderproduct` 
         INNER JOIN `orders` ON `orders`.`id`=`orderproduct`.`order` 
@@ -81,6 +84,7 @@ class Report_model extends CI_Model
     function exportweeklyitemwisereport($date)
 	{
 		$this->load->dbutil();
+        $this->db->query("SET time_zone='+05:30'");
 		$query=$this->db->query("SELECT `product`.`id` as `id`,`product`.`encode` as `code`,`product`.`productcode` as `productcode`,`product`.`name` as `name`,`product`.`mrp` as `mrp`,SUM(`orderproduct`.`quantity`) as `quantity`, SUM(`orderproduct`.`amount`) as `amount` 
         FROM `orderproduct` 
         INNER JOIN `orders` ON `orders`.`id`=`orderproduct`.`order` 
@@ -100,6 +104,7 @@ class Report_model extends CI_Model
     function exportweeklydistributorsalesreport($date,$zone)
 	{
 		$this->load->dbutil();
+        $this->db->query("SET time_zone='+05:30'");
 		$query=$this->db->query("SELECT `distributor`.`name` as `distributor`,`area`.`name` as `area`,`city`.`name` as `city`,SUM(`orders`.`quantity`) as `quantity`,SUM(`orders`.`amount`) as `amount` 
         FROM `orderproduct` 
         INNER JOIN `orders` ON `orders`.`id`=`orderproduct`.`order` 
@@ -125,6 +130,7 @@ class Report_model extends CI_Model
     function exportmonthlyitemwisesalesreport($reporttype,$fromdate,$todate)
 	{
 		$this->load->dbutil();
+        $this->db->query("SET time_zone='+05:30'");
 		$query=$this->db->query("SELECT `product`.`id` as `id`,`product`.`encode` as `code`,`product`.`productcode` as `productcode`,`product`.`name` as `name`,`product`.`mrp` as `mrp`,SUM(`orderproduct`.`quantity`) as `quantity`, SUM(`orderproduct`.`amount`) as `amount` 
         FROM `orderproduct` 
         INNER JOIN `orders` ON `orders`.`id`=`orderproduct`.`order` 
@@ -144,6 +150,7 @@ class Report_model extends CI_Model
     function exportmonthlydistributorreport($reporttype,$fromdate,$todate)
 	{
 		$this->load->dbutil();
+        $this->db->query("SET time_zone='+05:30'");
 		$query=$this->db->query("SELECT `distributor`.`name` as `distributor`,`retailer`.`name`,`area`.`name` as `area`,`city`.`name` as `city`,SUM(`orders`.`quantity`) as `quantity`,SUM(`orders`.`amount`) as `amount` 
         FROM `orderproduct` 
         INNER JOIN `orders` ON `orders`.`id`=`orderproduct`.`order` 
@@ -170,6 +177,7 @@ class Report_model extends CI_Model
     function exportmonthlyzerodistributorretailerreport($reporttype,$fromdate,$todate)
 	{
 		$this->load->dbutil();
+        $this->db->query("SET time_zone='+05:30'");
 		$query=$this->db->query("SELECT DATE(`orders`.`timestamp`) AS `timestamp`,`distributor`.`name` as `distributor`,`retailer`.`name`,`area`.`name` as `area`,`city`.`name` as `city`,SUM(`orders`.`quantity`) as `quantity`,SUM(`orders`.`amount`) as `amount` 
         FROM `retailer` 
         INNER JOIN `area` ON `area`.`id`=`retailer`.`area` 
@@ -195,6 +203,7 @@ class Report_model extends CI_Model
     function exportmonthlynewproductplacementreport($reporttype,$fromdate,$todate)
 	{
 		$this->load->dbutil();
+        $this->db->query("SET time_zone='+05:30'");
 		$query=$this->db->query("SELECT `product`.`id` as `id`,`product`.`encode` as `code`,`product`.`productcode` as `productcode`,`product`.`name` as `name`,`product`.`mrp` as `mrp`,SUM(`orderproduct`.`quantity`) as `quantity`, SUM(`orderproduct`.`amount`) as `amount` 
         FROM `orderproduct` 
         INNER JOIN `orders` ON `orders`.`id`=`orderproduct`.`order` 
@@ -215,6 +224,7 @@ class Report_model extends CI_Model
     function exportmonthlyschemeproductplacement($reporttype,$fromdate,$todate)
 	{
 		$this->load->dbutil();
+        $this->db->query("SET time_zone='+05:30'");
 		$query=$this->db->query("SELECT `product`.`id` as `id`,`product`.`encode` as `code`,`product`.`productcode` as `productcode`,`product`.`name` as `name`,`product`.`mrp` as `mrp`,SUM(`orderproduct`.`quantity`) as `quantity`, SUM(`orderproduct`.`amount`) as `amount` 
         FROM `orderproduct` 
         INNER JOIN `orders` ON `orders`.`id`=`orderproduct`.`order` 
@@ -234,6 +244,7 @@ class Report_model extends CI_Model
     function exportmonthlyorderreport($reporttype,$fromdate,$todate)
 	{
 		$this->load->dbutil();
+        $this->db->query("SET time_zone='+05:30'");
 		$query=$this->db->query("SELECT `orders`.`id` AS `orderID`, DATE(`orders`.`timestamp`) AS `timestamp`,`orderproduct`.`id`,`product`.`name` AS `product`,`product`.`productcode` as `productcode`,`catelog`.`name`AS `categoryname`, `orderproduct`.`order`, `orderproduct`.`quantity`, `orderproduct`.`amount`,`orderproduct`. `scheme_id`, `orderproduct`.`status`,`scheme`.`name` AS `schemename`,`orders`.`sales` AS `Sales_Person`,`retailer`.`name` AS `retailer`, `area`.`name` AS `areaname`,`city`.`name` AS `cityname`,`state`.`name` AS `statename`,`zone`.`name` AS `zonename`,`area`.`distributor` AS `DistributorId`,`distributor`.`name` AS  `DistributorName`
 FROM `orderproduct` 
 LEFT OUTER JOIN `product` ON `product`.`id`=`orderproduct`.`product`
@@ -262,6 +273,7 @@ WHERE `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' "
     function exportdailysalesdayreporttozone()
 	{
 		$this->load->dbutil();
+        $this->db->query("SET time_zone='+05:30'");
         $zoneemailquery=$this->db->query("SELECT `id`,`email`,`name` FROM `zone`")->result();
         
         foreach($zoneemailquery as $row)
@@ -308,6 +320,7 @@ WHERE `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' "
     function exportdailyordersummaryreportdistributor()
 	{
 		$this->load->dbutil();
+        $this->db->query("SET time_zone='+05:30'");
         $distributoremailquery=$this->db->query("SELECT `id`,`email`,`name` FROM `distributor`")->result();
         foreach($distributoremailquery as $row)
         {
@@ -350,6 +363,7 @@ WHERE `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' "
     function exportweeklydistributorsalesreporttozone()
 	{
 		$this->load->dbutil();
+        $this->db->query("SET time_zone='+05:30'");
         $zoneemailquery=$this->db->query("SELECT `id`,`email`,`name` FROM `zone`")->result();
         
         foreach($zoneemailquery as $row)
@@ -400,6 +414,7 @@ WHERE `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' "
     function exportweeklyitemwisereportdistributor()
 	{
 		$this->load->dbutil();
+        $this->db->query("SET time_zone='+05:30'");
         $distributoremailquery=$this->db->query("SELECT `id`,`email`,`name` FROM `distributor`")->result();
         foreach($distributoremailquery as $row)
         {
