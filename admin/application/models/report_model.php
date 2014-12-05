@@ -321,7 +321,14 @@ WHERE `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' "
 	{
 		$this->load->dbutil();
         $this->db->query("SET time_zone='+05:30'");
-        $distributoremailquery=$this->db->query("SELECT `id`,`email`,`name` FROM `distributor`")->result();
+        $distributoremailquery=$this->db->query("SELECT `distributor`.`id` AS `id`,`distributor`.`email` AS `email`,`distributor`.`name` AS `name`,SUM(`orders`.`quantity`) as `quantity`,SUM(`orders`.`amount`) as `amount` 
+        FROM `orders`
+        INNER JOIN `retailer` ON `retailer`.`id`=`orders`.`retail` 
+        INNER JOIN `users` ON `users`.`id`=`orders`.`salesid` 
+        INNER JOIN `area` ON `area`.`id`=`retailer`.`area`   
+        INNER JOIN `distributor` ON `area`.`distributor`=`distributor`.`id`  
+        WHERE `orders`.`timestamp` BETWEEN CONCAT(DATE(NOW() - INTERVAL 1 DAY),' 00:00:00') AND CONCAT(DATE(NOW() - INTERVAL 1 DAY),' 23:59:59')
+        GROUP BY `distributor`.`id`")->result();
         foreach($distributoremailquery as $row)
         {
         $distributor=$row->id;
@@ -337,7 +344,7 @@ WHERE `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' "
         INNER JOIN `retailer` ON `retailer`.`id`=`orders`.`retail` 
         INNER JOIN `users` ON `users`.`id`=`orders`.`salesid` 
         INNER JOIN `area` ON `area`.`id`=`retailer`.`area`  
-        WHERE `area`.`distributor`='$distributor' AND `orders`.`timestamp` BETWEEN CONCAT(DATE(NOW() - INTERVAL 1 DAY),' 00:00:00') AND CONCAT(DATE(NOW() - INTERVAL 1 DAY),' 23:59:59') 
+        WHERE `area`.`distributor`='$distributor' AND `orders`.`timestamp` BETWEEN CONCAT(DATE(NOW() - INTERVAL 1 DAY),' 00:00:00') AND CONCAT(DATE(NOW() - INTERVAL 1 DAY),' 23:59:59')
         GROUP BY `retailer`.`id`,`area`.`id`");
             
         $timestamp=new DateTime();
@@ -415,7 +422,15 @@ WHERE `orders`.`timestamp` BETWEEN '$fromdate 00:00:00' AND '$todate 23:59:59' "
 	{
 		$this->load->dbutil();
         $this->db->query("SET time_zone='+05:30'");
-        $distributoremailquery=$this->db->query("SELECT `id`,`email`,`name` FROM `distributor`")->result();
+        $distributoremailquery=$this->db->query("SELECT `distributor`.`id` as `id`,`distributor`.`name` as `name`,SUM(`orderproduct`.`quantity`) as `quantity`, SUM(`orderproduct`.`amount`) as `amount`,`distributor`.`email` AS `email`  
+        FROM `orderproduct` 
+        LEFT OUTER JOIN `orders` ON `orders`.`id`=`orderproduct`.`order`
+        LEFT OUTER JOIN `retailer` ON `orders`.`retail`=`retailer`.`id` 
+        LEFT OUTER JOIN `area` ON `retailer`.`area`=`area`.`id` 
+        LEFT OUTER JOIN `distributor` ON `area`.`distributor`=`distributor`.`id`
+        LEFT OUTER JOIN `product` ON `product`.`id`=`orderproduct`.`product` 
+        WHERE  WEEK(`orders`.`timestamp`)=WEEK(CONCAT(DATE(NOW() - INTERVAL 1 DAY),' 00:00:00')) AND YEAR(CONCAT(DATE(NOW() - INTERVAL 1 DAY),' 00:00:00'))=YEAR(`orders`.`timestamp`)
+        GROUP BY `distributor`.`id`")->result();
         foreach($distributoremailquery as $row)
         {
         $distributor=$row->id;
