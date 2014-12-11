@@ -4911,9 +4911,11 @@ class Site extends CI_Controller
 		$this->checkaccess($access);
 		$this->form_validation->set_rules('product','product','trim|required');
 		$this->form_validation->set_rules('order','order','trim|required');
-		
+		$this->form_validation->set_rules('imagename','imagename','trim|required');
+
 		if($this->form_validation->run() == FALSE)	
 		{
+            
 			$data['alerterror'] = validation_errors();
 			$data['page']='createproductimage';
 			$data['title']='Create New productimage';
@@ -4924,21 +4926,32 @@ class Site extends CI_Controller
 		{
 			$product=$this->input->post('product');
 			$order=$this->input->post('order');
-            $config['upload_path'] = './uploads/';
-			$config['allowed_types'] = 'gif|jpg|png|jpeg';
-			$this->load->library('upload', $config);
-			$filename="image";
-			$image="";
-			if (  $this->upload->do_upload($filename))
-			{
-				$uploaddata = $this->upload->data();
-				$image=$uploaddata['file_name'];
-			}
+			$image=$this->input->post('imagename');
+           
+//            $config['upload_path'] = './uploads/';
+//			$config['allowed_types'] = 'gif|jpg|png|jpeg';
+//			$this->load->library('upload', $config);
+//			$filename="image";
+//			$image="";
+//			if (  $this->upload->do_upload($filename))
+//			{
+//				$uploaddata = $this->upload->data();
+//				$image=$uploaddata['file_name'];
+//                return 0;
+//			}
+//            else 
+//            {
+//                
+//                echo $this->upload->display_errors();
+//                echo "Dem";
+//                return 0;
+//            }
             
-			if($this->productimage_model->create($product,$image,$order)==0)
-			$data['alerterror']="New productimage could not be created.";
-			else
-			$data['alertsuccess']="productimage created Successfully.";
+            if($this->productimage_model->create($product,$image,$order)==0)
+               $data['alerterror']="New productimage could not be created.";
+            else
+               $data['alertsuccess']="productimage created Successfully.";
+			
 			
 			$data['table']=$this->productimage_model->viewproductimage();
 			$data['redirect']="site/viewproductimage";
@@ -4946,6 +4959,61 @@ class Site extends CI_Controller
 			$this->load->view("redirect",$data);
 		}
 	}
+    
+//    function createproductimagesubmit()
+//	{
+//		$access = array("1");
+//		$this->checkaccess($access);
+//		$this->form_validation->set_rules('product','product','trim|required');
+//		$this->form_validation->set_rules('order','order','trim|required');
+//		$this->form_validation->set_rules('imagename','imagename','trim|required');
+//
+//		if($this->form_validation->run() == FALSE)	
+//		{
+//            
+//			$data['alerterror'] = validation_errors();
+//			$data['page']='createproductimage';
+//			$data['title']='Create New productimage';
+//            $data['product']=$this->productimage_model->getproductdropdown();
+//			$this->load->view('template',$data);
+//		}
+//		else
+//		{
+//			$product=$this->input->post('product');
+//			$order=$this->input->post('order');
+//			$image=$this->input->post('imagename');
+//           
+//            $config['upload_path'] = './uploads/';
+//			$config['allowed_types'] = 'gif|jpg|png|jpeg';
+//			$this->load->library('upload', $config);
+//			$filename="image";
+//			$image="";
+//			if (  $this->upload->do_upload($filename))
+//			{
+//				$uploaddata = $this->upload->data();
+//				$image=$uploaddata['file_name'];
+//                return 0;
+//                if($this->productimage_model->create($product,$image,$order)==0)
+//                    $data['alerterror']="New productimage could not be created.";
+//                else
+//                    $data['alertsuccess']="productimage created Successfully.";
+//			}
+//            else 
+//            {
+//                
+//                echo $this->upload->display_errors();
+//                echo "Dem";
+//                return 0;
+//            }
+//            
+//			
+//			
+//			$data['table']=$this->productimage_model->viewproductimage();
+//			$data['redirect']="site/viewproductimage";
+//			//$data['other']="template=$template";
+//			$this->load->view("redirect",$data);
+//		}
+//	}
     
     function editproductimage()
 	{
@@ -4964,6 +5032,7 @@ class Site extends CI_Controller
         
 		$this->form_validation->set_rules('product','product','trim|required');
 		$this->form_validation->set_rules('order','order','trim|required');
+		$this->form_validation->set_rules('imagename','imagename','trim|required');
         
 		if($this->form_validation->run() == FALSE)	
 		{
@@ -4981,16 +5050,18 @@ class Site extends CI_Controller
 			$id=$this->input->post('id');
             $product=$this->input->post('product');
 			$order=$this->input->post('order');
-            $config['upload_path'] = './uploads/';
-			$config['allowed_types'] = 'gif|jpg|png|jpeg';
-			$this->load->library('upload', $config);
-			$filename="image";
-			$image="";
-			if (  $this->upload->do_upload($filename))
-			{
-				$uploaddata = $this->upload->data();
-				$image=$uploaddata['file_name'];
-			}
+			$image=$this->input->post('imagename');
+//            $config['upload_path'] = './uploads/';
+//			$config['allowed_types'] = 'gif|jpg|png|jpeg';
+//			$this->load->library('upload', $config);
+//			$filename="image";
+//			$image="";
+//			if (  $this->upload->do_upload($filename))
+//			{
+//				$uploaddata = $this->upload->data();
+//				$image=$uploaddata['file_name'];
+//			}
+            
             if($image=="")
             {
             $image=$this->productimage_model->getimagebyid($id);

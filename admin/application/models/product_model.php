@@ -91,6 +91,7 @@ LEFT OUTER JOIN `scheme` ON `scheme`.`id`=`product`.`scheme`")->row();
 	function deleteproduct($id)
 	{
 		$query=$this->db->query("DELETE FROM `product` WHERE `id`='$id'");
+        $deleteproductimages=$this->db->query("DELETE FROM  `productimage` WHERE  `product` ='$id'");
 	}
     
     //-----------------------------------------------------------------------------------------------------------------------------------------

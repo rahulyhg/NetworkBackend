@@ -21,14 +21,8 @@
 				<div class=" form-group">
 				  <label class="col-sm-2 control-label" for="normal-field">image</label>
 				  <div class="col-sm-4">
-					<input type="file" id="normal-field" class="form-control" name="image" value="<?php echo set_value('image',$before->image);?>">
-					<?php if($before->image == "")
-						 { }
-						 else
-						 { ?>
-							<img src="<?php echo base_url('uploads')."/".$before->image; ?>" width="140px" height="140px">
-						<?php }
-					?>
+					<input type="file" id="normal-field" class="form-control imagefile" name="image" value="<?php echo set_value('image',$before->image);?>">
+					<input type="hidden" class="imagename" name="imagename" value="<?php echo set_value('imagename',$before->image);?>">
 				  </div>
 				</div>
 				<div class="form-group">
@@ -51,3 +45,13 @@
 		</section>
     </div>
 </div>
+
+
+<script>
+    $(document).ready(function() {
+        $(".imagefile").change( function() {
+            var imagename=$(this).get(0).files[0].name;
+            $(".imagename").val(imagename);
+        });
+    });
+</script>

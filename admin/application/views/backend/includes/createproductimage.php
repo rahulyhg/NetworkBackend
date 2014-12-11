@@ -27,7 +27,10 @@
 				<div class=" form-group">
 				  <label class="col-sm-2 control-label" for="normal-field">Image</label>
 				  <div class="col-sm-4">
-					<input type="file" id="normal-field" class="form-control" name="image" value="<?php echo set_value('image');?>">
+					<input type="file" id="normal-field" class="form-control imagefile"  name="image" value="<?php echo set_value('image');?>">
+				  </div>
+				  <div class="col-sm-4">
+					<input type="hidden" id="normal-field" class="form-control imagename" name="imagename" value="<?php echo set_value('imagename');?>">
 				  </div>
 				</div>
 				<div class="form-group">
@@ -50,3 +53,13 @@
 		</section>
 	</div>
 </div>
+
+
+<script>
+    $(document).ready(function() {
+        $(".imagefile").change( function() {
+            var imagename=$(this).get(0).files[0].name;
+            $(".imagename").val(imagename);
+        });
+    });
+</script>
