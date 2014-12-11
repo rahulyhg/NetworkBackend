@@ -13,7 +13,7 @@
 				 productimage Details
 			</header>
 			<div class="panel-body">
-			  <form class="form-horizontal tasi-form" method="post" action="<?php echo site_url('site/createproductimagesubmit');?>" enctype= "multipart/form-data">
+			  <form class="form-horizontal tasi-form" method="post" action="<?php echo site_url('site/createproductimagesubmit');?>">
 			  
 				<div class=" form-group">
 				  <label class="col-sm-2 control-label">Select Product</label>
@@ -29,14 +29,18 @@
 				  <div class="col-sm-4">
 					<input type="file" id="normal-field" class="form-control imagefile"  name="image" value="<?php echo set_value('image');?>">
 				  </div>
-				  <div class="col-sm-4">
-					<input type="hidden" id="normal-field" class="form-control imagename" name="imagename" value="<?php echo set_value('imagename');?>">
-				  </div>
 				</div>
 				<div class="form-group">
 				  <label class="col-sm-2 control-label" for="normal-field">order</label>
 				  <div class="col-sm-4">
 					<input type="text" id="normal-field" class="form-control" name="order" value="<?php echo set_value('order');?>">
+					
+				  </div>
+				</div>
+				<div class="form-group"  style="display:none;">
+				  <label class="col-sm-2 control-label" for="normal-field">Image name</label>
+				  <div class="col-sm-4">
+					<input type="text"  id="normal-field" class="form-control imagename" name="imagename" value="<?php echo set_value('imagename');?>" >
 				  </div>
 				</div>
 				
@@ -45,7 +49,7 @@
 				  <label class="col-sm-2 control-label">&nbsp;</label>
 				  <div class="col-sm-4">
 				  <button type="submit" class="btn btn-primary">Save</button>
-				  <a href="<?php echo site_url('site/viewmall'); ?>" class="btn btn-secondary">Cancel</a>
+				  <a href="<?php echo site_url('site/viewproductimage'); ?>" class="btn btn-secondary">Cancel</a>
 				</div>
 				</div>
 			  </form>
@@ -58,7 +62,7 @@
 <script>
     $(document).ready(function() {
         $(".imagefile").change( function() {
-            var imagename=$(this).get(0).files[0].name;
+            var imagename=$(".imagefile").get(0).files[0].name;
             $(".imagename").val(imagename);
         });
     });

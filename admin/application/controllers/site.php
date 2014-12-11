@@ -4878,24 +4878,98 @@ class Site extends CI_Controller
     
     //productimage
     
+//    function viewproductimage()
+//	{
+//		$access = array("1");
+//		$this->checkaccess($access);
+////		$data['table']=$this->productimage_model->viewproductimage();
+//		$data['page']='viewproductimage';
+//        
+//        $bothval=$this->productimage_model->viewproductimage();
+//        $data['table']=$bothval->query;
+//        
+//        $this->load->library('pagination');
+//        $config['base_url'] = site_url("site/viewproductimage");
+//        $config['total_rows']=$bothval->totalcount;
+//        $this->pagination->initialize($config); 
+//        
+//		$data['title']='View productimage';
+//		$this->load->view('template',$data);
+//	}
+    
+    
     function viewproductimage()
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-//		$data['table']=$this->productimage_model->viewproductimage();
 		$data['page']='viewproductimage';
-        
-        $bothval=$this->productimage_model->viewproductimage();
-        $data['table']=$bothval->query;
-        
-        $this->load->library('pagination');
-        $config['base_url'] = site_url("site/viewproductimage");
-        $config['total_rows']=$bothval->totalcount;
-        $this->pagination->initialize($config); 
-        
-		$data['title']='View productimage';
+        $data['base_url']=site_url("site/viewproductimagejson");
+		$data['title']='View Product Images';
 		$this->load->view('template',$data);
-	} 
+	}
+    function viewproductimagejson() 
+    {
+        $access = array("1");
+		$this->checkaccess($access);
+        
+//        SELECT `productimage`.`id`,`productimage`.`product`, `productimage`.`image`, `productimage`.`order`, `productimage`.`views`,`product`.`name` AS `productname` FROM `productimage` LEFT OUTER JOIN `product` ON `product`.`id`=`productimage`.`product`
+            
+        $elements=array();
+        $elements[0]=new stdClass();
+        $elements[0]->field="`productimage`.`id`";
+        $elements[0]->sort="1";
+        $elements[0]->header="ID";
+        $elements[0]->alias="id";
+        
+        
+        $elements[1]->field="`productimage`.`product`";
+        $elements[1]->sort="1";
+        $elements[1]->header="product";
+        $elements[1]->alias="product";
+        
+        $elements[2]->field="`productimage`.`image`";
+        $elements[2]->sort="1";
+        $elements[2]->header="Image";
+        $elements[2]->alias="image";
+        
+        $elements[3]->field="`productimage`.`order`";
+        $elements[3]->sort="1";
+        $elements[3]->header="Order";
+        $elements[3]->alias="order";
+        
+        $elements[4]->field="`productimage`.`views`";
+        $elements[4]->sort="1";
+        $elements[4]->header="Views";
+        $elements[4]->alias="views";
+        
+        $elements[5]->field="`product`.`name`";
+        $elements[5]->sort="1";
+        $elements[5]->header="Productname";
+        $elements[5]->alias="productname";
+        
+        $search=$this->input->get_post("search");
+        $pageno=$this->input->get_post("pageno");
+        $orderby=$this->input->get_post("orderby");
+        $orderorder=$this->input->get_post("orderorder");
+        $maxrow=$this->input->get_post("maxrow");
+        if($maxrow=="")
+        {
+            $maxrow=20;
+        }
+        
+        if($orderby=="")
+        {
+            $orderby="order";
+            $orderorder="ASC";
+        }
+       
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `productimage` LEFT OUTER JOIN `product` ON `product`.`id`=`productimage`.`product`");
+        
+		$this->load->view("json",$data);
+            
+        
+    }
+    
     public function createproductimage()
 	{
 		$access = array("1");
@@ -5085,11 +5159,11 @@ class Site extends CI_Controller
 		$access = array("1");
 		$this->checkaccess($access);
 		$this->productimage_model->deleteproductimage($this->input->get('id'));
-		$data['table']=$this->productimage_model->viewproductimage();
+//		$data['table']=$this->productimage_model->viewproductimage();
 		$data['alertsuccess']="productimage Deleted Successfully";
-		$data['page']='viewproductimage';
-		$data['title']='View productimage';
-		$this->load->view('template',$data);
+		$data['redirect']="site/viewproductimage";
+			//$data['other']="template=$template";
+		$this->load->view("redirect",$data);
 	}
     
     

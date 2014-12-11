@@ -6,7 +6,7 @@
 			</header>
 			
 			<div class="panel-body">
-				<form class="form-horizontal row-fluid" method="post" action="<?php echo site_url('site/editproductimagesubmit');?>" enctype= "multipart/form-data">
+				<form class="form-horizontal row-fluid" method="post" action="<?php echo site_url('site/editproductimagesubmit');?>">
 				
 				
 				<div class=" form-group">
@@ -21,9 +21,8 @@
 				<div class=" form-group">
 				  <label class="col-sm-2 control-label" for="normal-field">image</label>
 				  <div class="col-sm-4">
-					<input type="file" id="normal-field" class="form-control imagefile" name="image" value="<?php echo set_value('image',$before->image);?>">
-					<input type="hidden" class="imagename" name="imagename" value="<?php echo set_value('imagename',$before->image);?>">
-				  </div>
+					<input type="file" id="normal-field" class="form-control imagefile" name="image" value="<?php echo set_value('image',$before->image);?>"></div>
+					
 				</div>
 				<div class="form-group">
 				  <label class="col-sm-2 control-label" for="normal-field">order</label>
@@ -33,6 +32,13 @@
 				  </div>
 				</div>
 				
+				<div class="form-group"  style="display:none;">
+				  <label class="col-sm-2 control-label" for="normal-field">Image name</label>
+				  <div class="col-sm-4">
+					<input type="text"  class="imagename" name="imagename"value="<?php echo set_value('imagename',$before->image);?>">
+				  </div>
+				  </div>
+				</div>
 					
 					<div class="form-group">
 						<label class="col-sm-2 control-label">&nbsp;</label>
@@ -50,7 +56,7 @@
 <script>
     $(document).ready(function() {
         $(".imagefile").change( function() {
-            var imagename=$(this).get(0).files[0].name;
+            var imagename=$(".imagefile").get(0).files[0].name;
             $(".imagename").val(imagename);
         });
     });
