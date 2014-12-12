@@ -8,7 +8,15 @@
 			<div class="panel-body">
 				<form class="form-horizontal row-fluid" method="post" action="<?php echo site_url('site/editproductimagesubmit');?>">
 				
+				<div class="form-group">
+				  <label class="col-sm-2 control-label" for="normal-field">Product</label>
+				  <div class="col-sm-4">
+					<input type="text" id="normal-field" class="form-control" name="product" value="<?php echo set_value('product',$before->product);?>">
+					
+				  </div>
+				</div>
 				
+<!--
 				<div class=" form-group">
 				  <label class="col-sm-2 control-label">Select Product</label>
 				  <div class="col-sm-4">
@@ -18,6 +26,7 @@
 					?>
 				  </div>
 				</div>
+-->
 				<div class=" form-group">
 				  <label class="col-sm-2 control-label" for="normal-field">image</label>
 				  <div class="col-sm-4">
@@ -27,7 +36,7 @@
 				<div class="form-group">
 				  <label class="col-sm-2 control-label" for="normal-field">order</label>
 				  <div class="col-sm-4">
-				  <input type="hidden" id="normal-field" class="row-fluid" name="id" value="<?php echo $before->id;?>">
+				  <input type="hidden" id="normal-field" class="row-fluid" name="productimageid" value="<?php echo $before->id;?>">
 					<input type="text" id="normal-field" class="form-control" name="order" value="<?php echo set_value('order',$before->order);?>">
 				  </div>
 				</div>

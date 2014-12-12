@@ -3353,41 +3353,49 @@ class Site extends CI_Controller
         $elements[0]->alias="id";
         
         
+        $elements[1]=new stdClass();
         $elements[1]->field="`product`.`name`";
         $elements[1]->sort="1";
         $elements[1]->header="Product Name";
         $elements[1]->alias="productname";
         
+        $elements[2]=new stdClass();
         $elements[2]->field="`product`.`productcode`";
         $elements[2]->sort="1";
         $elements[2]->header="Product Code";
         $elements[2]->alias="productcode";
         
+        $elements[3]=new stdClass();
         $elements[3]->field="`catelog`.`name`";
         $elements[3]->sort="1";
         $elements[3]->header="Category";
         $elements[3]->alias="categoryname";
         
+        $elements[4]=new stdClass();
         $elements[4]->field="`product`.`mrp`";
         $elements[4]->sort="1";
         $elements[4]->header="MRP";
         $elements[4]->alias="mrp";
         
+        $elements[5]=new stdClass();
         $elements[5]->field="`product`.`description`";
         $elements[5]->sort="1";
         $elements[5]->header="Description";
         $elements[5]->alias="description";
         
+        $elements[6]=new stdClass();
         $elements[6]->field="`scheme`.`name`";
         $elements[6]->sort="1";
         $elements[6]->header="Scheme";
         $elements[6]->alias="schemename";
         
+        $elements[7]=new stdClass();
         $elements[7]->field="`product`.`isnew`";
         $elements[7]->sort="1";
         $elements[7]->header="Is New";
         $elements[7]->alias="isnew";
         
+        $elements[8]=new stdClass();
         $elements[8]->field="`product`.`timestamp`";
         $elements[8]->sort="1";
         $elements[8]->header="Timestamp";
@@ -3482,8 +3490,9 @@ class Site extends CI_Controller
         $data['scheme']=$this->scheme_model->getschemedropdown();
         $data['isnew']=$this->product_model->getisnewdropdown();
 		$data['page']='editproduct';
+		$data['page2']='block/productblock';
 		$data['title']='Edit product';
-		$this->load->view('template',$data);
+		$this->load->view('templatewith2',$data);
 	}
 	function editproductsubmit()
 	{
@@ -4878,97 +4887,93 @@ class Site extends CI_Controller
     
     //productimage
     
-//    function viewproductimage()
-//	{
-//		$access = array("1");
-//		$this->checkaccess($access);
-////		$data['table']=$this->productimage_model->viewproductimage();
-//		$data['page']='viewproductimage';
-//        
-//        $bothval=$this->productimage_model->viewproductimage();
-//        $data['table']=$bothval->query;
-//        
-//        $this->load->library('pagination');
-//        $config['base_url'] = site_url("site/viewproductimage");
-//        $config['total_rows']=$bothval->totalcount;
-//        $this->pagination->initialize($config); 
-//        
-//		$data['title']='View productimage';
-//		$this->load->view('template',$data);
-//	}
-    
-    
     function viewproductimage()
 	{
 		$access = array("1");
 		$this->checkaccess($access);
+        $productid=$this->input->get('id');
+		$data['before']=$this->product_model->beforeedit($productid);
+		$data['table']=$this->productimage_model->viewproductimagebyproduct($productid);
 		$data['page']='viewproductimage';
-        $data['base_url']=site_url("site/viewproductimagejson");
-		$data['title']='View Product Images';
-		$this->load->view('template',$data);
+		$data['page2']='block/productblock';
+        $data['title']='View Product Image';
+		$this->load->view('templatewith2',$data);
+         
+        
 	}
-    function viewproductimagejson() 
-    {
-        $access = array("1");
-		$this->checkaccess($access);
-        
-//        SELECT `productimage`.`id`,`productimage`.`product`, `productimage`.`image`, `productimage`.`order`, `productimage`.`views`,`product`.`name` AS `productname` FROM `productimage` LEFT OUTER JOIN `product` ON `product`.`id`=`productimage`.`product`
-            
-        $elements=array();
-        $elements[0]=new stdClass();
-        $elements[0]->field="`productimage`.`id`";
-        $elements[0]->sort="1";
-        $elements[0]->header="ID";
-        $elements[0]->alias="id";
-        
-        
-        $elements[1]->field="`productimage`.`product`";
-        $elements[1]->sort="1";
-        $elements[1]->header="product";
-        $elements[1]->alias="product";
-        
-        $elements[2]->field="`productimage`.`image`";
-        $elements[2]->sort="1";
-        $elements[2]->header="Image";
-        $elements[2]->alias="image";
-        
-        $elements[3]->field="`productimage`.`order`";
-        $elements[3]->sort="1";
-        $elements[3]->header="Order";
-        $elements[3]->alias="order";
-        
-        $elements[4]->field="`productimage`.`views`";
-        $elements[4]->sort="1";
-        $elements[4]->header="Views";
-        $elements[4]->alias="views";
-        
-        $elements[5]->field="`product`.`name`";
-        $elements[5]->sort="1";
-        $elements[5]->header="Productname";
-        $elements[5]->alias="productname";
-        
-        $search=$this->input->get_post("search");
-        $pageno=$this->input->get_post("pageno");
-        $orderby=$this->input->get_post("orderby");
-        $orderorder=$this->input->get_post("orderorder");
-        $maxrow=$this->input->get_post("maxrow");
-        if($maxrow=="")
-        {
-            $maxrow=20;
-        }
-        
-        if($orderby=="")
-        {
-            $orderby="order";
-            $orderorder="ASC";
-        }
-       
-        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `productimage` LEFT OUTER JOIN `product` ON `product`.`id`=`productimage`.`product`");
-        
-		$this->load->view("json",$data);
-            
-        
-    }
+    
+    
+//    function viewproductimage()
+//	{
+//		$access = array("1");
+//		$this->checkaccess($access);
+//		$data['page']='viewproductimage';
+//        $data['base_url']=site_url("site/viewproductimagejson");
+//		$data['title']='View Product Images';
+//		$this->load->view('template',$data);
+//	}
+//    function viewproductimagejson() 
+//    {
+//        $access = array("1");
+//		$this->checkaccess($access);
+//        
+////        SELECT `productimage`.`id`,`productimage`.`product`, `productimage`.`image`, `productimage`.`order`, `productimage`.`views`,`product`.`name` AS `productname` FROM `productimage` LEFT OUTER JOIN `product` ON `product`.`id`=`productimage`.`product`
+//            
+//        $elements=array();
+//        $elements[0]=new stdClass();
+//        $elements[0]->field="`productimage`.`id`";
+//        $elements[0]->sort="1";
+//        $elements[0]->header="ID";
+//        $elements[0]->alias="id";
+//        
+//        
+//        $elements[1]->field="`productimage`.`product`";
+//        $elements[1]->sort="1";
+//        $elements[1]->header="product";
+//        $elements[1]->alias="product";
+//        
+//        $elements[2]->field="`productimage`.`image`";
+//        $elements[2]->sort="1";
+//        $elements[2]->header="Image";
+//        $elements[2]->alias="image";
+//        
+//        $elements[3]->field="`productimage`.`order`";
+//        $elements[3]->sort="1";
+//        $elements[3]->header="Order";
+//        $elements[3]->alias="order";
+//        
+//        $elements[4]->field="`productimage`.`views`";
+//        $elements[4]->sort="1";
+//        $elements[4]->header="Views";
+//        $elements[4]->alias="views";
+//        
+//        $elements[5]->field="`product`.`name`";
+//        $elements[5]->sort="1";
+//        $elements[5]->header="Productname";
+//        $elements[5]->alias="productname";
+//        
+//        $search=$this->input->get_post("search");
+//        $pageno=$this->input->get_post("pageno");
+//        $orderby=$this->input->get_post("orderby");
+//        $orderorder=$this->input->get_post("orderorder");
+//        $maxrow=$this->input->get_post("maxrow");
+//        if($maxrow=="")
+//        {
+//            $maxrow=20;
+//        }
+//        
+//        if($orderby=="")
+//        {
+//            $orderby="order";
+//            $orderorder="ASC";
+//        }
+//       
+//        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `productimage` LEFT OUTER JOIN `product` ON `product`.`id`=`productimage`.`product`");
+//        
+//		$this->load->view("json",$data);
+//            
+//        
+//    }
     
     public function createproductimage()
 	{
@@ -4976,6 +4981,7 @@ class Site extends CI_Controller
 		$this->checkaccess($access);
 		$data[ 'page' ] = 'createproductimage';
 		$data[ 'title' ] = 'Create productimage';
+		$data[ 'productid' ] = $this->input->get('id');
         $data['product']=$this->productimage_model->getproductdropdown();
 		$this->load->view( 'template', $data );	
 	}
@@ -4992,6 +4998,7 @@ class Site extends CI_Controller
             
 			$data['alerterror'] = validation_errors();
 			$data['page']='createproductimage';
+            $data['productid']=$this->input->post('product');
 			$data['title']='Create New productimage';
             $data['product']=$this->productimage_model->getproductdropdown();
 			$this->load->view('template',$data);
@@ -5027,8 +5034,8 @@ class Site extends CI_Controller
                $data['alertsuccess']="productimage created Successfully.";
 			
 			
-			$data['table']=$this->productimage_model->viewproductimage();
-			$data['redirect']="site/viewproductimage";
+//			$data['table']=$this->productimage_model->viewproductimage();
+			$data['redirect']="site/viewproductimage?id=".$product;
 			//$data['other']="template=$template";
 			$this->load->view("redirect",$data);
 		}
@@ -5093,7 +5100,10 @@ class Site extends CI_Controller
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-		$data['before']=$this->productimage_model->beforeedit($this->input->get('id'));
+        $productid=$this->input->get('id');
+        $data['productid']=$productid;
+        $productimageid=$this->input->get('productimageid');
+		$data['before']=$this->productimage_model->beforeedit($this->input->get('productimageid'));
         $data['product']=$this->productimage_model->getproductdropdown();
 		$data['page']='editproductimage';
 		$data['title']='Edit productimage';
@@ -5111,7 +5121,10 @@ class Site extends CI_Controller
 		if($this->form_validation->run() == FALSE)	
 		{
 			$data['alerterror'] = validation_errors();
-			$data['before']=$this->productimage_model->beforeedit($this->input->post('id'));
+            $productid=$this->input->post('product');
+            $productimageid=$this->input->post('productimageid');
+            $data['productid']=$productid;
+			$data['before']=$this->productimage_model->beforeedit($this->input->post('productimageid'));
             $data['product']=$this->productimage_model->getproductdropdown();
 //			$data['page2']='block/eventblock';
 			$data['page']='editproductimage';
@@ -5121,7 +5134,7 @@ class Site extends CI_Controller
 		else
 		{
             
-			$id=$this->input->post('id');
+			$id=$this->input->post('productimageid');
             $product=$this->input->post('product');
 			$order=$this->input->post('order');
 			$image=$this->input->post('imagename');
@@ -5147,7 +5160,7 @@ class Site extends CI_Controller
 			else
 			$data['alertsuccess']="productimage edited Successfully.";
 			
-			$data['redirect']="site/viewproductimage";
+			$data['redirect']="site/viewproductimage?id=".$product;
 			//$data['other']="template=$template";
 			$this->load->view("redirect",$data);
 			
@@ -5158,10 +5171,12 @@ class Site extends CI_Controller
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-		$this->productimage_model->deleteproductimage($this->input->get('id'));
+        $productid=$this->input->get('id');
+        $productimageid=$this->input->get('productimageid');
+		$this->productimage_model->deleteproductimage($this->input->get('productimageid'));
 //		$data['table']=$this->productimage_model->viewproductimage();
 		$data['alertsuccess']="productimage Deleted Successfully";
-		$data['redirect']="site/viewproductimage";
+		$data['redirect']="site/viewproductimage?id=".$productid;
 			//$data['other']="template=$template";
 		$this->load->view("redirect",$data);
 	}

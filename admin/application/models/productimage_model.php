@@ -28,6 +28,15 @@ class Productimage_model extends CI_Model
         
 //		return $query;
 	}
+	function viewproductimagebyproduct($id)
+	{
+		$query="SELECT `productimage`.`id`,`productimage`.`product`, `productimage`.`image`, `productimage`.`order`, `productimage`.`views`,`product`.`name` AS `productname` FROM `productimage` LEFT OUTER JOIN `product` ON `product`.`id`=`productimage`.`product` WHERE `productimage`.`product`='$id'";
+        $result=$this->db->query($query)->result();
+        
+        return $result;
+        
+//		return $query;
+	}
 	public function beforeedit( $id )
 	{
 		$this->db->where( 'id', $id );
